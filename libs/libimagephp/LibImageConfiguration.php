@@ -69,7 +69,6 @@ class LibImageConfiguration {
 	* @param string $path de directorio
 	*	@example public/images/
 	*/
-
 	public function setPath(string $path) {
 		$this->path = $path;
 	}

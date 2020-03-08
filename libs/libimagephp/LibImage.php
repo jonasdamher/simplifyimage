@@ -13,7 +13,7 @@ require_once 'LibImageConfiguration.php';
 *
 * @author Jonás Damián Hernández [jonasdamher]
 *
-* @package LibImage
+* @package LibImagePhp
 * @version 1.0
 */
 
@@ -57,10 +57,13 @@ class LibImage extends LibImageConfiguration {
 
   private function rename($path) {
 
-    $unqid = uniqid();
-    $fileName = strtolower( pathinfo( $path, PATHINFO_FILENAME) );
-    $rename = $unqid.$fileName;
+    $fileName = strtolower( pathinfo($path, PATHINFO_FILENAME) );
+
+    $cleanFileName  = preg_replace('/[^a-zA-Z0-9_ -]/s','',$fileName);
+
+    $rename = uniqid().$cleanFileName;
     $rename = filter_var($rename, FILTER_SANITIZE_STRING);
+
     return $rename;
   }
 
