@@ -16,21 +16,28 @@ class LibImageConfiguration {
 		'png', 
 		'jpg', 
 		'jpeg', 
+		'gif',
+		'tiff',
 		'webp'
 	];
 
 	private int $maxSize = 2097152 ; // 2 MB
 
 	private array $scale = [
-		'x' => 128, 
+		'x' => -1, 
 		'y' => -1
 	];
 
 	//Forma de recortar la imagen, square, v_rectangle, h_rectangle, default
 	private string $cropType = 'default';
 
-	// texto que se concatena con el tipo de imagen para conversión a webp * imagecreatefromjpeg
+	// Convertir la imagen a otro formato
+	// default, webp, png, jpeg, gif
+	private string $conversionTo = 'default';
+
+	// texto que se concatena con el tipo de imagen para conversión a webp * imagecreatefromjpeg	
 	protected string $formatImage = 'imagecreatefrom'; 
+	protected string $transformImage = 'image'; 
 
 	// GETS & SETS
 	
@@ -119,12 +126,19 @@ class LibImageConfiguration {
 	public function setAllowedFormats(string $allowedFormats) {
 		$this->allowedFormats = $allowedFormats;
 	}
+	
+	public function setConversionTo(string $conversionTo) {
+		$this->conversionTo = $conversionTo;
+	}
+
+	protected function getConversionTo() {
+		return $this->conversionTo;
+	}
 
 	// MODIFY IMAGE
 
 	protected function crop($image) {
 
-    
     $crop_width = imagesx($image);
 		$crop_height = imagesy($image);
 
@@ -135,39 +149,62 @@ class LibImageConfiguration {
       'x' => 0,
       'y' => 0
     ];
-    
-    if($this->getCropType() == 'square') {
+		
+		switch ($this->getCropType() ) {
+			case 'square':
+				($crop_width >= $crop_height) ? 
+				$coordinates['x'] = ($crop_width-$crop_height)/2 :
+				$coordinates['y'] = ($crop_height-$crop_width)/2;
+				
+				$cropped = imagecrop($image, [
+					'x' => $coordinates['x'], 
+					'y' => $coordinates['y'], 
+					'width' => $size, 
+					'height' => $size
+				]);
+				return $cropped;
+			break;
+		}
 
-      ($crop_width >= $crop_height) ? 
-      $coordinates['x'] = ($crop_width-$crop_height)/2 :
-      $coordinates['y'] = ($crop_height-$crop_width)/2;
-      
-      $cropped = imagecrop($image, [
-        'x' => $coordinates['x'], 
-        'y' => $coordinates['y'], 
-        'width' => $size, 
-        'height' => $size
-      ]);
-    }
-
-    return $cropped;
+		return $image;
   }
 
   protected function scale($image) {
 
-    $image = $this->getCropType() != 'default' ? $this->crop($image) : $image;
+    $newImage = $this->getCropType() != 'default' ? $this->crop($image) : $image;
 
-    $imageNew = imagescale(
-      $image, 
-      $this->getScale()['x'], 
-      $this->getScale()['y'], 
-      IMG_BILINEAR_FIXED
-    );
+		if($this->getScale()['x'] != -1 ||  $this->getScale()['y'] != -1) {
 
-    return $imageNew;
+			$newImage = imagescale(
+				$newImage, 
+				$this->getScale()['x'], 
+				$this->getScale()['y'], 
+				IMG_BILINEAR_FIXED
+			);
+		}
+
+    return $newImage;
   }
 
+	protected function conversionTo($image, string $target_file) {
+
+		$new = ('image'.$this->getConversionTo() )($image, $target_file);
+		
+		if($new) {
+			return $new;
+		}
+		
+		return false;
+	}
+
 	// FINAL MODIFY IMAGE
+
+	protected function upload($image, string $target_file) {
+
+		return ($this->getConversionTo() != 'default') ? 
+						$this->conversionTo($image, $target_file) : 
+						($this->transformImage)($image, $target_file);
+	}
 
 }
 

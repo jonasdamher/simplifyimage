@@ -80,23 +80,26 @@ class LibImage extends LibImageConfiguration {
 
   private function postImageFile() {
 
-    if($this->postFileExist() ) {
-
-      $this->image = $_FILES[$this->getNameInputFile()];
-          
-      $target = $this->getPath().$this->image['name'];
-
-      $this->size = $this->image['size'];
-      $this->type = strtolower(pathinfo( $target, PATHINFO_EXTENSION) );
-
-      $this->fileName = $this->rename($target).'.webp';
-
-      $this->target_file = $this->getPath().$this->fileName;
-      
-      return true;
+    if(!($this->postFileExist() ) ) {
+      return false;
     }
 
-    return false;
+    $this->image = $_FILES[$this->getNameInputFile()];
+          
+    $target = $this->getPath().$this->image['name'];
+
+    $this->size = $this->image['size'];
+    $this->type = strtolower(pathinfo( $target, PATHINFO_EXTENSION) );
+
+    $this->fileName = basename(
+      $this->rename($target).'.'.($this->getConversionTo() == 'default' ? 
+      $this->type :   
+      $this->getConversionTo() ) 
+    );
+
+    $this->target_file = $this->getPath().$this->fileName;
+    
+    return true;
   }
 
   // VALIDATE IMAGE
@@ -106,6 +109,8 @@ class LibImage extends LibImageConfiguration {
     foreach ($this->getAllowedFormats() as $format) {
       if($format == $this->type) {
         $this->formatImage .= (($this->type == 'jpg') ? 'jpeg' : $this->type);
+        $this->transformImage .= (($this->type == 'jpg') ? 'jpeg' : $this->type);
+
         return true; 
       }
     }
@@ -138,34 +143,34 @@ class LibImage extends LibImageConfiguration {
 
   // FINAL VALIDATE IMAGE
 
-
   public function uploadNewImage() {
 
-    if($this->postImageFile() ) {
-
+    if(!($this->postImageFile() ) ) {
+      $this->response['errors'] = 'No existe imagenes en la petición';
+      return $this->response;
+    }
       
-      if($this->validateImage() ) {
-
-        // Ejecuta metodo dependiendo del formato de imagen
-        $image = ($this->formatImage)($this->image['tmp_name']);
-
-        // Escalar imagen
-        $imageNew = $this->scale($image);
-
-        if(!(imagewebp($imageNew, $this->target_file) ) ) {
-      
-          $this->response['valid'] = false;
-          return $this->response['errors'] = 'La imagen no pudo subirse, intentelo de nuevo';
-        }
-
-        imageDestroy($imageNew);
-
-        $this->response['filename'] = $this->fileName;
-      
-      }
-
+    if(!($this->validateImage() ) ) {
+      return $this->response;
     }
 
+    // Le añade el formato original a la imagen
+    $imageTo = ($this->formatImage)($this->image['tmp_name']);
+  
+    // Escalar imagen
+    $myimage = $this->scale($imageTo);
+    
+    if(!($this->upload($myimage, $this->target_file) ) ) {
+
+      $this->response['valid'] = false;
+      $this->response['errors'] = 'La imagen no pudo subirse, intentelo de nuevo';
+      return $this->response;
+    }
+
+    imageDestroy($myimage);
+
+    $this->response['filename'] = $this->fileName;
+    
     return $this->response;
   }
 
