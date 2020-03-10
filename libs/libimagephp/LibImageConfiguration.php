@@ -28,6 +28,8 @@ class LibImageConfiguration {
 		'y' => -1
 	];
 
+	private $requireImage = false;
+
 	//Forma de recortar la imagen, square, v_rectangle, h_rectangle, default
 	private string $cropType = 'default';
 
@@ -203,6 +205,17 @@ class LibImageConfiguration {
 		return ($this->getConversionTo() != 'default') ? 
 						$this->conversionTo($image, $target_file) : 
 						($this->transformImage)($image, $target_file);
+	}
+
+	/**
+	 * For error return if dont exist image.
+	 */
+	public function requireImage(){
+		$this->requireImage = true;
+	}
+
+	protected function getRequireImage(){
+		return $this->requireImage;
 	}
 
 }

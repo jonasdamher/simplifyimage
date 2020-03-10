@@ -15,8 +15,8 @@ require_once 'LibImageConfiguration.php';
 *
 * @package LibImagePhp
 * @version 1.0
+*
 */
-
 class LibImage extends LibImageConfiguration {
 
   /**
@@ -25,7 +25,7 @@ class LibImage extends LibImageConfiguration {
   private array $image;
 
   /**
-   * Nombre de imagen con su extensión
+   * Image name with extension.
    * @example imagen.png
    */
   private string $fileName;
@@ -42,7 +42,7 @@ class LibImage extends LibImageConfiguration {
   private int $size;
   
   /**
-   * Extensión de la imagen
+   * Image with extension type
    * @example png
    */
   private string $type;
@@ -59,7 +59,8 @@ class LibImage extends LibImageConfiguration {
 
     $fileName = strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
-    $cleanFileName  = preg_replace('/[^a-zA-Z0-9_ -]/s','',$fileName);
+    $cleanFileName  = preg_replace('/[^a-zA-Z0-9_ -]/','',$fileName);
+    $cleanFileName  = preg_replace('/\s+/','',$cleanFileName);
 
     $rename = uniqid().$cleanFileName;
     $rename = filter_var($rename, FILTER_SANITIZE_STRING);
@@ -134,11 +135,11 @@ class LibImage extends LibImageConfiguration {
   private function validateImage() {
 
     if(!($this->size() ) ) {
-      $this->response['errors'] = 'Tiene que ser una imagen menor a 2 MB';
+      $this->response['errors'] = 'Tiene que ser una imagen menor a 2 MB.';
     }
     
     if(!($this->format() ) ) {
-      $this->response['errors'] = 'El formato de imagen no es correcto.';
+      $this->response['errors'] = 'Image format incorrect.';
     }
 
     return $this->response['valid'];
@@ -146,14 +147,24 @@ class LibImage extends LibImageConfiguration {
 
   // FINAL VALIDATE IMAGE
 
+  /**
+   * Upload new image
+   */
   public function uploadNewImage() {
 
     if(!($this->postImageFile() ) ) {
-      $this->response['errors'] = 'No existe imagenes en la petición';
+      
+      if($this->getRequireImage() ) {
+
+        $this->response['valid'] = false;
+        $this->response['errors'] = 'Dont exist request image.';
+      }
+
       return $this->response;
     }
       
     if(!($this->validateImage() ) ) {
+      
       return $this->response;
     }
 
@@ -167,6 +178,7 @@ class LibImage extends LibImageConfiguration {
 
       $this->response['valid'] = false;
       $this->response['errors'] = 'La imagen no pudo subirse, intentelo de nuevo';
+      
       return $this->response;
     }
 
