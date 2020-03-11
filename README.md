@@ -1,5 +1,5 @@
 # LibImagePhp
-### Upload, modify and delete images the simply way. 
+### Upload, modify and delete images the easy way. 
 
 * Allows crop and scale images easy. 
 * Allows upload and update one or multiple images. 
