@@ -156,7 +156,7 @@ class LibImage extends LibImageConfiguration {
 
     if(!($this->postImageFile() ) ) {
       
-      if($this->getRequireImage() ) {
+      if($this->getrequiredImage() ) {
 
         $this->response['valid'] = false;
         $this->response['errors'] = 'Dont exist request image.';

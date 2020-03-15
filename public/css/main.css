@@ -6,8 +6,8 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	color: #2c2c2c;
-	background-color: rgb(248, 248, 248);
+	color: #252532;
+	background-color: #f8f8f8;
 }
 
 .container {
@@ -17,8 +17,26 @@ body {
 	align-items: center;
 }
 
+.form-v {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-group{
+	padding-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.label {
+	margin-bottom: .5rem;
+	display: block;
+}
+
 .card {
 	background-color: #fff;
+	border: solid 1px #e6e6e556;
+	border-radius: 4px;
 }
 
 .card-body {
@@ -27,11 +45,13 @@ body {
 
 .btn {
 	padding: .7rem 1rem;
-	border: 0px;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 .btn-orange {
 	color: #ffffff;
+	border: solid 1px #e75b42;
 	background-color: #ff6347;
 }
 
@@ -49,4 +69,8 @@ body {
 
 .sw-md {
 	box-shadow: 0px 2px 3px #0000003a, 0px 1px 2px #0000001c;
+}
+
+.text-bold {
+	font-weight: bold;
 }

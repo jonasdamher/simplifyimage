@@ -2,13 +2,15 @@
 
 require_once 'libs/libimagephp.php';
 
-$libImage->requireImage();
 $libImage->setPath('public/images/users/');
 $libImage->setNameInputFile('image_user');
-$libImage->requireImage();
+$libImage->requiredImage();
 
-// $libImage->setScale(512);
-// $libImage->setConversionTo('webp');
+// $libImage->setCropPosition('top');
+
+$libImage->setCropType('square');
+// $libImage->setScale(128);
+$libImage->setConversionTo('jpeg');
 
 $upload = $libImage->uploadNewImage();
 

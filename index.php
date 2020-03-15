@@ -12,10 +12,12 @@
 			<h1 class="mb-2">LibImagePhp</h1>
 			<div class="card sw-sm">
 				<div class="card-body">
-					<form action="upload.php" method="post" enctype="multipart/form-data">
-						<label for="image">User image</label>
-						<input id="image" name="image_user" type="file" />
-						<button class="btn btn-orange sw-md" type="submit">Enviar</button>
+					<form class="form-v" action="upload.php" method="post" enctype="multipart/form-data">
+						<div class="input-group">
+							<label class="label" for="image">User image</label>
+							<input id="image" name="image_user" type="file" />
+						</div>
+						<button class="btn btn-orange sw-md text-bold" type="submit">Upload</button>
 					</form>
 				</div>
 			</div>

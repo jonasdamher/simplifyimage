@@ -19,7 +19,6 @@ class LibImageConfiguration {
 		'jpg', 
 		'jpeg', 
 		'gif',
-		'tiff',
 		'webp'
 	];
 
@@ -30,10 +29,13 @@ class LibImageConfiguration {
 		'y' => -1
 	];
 
-	private $requireImage = false;
+	private $requiredImage = false;
 
 	//Forma de recortar la imagen, square, v_rectangle, h_rectangle, default
 	private string $cropType = 'default';
+
+	//Posicion en la que se recorta la imagen, center, top, topLeft, topRight, bottom, bottomRight, right, left
+	private string $cropPosition = 'center';
 
 	// Convertir la imagen a otro formato
 	// default, webp, png, jpeg, gif
@@ -120,6 +122,22 @@ class LibImageConfiguration {
 
 	public function setCropType(string $cropType) {
 		$this->cropType = $cropType;
+
+	}
+
+	protected function getCropPosition() {
+		return $this->cropPosition;
+	}
+
+	/**
+	 * Position for crop.
+	 * Position center, left, right, top, bottom.
+	 * @default center
+	 * @param string $cropPosition - Position type.
+	 */
+	public function setCropPosition(string $cropPosition) {
+		$this->cropPosition = $cropPosition;
+
 	}
 
 	protected function getAllowedFormats() {
@@ -140,32 +158,118 @@ class LibImageConfiguration {
 
 	// MODIFY IMAGE
 
+	private function cropPosition(array $pixelsImage) {
+		
+		$position = [
+			'x' => 0,
+			'y' => 0
+		];
+
+		switch ($this->getCropPosition() ) {
+			case 'center':
+			
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
+				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+			break;
+			case 'top':
+			
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
+				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+			
+				$position['y'] = 0;
+			
+			break;
+			case 'bottom':
+			
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
+				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+			
+				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+			
+			break;
+			case 'left':
+			
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
+				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+			
+				$position['x'] = 0;
+			
+			break;
+			case 'right':
+			
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
+				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+			
+				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
+			
+			break;
+		}
+	
+			return $position;
+	}
+
 	protected function crop($image) {
 
-    $crop_width = imagesx($image);
-		$crop_height = imagesy($image);
+		$pixelsImage = [
+			'x' => imagesx($image),
+			'y' => imagesy($image)
+		];
+
+		$position = $this->cropPosition($pixelsImage);
 
     // coge el numero mas bajo de los dos
-    $size = min($crop_width, $crop_height);
-
-    $coordinates = [
-      'x' => 0,
-      'y' => 0
-    ];
 		
 		switch ($this->getCropType() ) {
 			case 'square':
-				($crop_width >= $crop_height) ? 
-				$coordinates['x'] = ($crop_width-$crop_height)/2 :
-				$coordinates['y'] = ($crop_height-$crop_width)/2;
+
+				$dimensionMin = min($pixelsImage['x'], $pixelsImage['y']);
 				
 				$cropped = imagecrop($image, [
-					'x' => $coordinates['x'], 
-					'y' => $coordinates['y'], 
-					'width' => $size, 
-					'height' => $size
+					'x' => $position['x'], 
+					'y' => $position['y'], 
+					'width' => $dimensionMin, 
+					'height' => $dimensionMin
 				]);
+
 				return $cropped;
+		
+			break;
+			case 'h_rectangle':
+
+				$hHeight =  ($pixelsImage['x'] * 60) / 100;
+
+				$heightDiference = ($pixelsImage['x'] - $hHeight) / 2;
+
+				$cropped = imagecrop($image, [
+					'x' => $position['x'],
+					'y' => $position['y'] + $heightDiference,
+					'width' => $pixelsImage['x'],
+					'height' => $hHeight
+				]);
+
+				return $cropped;
+		
+			break;
+			case 'v_rectangle':
+				
+				$vWidth =  ($pixelsImage['y'] * 60) / 100;
+
+				$widthDiference = ($pixelsImage['y'] - $vWidth) / 2;
+
+				$cropped = imagecrop($image, [
+					'x' => $position['x'] + $widthDiference,
+					'y' => $position['y'],
+					'width' => $vWidth,
+					'height' => $pixelsImage['y']
+				]);
+
+				return $cropped;
+		
 			break;
 		}
 
@@ -212,12 +316,12 @@ class LibImageConfiguration {
 	/**
 	 * For error return if dont exist image.
 	 */
-	public function requireImage(){
-		$this->requireImage = true;
+	public function requiredImage(){
+		$this->requiredImage = true;
 	}
 
-	protected function getRequireImage(){
-		return $this->requireImage;
+	protected function getrequiredImage(){
+		return $this->requiredImage;
 	}
 
 }
