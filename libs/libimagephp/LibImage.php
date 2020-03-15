@@ -137,11 +137,11 @@ class LibImage extends LibImageConfiguration {
   private function validateImage() {
 
     if(!($this->size() ) ) {
-      $this->response['errors'] = 'Tiene que ser una imagen menor a 2 MB.';
+      $this->response['errors'] = 'It has to be an image smaller than '.$this->getMaxSize.' MB.';
     }
     
     if(!($this->format() ) ) {
-      $this->response['errors'] = 'Image format incorrect.';
+      $this->response['errors'] = 'Invalid image format.';
     }
 
     return $this->response['valid'];
@@ -155,16 +155,16 @@ class LibImage extends LibImageConfiguration {
   public function uploadNewImage() {
 
     if(!($this->postImageFile() ) ) {
-      
+
       if($this->getrequiredImage() ) {
 
         $this->response['valid'] = false;
-        $this->response['errors'] = 'Dont exist request image.';
+        $this->response['errors'] = "Don't exist image request.";
       }
 
       return $this->response;
     }
-      
+
     if(!($this->validateImage() ) ) {
       
       return $this->response;
@@ -179,7 +179,7 @@ class LibImage extends LibImageConfiguration {
     if(!($this->upload($myimage, $this->target_file) ) ) {
 
       $this->response['valid'] = false;
-      $this->response['errors'] = 'La imagen no pudo subirse, intentelo de nuevo';
+      $this->response['errors'] = 'It could not image upload, try again.';
       
       return $this->response;
     }
