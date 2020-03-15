@@ -1,10 +1,8 @@
-<?php 
+<?php
 
-require_once 'libs/libimagephp/LibImage.php';
+require_once 'libs/libimagephp.php';
 
-$libImage = new LibImage();
-
-// $libImage->requireImage();
+$libImage->requireImage();
 $libImage->setPath('public/images/users/');
 $libImage->setNameInputFile('image_user');
 $libImage->requireImage();
@@ -19,7 +17,7 @@ if($upload['valid']) {
 	header('location: index.php');
 
 }else {
-	
+
 	print_r($upload);
 
 }

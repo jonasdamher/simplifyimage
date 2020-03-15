@@ -1,8 +1,10 @@
 <?php 
 
+namespace libimagephp\config;
+
 class LibImageConfiguration {
 
-  protected array $response = [
+	protected array $response = [
 		'valid' => true, 
 		'filename' => null, 
 		'errors' => ''

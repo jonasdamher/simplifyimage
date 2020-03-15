@@ -1,6 +1,10 @@
 <?php 
 
+namespace libimagephp\image;
+
 require_once 'LibImageConfiguration.php';
+
+use libimagephp\config\LibImageConfiguration;
 
 /**
 * LibImage
