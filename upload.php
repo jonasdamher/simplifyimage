@@ -10,7 +10,7 @@ $libImage->requiredImage();
 
 $libImage->setCropType('square');
 // $libImage->setScale(128);
-$libImage->setConversionTo('jpeg');
+$libImage->setConversionTo('png');
 
 $upload = $libImage->uploadNewImage();
 

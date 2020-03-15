@@ -241,7 +241,7 @@ class LibImageConfiguration {
 			break;
 			case 'h_rectangle':
 
-				$hHeight =  ($pixelsImage['x'] * 60) / 100;
+				$hHeight =  ceil(($pixelsImage['x'] / 161) * 100);
 
 				$heightDiference = ($pixelsImage['x'] - $hHeight) / 2;
 
@@ -257,7 +257,7 @@ class LibImageConfiguration {
 			break;
 			case 'v_rectangle':
 				
-				$vWidth =  ($pixelsImage['y'] * 60) / 100;
+				$vWidth =  ceil(($pixelsImage['y'] / 161) * 100);
 
 				$widthDiference = ($pixelsImage['y'] - $vWidth) / 2;
 
