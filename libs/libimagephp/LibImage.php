@@ -55,15 +55,13 @@ class LibImage extends LibImageConfiguration {
 
   // METHODS PRIVATES
 
-  private function rename($path) {
+  private function rename(string $path) {
 
-    $fileName = strtolower( pathinfo($path, PATHINFO_FILENAME) );
+    $fileName = mb_strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
-    $cleanFileName  = preg_replace('/[^a-zA-Z0-9_ -]/','',$fileName);
-    $cleanFileName  = preg_replace('/\s+/','',$cleanFileName);
+    $cleanFileName  =  uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
 
-    $rename = uniqid().$cleanFileName;
-    $rename = filter_var($rename, FILTER_SANITIZE_STRING);
+    $rename = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
 
     return $rename;
   }

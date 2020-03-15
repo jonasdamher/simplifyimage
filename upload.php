@@ -7,10 +7,21 @@ $libImage = new LibImage();
 // $libImage->requireImage();
 $libImage->setPath('public/images/users/');
 $libImage->setNameInputFile('image_user');
+$libImage->requireImage();
 
 // $libImage->setScale(512);
 // $libImage->setConversionTo('webp');
 
-print_r($libImage->uploadNewImage() );
+$upload = $libImage->uploadNewImage();
+
+if($upload['valid']) {
+
+	header('location: index.php');
+
+}else {
+	
+	print_r($upload);
+
+}
 
 ?>
