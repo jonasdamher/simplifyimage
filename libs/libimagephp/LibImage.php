@@ -50,12 +50,6 @@ class LibImage extends LibImageConfiguration {
    * @example png
    */
   private string $type;
-  
-  /**
-   * Imagen antigua, testeando por ahora, variable prueba
-   * @example imagenAntigua.png
-   */
-  private $oldImageName;
 
   // METHODS PRIVATES
 
@@ -77,11 +71,9 @@ class LibImage extends LibImageConfiguration {
     if(isset($_FILES[$this->getNameInputFile()]) && mb_strlen($_FILES[$this->getNameInputFile()]['tmp_name']) > 0 ) {
 
       return true;
-    
     }
     
     return false;
-
   }
 
   private function postImageFile() {
@@ -152,7 +144,7 @@ class LibImage extends LibImageConfiguration {
   /**
    * Upload new image
    */
-  public function uploadNewImage() {
+  public function uploadImage() {
 
     if(!($this->postImageFile() ) ) {
 
@@ -170,10 +162,10 @@ class LibImage extends LibImageConfiguration {
       return $this->response;
     }
 
-    // Le añade el formato original a la imagen
+    // Add image format
     $imageTo = ($this->formatImage)($this->image['tmp_name']);
   
-    // Escalar imagen
+    // Image scale
     $myimage = $this->scale($imageTo);
     
     if(!($this->upload($myimage, $this->target_file) ) ) {
@@ -191,45 +183,84 @@ class LibImage extends LibImageConfiguration {
     return $this->response;
   }
 
-  public function uploadUpdateImage() {
+  /**
+   * Update image, replace image
+   */
+  public function updateImage() {
 
-    if($this->postImageFile() ) {
+    if(!($this->verifyOldImage() ) ) {
 
-      if( $this->validateImage() ) {
+      $this->response['valid'] = false;
+      $this->response['errors'] = "Don't exist old image request.";
 
-        $image = ($this->formatImage)($this->image['tmp_name']);
+      return $this->response;
+    }
+    
+    if(!($this->postImageFile() ) ) {
 
-        $imageNew = $this->scale($image);
+      if($this->getrequiredImage() ) {
 
-        if(!(imagewebp($imageNew, $this->target_file) ) ) {
-      
-          $this->response['valid'] = false;
-          return $this->response['errors'] = 'La imagen no pudo subirse, intentelo de nuevo';
-        }
-
-        imageDestroy($imageNew);
-
-        if($this->typeUpload == 'update' && !is_null($this->oldImageName) ) {
-          $this->destroyOldImage();
-        }
-
-        $this->response['filename'] = $this->fileName;
-      
+        $this->response['valid'] = false;
+        $this->response['errors'] = "Don't exist image request.";
       }
 
+      return $this->response;
     }
 
+    if(!($this->validateImage() ) ) {
+      
+      return $this->response;
+    }
+
+    // Add image format
+    $imageTo = ($this->formatImage)($this->image['tmp_name']);
+  
+    // Image scale
+    $myimage = $this->scale($imageTo);
+    
+    if(!($this->upload($myimage, $this->target_file) ) ) {
+
+      $this->response['valid'] = false;
+      $this->response['errors'] = 'It could not image upload, try again.';
+      
+      return $this->response;
+    }
+
+    imageDestroy($myimage);
+
+    if(!$this->destroyOldImage() ) {
+
+      $this->response['valid'] = false;
+      $this->response['errors'] = 'Dont destroy old image, try again.';
+      
+      return $this->response;
+    }
+
+    $this->response['filename'] = $this->fileName;
+    
     return $this->response;
   }
-  
-  private function destroyOldImage() {
+ 
+  /**
+   * Methods for old images
+   */
+  protected function verifyOldImage() {
     
-    $target = $this->getPath().$this->oldImageName;
+    $imagePath = $this->getPath().$this->oldImageName;
     
-    if(file_exists($target)) {
+    if(file_exists($imagePath)) {
    
-      unlink($target);
+      return true;
+    }else {
+      return false;
     }
+  }
+  
+  protected function destroyOldImage() {
+    
+    $imagePath = $this->getPath().$this->oldImageName;
+    
+    return unlink($imagePath);
   }
 
   }

@@ -3,22 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>LibImagePhp</title>
+	<title>LibImagePHP</title>
 	<link rel="stylesheet" type="text/css" href="public/css/main.css"/>
 </head>
 <body>
 	<main>
 		<div class="container">
-			<h1 class="mb-2">LibImagePhp</h1>
+			<h1 class="mb-2">LibImagePHP</h1>
 			<div class="card sw-sm">
 				<div class="card-body">
-					<form class="form-v" action="upload.php" method="post" enctype="multipart/form-data">
-						<div class="input-group">
-							<label class="label" for="image">User image</label>
-							<input id="image" name="image_user" type="file" />
-						</div>
-						<button class="btn btn-orange sw-md text-bold" type="submit">Upload</button>
-					</form>
+					<ol class="list-ol list-ol-orange">
+						<li>
+							<a href="uploadOneImage.php" title="upload one image">Upload one image</a>
+						</li>
+						<li>
+							<a href="updateOneImage.php" title="Update one image">Update one image</a>
+						</li>
+					</ol>
 				</div>
 			</div>
 		</div>

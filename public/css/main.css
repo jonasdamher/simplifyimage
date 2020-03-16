@@ -74,3 +74,47 @@ body {
 .text-bold {
 	font-weight: bold;
 }
+
+.list-ol {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+}
+
+.list-ol li {
+	margin-bottom: 1rem;
+}
+
+.list-ol li:last-child {
+	margin: 0;
+}
+
+.list-ol li a {
+	text-decoration: none;
+}
+
+.list-ol-orange li a {
+	color: #ff6347;
+	font-weight: bold;
+}
+
+.list-ol-orange li a:hover, .list-ol-orange li a:focus {
+	color: #e75b42;
+}
+
+a.link {
+	text-decoration: none;
+	color: #3b3838ab;
+}
+
+a.link:hover, a.link:focus {
+	color: #181717;
+}
+
+.mt-2 {
+	margin-top: 2rem;
+}
+
+.text-sw-sm {
+	text-shadow: 0px 1px 1px #00000034, 0px 1px 2px #00000018;
+}

@@ -45,35 +45,40 @@ class LibImageConfiguration {
 	protected string $formatImage = 'imagecreatefrom'; 
 	protected string $transformImage = 'image'; 
 
+	/**
+   * Imagen antigua, testeando por ahora, variable prueba
+	 * @example imagenAntigua.png
+	*/
+	private $oldImageName;
+	
 	// GETS & SETS
 	
 	/**
 	 * Devuelve el nombre del input del formulario
-	 */
+	*/
 	protected function getNameInputFile() {
 		return $this->nameInputFile;
 	}
 
 	/**
-	* Nombre del input del formulario
-	* @param string $nameInputFile
+	 * Nombre del input del formulario
+	 * @param string $nameInputFile
 	*/
-
 	public function setNameInputFile(string $nameInputFile) {
 		$this->nameInputFile = $nameInputFile;
 	}
 
 	/**
 	 * Devuelve la ruta donde se guardará la imagen
-	 */
+	*/
 	protected function getPath() {
 		return $this->path;
 	}
 
 	/**
-	* Especificar ruta donde se guardan las imagenes
-	* @param string $path de directorio
-	*	@example public/images/
+	 * Especificar ruta donde se guardan las imagenes
+	 * @param string $path de directorio
+	 *	@example public/images/
 	*/
 	public function setPath(string $path) {
 		$this->path = $path;
@@ -81,20 +86,17 @@ class LibImageConfiguration {
 
 	/**
 	 * Devuelve el tamaño máx permitido para subida de imagenes
-	 */
+	*/
 	protected function getMaxSize() {
 		return $this->maxSize;
 	}
 
 	/**
-	* Tamaño máximo permitido para subida de imagenes
-	*
-	* Especificar tamaño en bytes
-	*
-	* Por defecto son 2097152 bytes (2 MB)
-	* @param int $maxSize 
+	 * Max size allow for upload images
+	 *
+	 * By default is 2097152 bytes (2 MB)
+	 * @param int $maxSize 
 	*/
-
 	public function setMaxSize(int $maxSize) {
 		$this->maxSize = $maxSize;
 	}
@@ -104,13 +106,12 @@ class LibImageConfiguration {
 	}
 
 	/**
-	* Especificar ancho "x" y alto "y"
-	*
-	* Por defecto son 128 pixeles alto y ancho
-	* @param int $x
-	* @param int $y (opcional) por defecto es igual a $x
+	 * Especificar ancho "x" y alto "y"
+	 *
+	 * Por defecto son 128 pixeles alto y ancho
+	 * @param int $x
+	 * @param int $y (opcional) por defecto es igual a $x
 	*/
-
 	public function setScale(int $x, int $y = -1) {
 		$this->scale['x'] = $x;
 		$this->scale['y'] = $y;
@@ -122,7 +123,14 @@ class LibImageConfiguration {
 
 	public function setCropType(string $cropType) {
 		$this->cropType = $cropType;
+	}
 
+	public function requiredImage(){
+		$this->requiredImage = true;
+	}
+
+	protected function getrequiredImage(){
+		return $this->requiredImage;
 	}
 
 	protected function getCropPosition() {
@@ -156,6 +164,14 @@ class LibImageConfiguration {
 		return $this->conversionTo;
 	}
 
+	public function setOldImageName(string $oldImageName) {
+		$this->oldImageName = $oldImageName;
+	}
+
+	protected function getOldImageName() {
+		return $this->oldImageName;
+	}
+
 	// MODIFY IMAGE
 
 	private function cropPosition(array $pixelsImage) {
@@ -165,52 +181,51 @@ class LibImageConfiguration {
 			'y' => 0
 		];
 
-		switch ($this->getCropPosition() ) {
-			case 'center':
-			
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
+		// Center
+		($pixelsImage['x'] >= $pixelsImage['y']) ? 
 				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
 				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
-			break;
+
+		switch($this->getCropPosition() ) {
 			case 'top':
 			
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
-				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
-				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+				$position['y'] = 0;
+			break;
+			case 'topLeft':
 			
 				$position['y'] = 0;
+				$position['x'] = 0;
+			break;
+			case 'topRight':
 			
+				$position['y'] = 0;
+				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
 			break;
 			case 'bottom':
 			
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
-				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
-				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+			break;
+			case 'bottomLeft':
 			
 				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+				$position['x'] = 0;
+			break;
+			case 'bottomRight':
 			
+				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
 			break;
 			case 'left':
 			
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
-				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
-				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
-			
 				$position['x'] = 0;
-			
 			break;
 			case 'right':
-			
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
-				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
-				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
-			
+
 				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
-			
 			break;
 		}
 	
-			return $position;
+		return $position;
 	}
 
 	protected function crop($image) {
@@ -242,12 +257,14 @@ class LibImageConfiguration {
 			case 'h_rectangle':
 
 				$hHeight =  ceil(($pixelsImage['x'] / 161) * 100);
-
-				$heightDiference = ($pixelsImage['x'] - $hHeight) / 2;
+								
+				if($this->getCropPosition() == 'center') {
+					$position['y'] = ($pixelsImage['x'] - $hHeight) / 2;
+				}
 
 				$cropped = imagecrop($image, [
 					'x' => $position['x'],
-					'y' => $position['y'] + $heightDiference,
+					'y' => $position['y'],
 					'width' => $pixelsImage['x'],
 					'height' => $hHeight
 				]);
@@ -311,17 +328,6 @@ class LibImageConfiguration {
 		return ($this->getConversionTo() != 'default') ? 
 						$this->conversionTo($image, $target_file) : 
 						($this->transformImage)($image, $target_file);
-	}
-
-	/**
-	 * For error return if dont exist image.
-	 */
-	public function requiredImage(){
-		$this->requiredImage = true;
-	}
-
-	protected function getrequiredImage(){
-		return $this->requiredImage;
 	}
 
 }
