@@ -7,8 +7,9 @@ if(isset($_FILES['image_user']) ) {
 	$libImage->setNameInputFile('image_user');
 	$libImage->requiredImage();
 
-	// $libImage->setCropPosition('bottom');
-	$libImage->setCropType('h_rectangle');
+	// $libImage->setCropPosition('right');
+	$libImage->setCropType('circle');
+	$libImage->setConversionTo('png');
 
 	$upload = $libImage->uploadImage();
 

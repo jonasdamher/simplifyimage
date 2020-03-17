@@ -56,7 +56,7 @@ class LibImageConfiguration {
 	/**
 	 * Devuelve el nombre del input del formulario
 	*/
-	protected function getNameInputFile() {
+	protected function getNameInputFile() : string {
 		return $this->nameInputFile;
 	}
 
@@ -71,7 +71,7 @@ class LibImageConfiguration {
 	/**
 	 * Devuelve la ruta donde se guardará la imagen
 	*/
-	protected function getPath() {
+	protected function getPath() : string {
 		return $this->path;
 	}
 
@@ -87,7 +87,7 @@ class LibImageConfiguration {
 	/**
 	 * Devuelve el tamaño máx permitido para subida de imagenes
 	*/
-	protected function getMaxSize() {
+	protected function getMaxSize() : int {
 		return $this->maxSize;
 	}
 
@@ -101,7 +101,7 @@ class LibImageConfiguration {
 		$this->maxSize = $maxSize;
 	}
 
-	protected function getScale() {
+	protected function getScale() : array {
 		return $this->scale;
 	}
 
@@ -117,7 +117,7 @@ class LibImageConfiguration {
 		$this->scale['y'] = $y;
 	}
 	
-	protected function getCropType() {
+	protected function getCropType() : string {
 		return $this->cropType;
 	}
 
@@ -129,11 +129,11 @@ class LibImageConfiguration {
 		$this->requiredImage = true;
 	}
 
-	protected function getrequiredImage(){
+	protected function getrequiredImage() : boolean {
 		return $this->requiredImage;
 	}
 
-	protected function getCropPosition() {
+	protected function getCropPosition() : string {
 		return $this->cropPosition;
 	}
 
@@ -148,19 +148,15 @@ class LibImageConfiguration {
 
 	}
 
-	protected function getAllowedFormats() {
+	protected function getAllowedFormats() : array {
 		return $this->allowedFormats;
-	}
-
-	public function setAllowedFormats(string $allowedFormats) {
-		$this->allowedFormats = $allowedFormats;
 	}
 	
 	public function setConversionTo(string $conversionTo) {
 		$this->conversionTo = $conversionTo;
 	}
 
-	protected function getConversionTo() {
+	protected function getConversionTo() : string {
 		return $this->conversionTo;
 	}
 
@@ -168,7 +164,7 @@ class LibImageConfiguration {
 		$this->oldImageName = $oldImageName;
 	}
 
-	protected function getOldImageName() {
+	protected function getOldImageName() : string {
 		return $this->oldImageName;
 	}
 
@@ -181,12 +177,12 @@ class LibImageConfiguration {
 			'y' => 0
 		];
 
-		// Center
-		($pixelsImage['x'] >= $pixelsImage['y']) ? 
+		switch($this->getCropPosition() ) {
+			case 'center':
+				($pixelsImage['x'] >= $pixelsImage['y']) ? 
 				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
 				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
-
-		switch($this->getCropPosition() ) {
+			break;
 			case 'top':
 			
 				$position['y'] = 0;
@@ -234,58 +230,109 @@ class LibImageConfiguration {
 			'x' => imagesx($image),
 			'y' => imagesy($image)
 		];
-
-		$position = $this->cropPosition($pixelsImage);
-
-    // coge el numero mas bajo de los dos
 		
 		switch ($this->getCropType() ) {
-			case 'square':
+			case 'circle':
+
+				$position = $this->cropPosition($pixelsImage);
 
 				$dimensionMin = min($pixelsImage['x'], $pixelsImage['y']);
 				
-				$cropped = imagecrop($image, [
+				$croppedImage = imagecrop($image, [
 					'x' => $position['x'], 
 					'y' => $position['y'], 
 					'width' => $dimensionMin, 
 					'height' => $dimensionMin
 				]);
 
-				return $cropped;
+				// Mask circle
+				$mask = \imagecreatetruecolor($dimensionMin, $dimensionMin);
+
+				// Color
+				$magentaColor = \imagecolorallocate($mask, 255, 0, 255);
+				$transparent = \imagecolorallocatealpha($mask, 255, 255, 255, 127);
+
+				// Add color
+				imagefill($mask, 0, 0, $magentaColor);
+
+				\imagealphablending($mask, false);
+
+				// Draw circle border line
+				\imagearc($mask,
+				$dimensionMin/2, $dimensionMin/2,
+				$dimensionMin, $dimensionMin,
+				0, 360, 
+				$transparent);
+				
+				// Fill circle
+				\imagefilltoborder($mask,
+				$dimensionMin/2, $dimensionMin/2,
+				$transparent, $transparent);
+				
+				// Mask circle final
+
+				// Image
+				\imagealphablending($croppedImage, true);
+				\imagecopyresampled($croppedImage, $mask, 
+				0, 0, 0, 0,
+				$dimensionMin, $dimensionMin,
+				$dimensionMin, $dimensionMin);
+
+				\imagecolortransparent($croppedImage, $magentaColor);
+
+				return $croppedImage;
+
+			break;
+			case 'square':
+
+				$position = $this->cropPosition($pixelsImage);
+
+				$dimensionMin = min($pixelsImage['x'], $pixelsImage['y']);
+				
+				$croppedImage = imagecrop($image, [
+					'x' => $position['x'], 
+					'y' => $position['y'], 
+					'width' => $dimensionMin, 
+					'height' => $dimensionMin
+				]);
+
+				return $croppedImage;
 		
 			break;
 			case 'h_rectangle':
 
-				$hHeight =  ceil(($pixelsImage['x'] / 161) * 100);
-								
-				if($this->getCropPosition() == 'center') {
-					$position['y'] = ($pixelsImage['x'] - $hHeight) / 2;
-				}
+				$heightRedimension = ceil(($pixelsImage['x'] / 161) * 100);
+				
+				$pixelsImage['y'] += ($pixelsImage['x'] - $heightRedimension) / 2;
 
-				$cropped = imagecrop($image, [
+				$position = $this->cropPosition($pixelsImage);
+
+				$croppedImage = imagecrop($image, [
 					'x' => $position['x'],
 					'y' => $position['y'],
 					'width' => $pixelsImage['x'],
-					'height' => $hHeight
+					'height' => $heightRedimension
 				]);
 
-				return $cropped;
+				return $croppedImage;
 		
 			break;
 			case 'v_rectangle':
 				
-				$vWidth =  ceil(($pixelsImage['y'] / 161) * 100);
+				$widthRedimension = ceil(($pixelsImage['y'] / 161) * 100);
 
-				$widthDiference = ($pixelsImage['y'] - $vWidth) / 2;
+				$pixelsImage['x'] += ($pixelsImage['y'] - $widthRedimension) / 2;
 
-				$cropped = imagecrop($image, [
-					'x' => $position['x'] + $widthDiference,
+				$position = $this->cropPosition($pixelsImage);
+
+				$croppedImage = imagecrop($image, [
+					'x' => $position['x'],
 					'y' => $position['y'],
-					'width' => $vWidth,
+					'width' => $widthRedimension,
 					'height' => $pixelsImage['y']
 				]);
 
-				return $cropped;
+				return $croppedImage;
 		
 			break;
 		}
