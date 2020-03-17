@@ -57,7 +57,7 @@ class LibImage extends LibImageConfiguration {
 
     $fileName = mb_strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
-    $cleanFileName  =  uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
+    $cleanFileName  =  $this->getHeadNameFile().uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
 
     $rename = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
 

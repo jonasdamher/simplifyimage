@@ -10,6 +10,8 @@ class LibImageConfiguration {
 		'errors' => ''
 	];
 
+	private string $headNameFile =  '';
+
 	private string $nameInputFile;
 
 	private string $path;
@@ -82,6 +84,19 @@ class LibImageConfiguration {
 	*/
 	public function setPath(string $path) {
 		$this->path = $path;
+	}
+
+	protected function getHeadNameFile() : string {
+		return $this->headNameFile;
+	}
+
+	/**
+	 * Head name file.
+	 * 
+	 * Not allows special simbols.
+	 */
+	public function setHeadNameFile(string $headNameFile) {
+		$this->headNameFile = $headNameFile;
 	}
 
 	/**

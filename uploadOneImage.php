@@ -8,6 +8,7 @@ if(isset($_FILES['image_user']) ) {
 	$libImage->requiredImage();
 
 	// $libImage->setCropPosition('right');
+	// $libImage->setHeadNameFile('adminUser');
 	$libImage->setCropType('circle');
 	$libImage->setConversionTo('png');
 
