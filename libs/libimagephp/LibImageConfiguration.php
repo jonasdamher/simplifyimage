@@ -144,7 +144,7 @@ class LibImageConfiguration {
 		$this->requiredImage = true;
 	}
 
-	protected function getrequiredImage() : bool {
+	protected function getRequiredImage() : bool {
 		return $this->requiredImage;
 	}
 

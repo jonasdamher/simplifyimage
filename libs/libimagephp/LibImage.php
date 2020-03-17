@@ -148,7 +148,7 @@ class LibImage extends LibImageConfiguration {
 
     if(!($this->postImageFile() ) ) {
 
-      if($this->getrequiredImage() ) {
+      if($this->getRequiredImage() ) {
 
         $this->response['valid'] = false;
         $this->response['errors'] = "Don't exist image request.";
@@ -198,7 +198,7 @@ class LibImage extends LibImageConfiguration {
     
     if(!($this->postImageFile() ) ) {
 
-      if($this->getrequiredImage() ) {
+      if($this->getRequiredImage() ) {
 
         $this->response['valid'] = false;
         $this->response['errors'] = "Don't exist image request.";
