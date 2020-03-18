@@ -8,3 +8,5 @@
 author Jonás Damián Hernández [jonasdamher]
 
 version 1.0
+
+Recommend version PHP 7.4.2 
