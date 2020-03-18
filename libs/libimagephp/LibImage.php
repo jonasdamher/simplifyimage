@@ -166,9 +166,18 @@ class LibImage extends LibImageConfiguration {
     $imageTo = ($this->formatImage)($this->image['tmp_name']);
   
     // Image scale
-    $myimage = $this->scale($imageTo);
+    $imageScale = $this->scale($imageTo);
     
-    if(!($this->upload($myimage, $this->target_file) ) ) {
+    // Image crop
+    $imageCrop = $this->getCropType() != 'default' ? 
+    $this->crop($imageScale) : 
+    $imageScale;
+
+    $image = $this->getContrast() != 0 ? 
+    $this->contrast($imageCrop) : 
+    $imageCrop;
+
+    if(!($this->upload($image, $this->target_file) ) ) {
 
       $this->response['valid'] = false;
       $this->response['errors'] = 'It could not image upload, try again.';
@@ -176,7 +185,7 @@ class LibImage extends LibImageConfiguration {
       return $this->response;
     }
 
-    imageDestroy($myimage);
+    imageDestroy($image);
 
     $this->response['filename'] = $this->fileName;
     

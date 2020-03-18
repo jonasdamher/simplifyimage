@@ -47,6 +47,7 @@ body {
 	padding: .7rem 1rem;
 	border-radius: 4px;
 	cursor: pointer;
+	text-decoration: none;
 }
 
 .btn-orange {
@@ -117,4 +118,32 @@ a.link:hover, a.link:focus {
 
 .text-sw-sm {
 	text-shadow: 0px 1px 1px #00000034, 0px 1px 2px #00000018;
+}
+
+.modal {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #0000002c;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.f-column {
+	flex-direction: column;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.j-center {
+	justify-content: center;
 }

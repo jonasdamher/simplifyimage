@@ -9,18 +9,19 @@ if(isset($_FILES['image_user']) ) {
 
 	// $libImage->setCropPosition('right');
 	// $libImage->setHeadNameFile('adminUser');
-	$libImage->setCropType('circle');
+	$libImage->setContrast('low');
+	// $libImage->setCropType('circle');
 	$libImage->setConversionTo('png');
 
 	$upload = $libImage->uploadImage();
 
 	if($upload['valid']) {
 
-		header('location: uploadOneImage.php');
+		$_GET['valid'] = 1;
 
 	}else {
 
-		print_r($upload);
+		$_GET['valid'] = 0;
 
 	}
 
@@ -52,5 +53,12 @@ if(isset($_FILES['image_user']) ) {
 			<a class="link mt-2 text-bold text-sw-sm" href="index.php" title="Back">Back</a>
 		</div>
 	</main>
+	
+	<?php 
+	if(isset($_GET['valid'] ) ) {
+		include 'modal.php';
+	} 
+	?>
+
 </body>
 </html>

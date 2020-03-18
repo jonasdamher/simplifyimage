@@ -31,7 +31,9 @@ class LibImageConfiguration {
 		'y' => -1
 	];
 
-	private $requiredImage = false;
+	private bool $requiredImage = false;
+
+	private int $contrast = 0;
 
 	//Forma de recortar la imagen, square, v_rectangle, h_rectangle, default
 	private string $cropType = 'default';
@@ -138,6 +140,20 @@ class LibImageConfiguration {
 
 	public function setCropType(string $cropType) {
 		$this->cropType = $cropType;
+	}
+
+	public function setContrast(string $contrast){
+
+		switch($contrast) {
+			case 'low':
+				$contrastNumber = -50;
+			break;
+		}
+		$this->contrast = $contrastNumber;
+	}
+
+	protected function getContrast() : int {
+		return $this->contrast;
 	}
 
 	public function requiredImage(){
@@ -357,19 +373,17 @@ class LibImageConfiguration {
 
   protected function scale($image) {
 
-    $newImage = $this->getCropType() != 'default' ? $this->crop($image) : $image;
-
 		if($this->getScale()['x'] != -1 ||  $this->getScale()['y'] != -1) {
 
-			$newImage = imagescale(
-				$newImage, 
+			$image = imagescale(
+				$image, 
 				$this->getScale()['x'], 
 				$this->getScale()['y'], 
 				IMG_BILINEAR_FIXED
 			);
 		}
 
-    return $newImage;
+    return $image;
   }
 
 	protected function conversionTo($image, string $target_file) {
@@ -392,6 +406,13 @@ class LibImageConfiguration {
 						($this->transformImage)($image, $target_file);
 	}
 
+
+	// Contrast 
+	protected function contrast($image) {
+
+		imagefilter($image, IMG_FILTER_CONTRAST, $this->getContrast() );
+		return $image;
+	}
 }
 
 ?>
