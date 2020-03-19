@@ -42,8 +42,6 @@ class Image extends Configuration {
     return $newFileName;
   }
 
-  // VERIFY IMAGE FILE
-
   private function getPropertiesImage() {
     
     $this->image = $_FILES[$this->getNameInputFile()];
@@ -67,6 +65,8 @@ class Image extends Configuration {
 
   }
 
+  // VERIFY IMAGE FILE
+
   private function postFileExist() :bool {
 
     return (
@@ -84,7 +84,7 @@ class Image extends Configuration {
     }
 
     if(!$this->postFileExist() ) {
-      
+
       return false;
     }
     

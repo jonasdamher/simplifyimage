@@ -4,9 +4,9 @@ if(isset($_FILES['image_user']) ) {
 	require_once 'libs/libimagephp.php';
 
 	// SET configuration
-	// $libImage->path('public/images/users/');
+	$libImage->path('public/images/users/');
 	$libImage->nameImputFile('image_user');
-	// $libImage->prefixName('adminUser');
+	$libImage->prefixName('myuser');
 	$libImage->required();
 	$libImage->maxSize(1000000);
 	

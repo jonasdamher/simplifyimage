@@ -202,7 +202,7 @@ class Configuration {
 
 	// MODIFY IMAGE
 
-	private function cropPosition(array $pixelsImage) {
+	private function cropPosition(array $pixelsImage) : array {
 		
 		$position = [
 			'x' => 0,
@@ -282,12 +282,14 @@ class Configuration {
 				// Mask circle
 				// Create mask circle
 				$mask = \imagecreatetruecolor($min, $min);
+				\imagealphablending($mask, false);
+				
 				// Colors
-				$magentaColor = \imagecolorallocate($mask, 255, 0, 255);
+				$magentaColor = \imagecolorallocatealpha($mask, 255, 0, 255, 0);
 				$transparent = \imagecolorallocatealpha($mask, 255, 255, 255, 127);
+
 				// Add color mask
 				imagefill($mask, 0, 0, $magentaColor);
-				\imagealphablending($mask, false);
 				// Draw circle border line mask
 				\imagearc($mask,
 				$min/2, $min/2,
@@ -299,7 +301,7 @@ class Configuration {
 				$min/2, $min/2,
 				$transparent, $transparent);
 				// Mask circle final
-
+				
 				// Image
 				\imagealphablending($croppedImage, true);
 				// Add mask to image
@@ -307,8 +309,11 @@ class Configuration {
 				0, 0, 0, 0,
 				$min, $min,
 				$min, $min);
-				// remove mask to image
+				// remove mask color to image
 				\imagecolortransparent($croppedImage, $magentaColor);
+				
+				\imagedestroy($mask);
+
 				return $croppedImage;
 			break;
 			case 'square':
@@ -349,12 +354,11 @@ class Configuration {
 		]);
 		
 		return $croppedImage;
-
   }
 
   protected function scaleModify($image) {
 
-		if($this->getScale()['x'] != -1 ||  $this->getScale()['y'] != -1) {
+		if($this->getScale()['x'] != -1 || $this->getScale()['y'] != -1) {
 
 			$image = imagescale(
 				$image, 
@@ -367,20 +371,14 @@ class Configuration {
     return $image;
   }
 
-	protected function imageConverterUpload($image, string $target_file) {
+	protected function imageConverterUpload($image, string $target_file) : bool {
 
-		$new = ('image'.$this->getConversionTo() )($image, $target_file);
-		
-		if($new) {
-			return $new;
-		}
-		
-		return false;
+		return ('image'.$this->getConversionTo() )($image, $target_file);
 	}
 
 	// FINAL MODIFY IMAGE
 
-	protected function imageUpload($image, string $target_file) {
+	protected function imageUpload($image, string $target_file) : bool {
 
 		return ($this->getConversionTo() != 'default') ? 
 						$this->imageConverterUpload($image, $target_file) : 
