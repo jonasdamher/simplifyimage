@@ -3,7 +3,7 @@
 
 * Allows crop and scale images easy. 
 * Allows upload and update one or multiple images. 
-* Allows conversion type image to WEBP, PNG, JPG y JPEG.
+* Allows conversion type image to WEBP, PNG, JPG and JPEG.
 
 author Jonás Damián Hernández [jonasdamher]
 
