@@ -10,7 +10,7 @@ class LibImageConfiguration {
 		'errors' => ''
 	];
 
-	private string $headNameFile =  '';
+	private string $prefixName =  '';
 
 	private string $nameInputFile;
 
@@ -84,12 +84,12 @@ class LibImageConfiguration {
 	 * @param string $path de directorio
 	 *	@example public/images/
 	*/
-	public function setPath(string $path) {
+	public function path(string $path) {
 		$this->path = $path;
 	}
 
-	protected function getHeadNameFile() : string {
-		return $this->headNameFile;
+	protected function getPrefixName() : string {
+		return $this->prefixName;
 	}
 
 	/**
@@ -97,8 +97,8 @@ class LibImageConfiguration {
 	 * 
 	 * Not allows special simbols.
 	 */
-	public function setHeadNameFile(string $headNameFile) {
-		$this->headNameFile = $headNameFile;
+	public function prefixName(string $prefixName) {
+		$this->prefixName = $prefixName;
 	}
 
 	/**
@@ -129,20 +129,20 @@ class LibImageConfiguration {
 	 * @param int $x
 	 * @param int $y (opcional) por defecto es igual a $x
 	*/
-	public function setScale(int $x, int $y = -1) {
+	public function scale(int $x, int $y = -1) {
 		$this->scale['x'] = $x;
 		$this->scale['y'] = $y;
 	}
 	
-	protected function getCropType() : string {
+	protected function getShape() : string {
 		return $this->cropType;
 	}
 
-	public function setCropType(string $cropType) {
+	public function shape(string $cropType) {
 		$this->cropType = $cropType;
 	}
 
-	public function setContrast(string $contrast){
+	public function contrast(string $contrast){
 
 		switch($contrast) {
 			case 'low':
@@ -156,7 +156,7 @@ class LibImageConfiguration {
 		return $this->contrast;
 	}
 
-	public function requiredImage(){
+	public function required(){
 		$this->requiredImage = true;
 	}
 
@@ -164,7 +164,7 @@ class LibImageConfiguration {
 		return $this->requiredImage;
 	}
 
-	protected function getCropPosition() : string {
+	protected function getPosition() : string {
 		return $this->cropPosition;
 	}
 
@@ -174,7 +174,7 @@ class LibImageConfiguration {
 	 * @default center
 	 * @param string $cropPosition - Position type.
 	 */
-	public function setCropPosition(string $cropPosition) {
+	public function position(string $cropPosition) {
 		$this->cropPosition = $cropPosition;
 
 	}
@@ -183,7 +183,7 @@ class LibImageConfiguration {
 		return $this->allowedFormats;
 	}
 	
-	public function setConversionTo(string $conversionTo) {
+	public function conversionTo(string $conversionTo) {
 		$this->conversionTo = $conversionTo;
 	}
 
@@ -208,7 +208,7 @@ class LibImageConfiguration {
 			'y' => 0
 		];
 
-		switch($this->getCropPosition() ) {
+		switch($this->getPosition() ) {
 			case 'center':
 				($pixelsImage['x'] >= $pixelsImage['y']) ? 
 				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
@@ -257,121 +257,101 @@ class LibImageConfiguration {
 
 	protected function crop($image) {
 
-		$pixelsImage = [
+		$dimensions = [
 			'x' => imagesx($image),
 			'y' => imagesy($image)
 		];
 		
-		switch ($this->getCropType() ) {
+		switch ($this->getShape() ) {
 			case 'circle':
 
-				$position = $this->cropPosition($pixelsImage);
+				$position = $this->cropPosition($dimensions);
 
-				$dimensionMin = min($pixelsImage['x'], $pixelsImage['y']);
-				
+				$min = min($dimensions['x'], $dimensions['y']);
+				$dimensions['x'] = $min;
+				$dimensions['y'] = $min;
+
 				$croppedImage = imagecrop($image, [
-					'x' => $position['x'], 
-					'y' => $position['y'], 
-					'width' => $dimensionMin, 
-					'height' => $dimensionMin
+					'x' => $position['x'],
+					'y' => $position['y'],
+					'width' => $dimensions['x'],
+					'height' => $dimensions['y']
 				]);
 
 				// Mask circle
-				$mask = \imagecreatetruecolor($dimensionMin, $dimensionMin);
-
-				// Color
+				// Create mask circle
+				$mask = \imagecreatetruecolor($min, $min);
+				// Colors
 				$magentaColor = \imagecolorallocate($mask, 255, 0, 255);
 				$transparent = \imagecolorallocatealpha($mask, 255, 255, 255, 127);
-
-				// Add color
+				// Add color mask
 				imagefill($mask, 0, 0, $magentaColor);
-
 				\imagealphablending($mask, false);
-
-				// Draw circle border line
+				// Draw circle border line mask
 				\imagearc($mask,
-				$dimensionMin/2, $dimensionMin/2,
-				$dimensionMin, $dimensionMin,
+				$min/2, $min/2,
+				$min, $min,
 				0, 360, 
 				$transparent);
-				
 				// Fill circle
 				\imagefilltoborder($mask,
-				$dimensionMin/2, $dimensionMin/2,
+				$min/2, $min/2,
 				$transparent, $transparent);
-				
 				// Mask circle final
 
 				// Image
 				\imagealphablending($croppedImage, true);
+				// Add mask to image
 				\imagecopyresampled($croppedImage, $mask, 
 				0, 0, 0, 0,
-				$dimensionMin, $dimensionMin,
-				$dimensionMin, $dimensionMin);
-
+				$min, $min,
+				$min, $min);
+				// remove mask to image
 				\imagecolortransparent($croppedImage, $magentaColor);
-
 				return $croppedImage;
-
 			break;
 			case 'square':
 
-				$position = $this->cropPosition($pixelsImage);
+				$position = $this->cropPosition($dimensions);
 
-				$dimensionMin = min($pixelsImage['x'], $pixelsImage['y']);
-				
-				$croppedImage = imagecrop($image, [
-					'x' => $position['x'], 
-					'y' => $position['y'], 
-					'width' => $dimensionMin, 
-					'height' => $dimensionMin
-				]);
-
-				return $croppedImage;
-		
+				$min = min($dimensions['x'], $dimensions['y']);
+				$dimensions['x'] = $min;
+				$dimensions['y'] = $min;
 			break;
 			case 'h_rectangle':
 
-				$heightRedimension = ceil(($pixelsImage['x'] / 161) * 100);
-				
-				$pixelsImage['y'] += ($pixelsImage['x'] - $heightRedimension) / 2;
+				$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
+				$dimensions['y'] += ($dimensions['x'] - $heightRedimension) / 2;
 
-				$position = $this->cropPosition($pixelsImage);
-
-				$croppedImage = imagecrop($image, [
-					'x' => $position['x'],
-					'y' => $position['y'],
-					'width' => $pixelsImage['x'],
-					'height' => $heightRedimension
-				]);
-
-				return $croppedImage;
-		
+				$position = $this->cropPosition($dimensions);
+				$dimensions['y'] = $heightRedimension;
 			break;
 			case 'v_rectangle':
-				
-				$widthRedimension = ceil(($pixelsImage['y'] / 161) * 100);
 
-				$pixelsImage['x'] += ($pixelsImage['y'] - $widthRedimension) / 2;
+				$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
+				$dimensions['x'] += ($dimensions['y'] - $widthRedimension) / 2;
 
-				$position = $this->cropPosition($pixelsImage);
+				$position = $this->cropPosition($dimensions);
+				$dimensions['x'] = $widthRedimension;
+			break;
+			default:
 
-				$croppedImage = imagecrop($image, [
-					'x' => $position['x'],
-					'y' => $position['y'],
-					'width' => $widthRedimension,
-					'height' => $pixelsImage['y']
-				]);
-
-				return $croppedImage;
-		
+				return $image;	
 			break;
 		}
 
-		return $image;
+		$croppedImage = imagecrop($image, [
+			'x' => $position['x'],
+			'y' => $position['y'],
+			'width' => $dimensions['x'],
+			'height' => $dimensions['y']
+		]);
+		
+		return $croppedImage;
+
   }
 
-  protected function scale($image) {
+  protected function scaleModify($image) {
 
 		if($this->getScale()['x'] != -1 ||  $this->getScale()['y'] != -1) {
 
@@ -386,7 +366,7 @@ class LibImageConfiguration {
     return $image;
   }
 
-	protected function conversionTo($image, string $target_file) {
+	protected function imageConverter($image, string $target_file) {
 
 		$new = ('image'.$this->getConversionTo() )($image, $target_file);
 		
@@ -402,13 +382,13 @@ class LibImageConfiguration {
 	protected function upload($image, string $target_file) {
 
 		return ($this->getConversionTo() != 'default') ? 
-						$this->conversionTo($image, $target_file) : 
+						$this->imageConverter($image, $target_file) : 
 						($this->transformImage)($image, $target_file);
 	}
 
 
 	// Contrast 
-	protected function contrast($image) {
+	protected function contrastModify($image) {
 
 		imagefilter($image, IMG_FILTER_CONTRAST, $this->getContrast() );
 		return $image;

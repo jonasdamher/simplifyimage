@@ -57,11 +57,11 @@ class LibImage extends LibImageConfiguration {
 
     $fileName = mb_strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
-    $cleanFileName  =  $this->getHeadNameFile().uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
+    $cleanFileName  =  $this->getPrefixName().uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
 
-    $rename = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
+    $newFileName = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
 
-    return $rename;
+    return $newFileName;
   }
 
   // VERIFY IMAGE FILE
@@ -84,15 +84,19 @@ class LibImage extends LibImageConfiguration {
 
     $this->image = $_FILES[$this->getNameInputFile()];
           
-    $target = $this->getPath().$this->image['name'];
+    $pathAndImageName = $this->getPath().$this->image['name'];
 
     $this->size = $this->image['size'];
-    $this->type = strtolower(pathinfo( $target, PATHINFO_EXTENSION) );
+    $this->type = strtolower(pathinfo( $pathAndImageName, PATHINFO_EXTENSION) );
 
     $this->fileName = basename(
-      $this->rename($target).'.'.($this->getConversionTo() == 'default' ? 
-      $this->type :   
-      $this->getConversionTo() ) 
+
+      $this->rename($pathAndImageName).'.'.
+      (
+        $this->getConversionTo() == 'default' ? 
+        $this->type :   
+        $this->getConversionTo() 
+      ) 
     );
 
     $this->target_file = $this->getPath().$this->fileName;
@@ -144,7 +148,7 @@ class LibImage extends LibImageConfiguration {
   /**
    * Upload new image
    */
-  public function uploadImage() {
+  public function upload() {
 
     if(!($this->postImageFile() ) ) {
 
@@ -166,15 +170,15 @@ class LibImage extends LibImageConfiguration {
     $imageTo = ($this->formatImage)($this->image['tmp_name']);
   
     // Image scale
-    $imageScale = $this->scale($imageTo);
+    $imageScale = $this->scaleModify($imageTo);
     
     // Image crop
-    $imageCrop = $this->getCropType() != 'default' ? 
+    $imageCrop = $this->getShape() != 'default' ? 
     $this->crop($imageScale) : 
     $imageScale;
 
     $image = $this->getContrast() != 0 ? 
-    $this->contrast($imageCrop) : 
+    $this->contrastModify($imageCrop) : 
     $imageCrop;
 
     if(!($this->upload($image, $this->target_file) ) ) {

@@ -3,17 +3,19 @@ if(isset($_FILES['image_user']) ) {
 
 	require_once 'libs/libimagephp.php';
 
-	$libImage->setPath('public/images/users/');
+	$libImage->path('public/images/users/');
 	$libImage->setNameInputFile('image_user');
-	$libImage->requiredImage();
+	$libImage->required();
 
-	// $libImage->setCropPosition('right');
-	// $libImage->setHeadNameFile('adminUser');
-	$libImage->setContrast('low');
-	// $libImage->setCropType('circle');
-	$libImage->setConversionTo('png');
+	// $libImage->prefixName('adminUser');
+	// $libImage->constrast('low');
+	// $libImage->scale(200);
 
-	$upload = $libImage->uploadImage();
+	// $libImage->position('right');
+	$libImage->shape('circle');
+	$libImage->conversionTo('png');
+
+	$upload = $libImage->upload();
 
 	if($upload['valid']) {
 
