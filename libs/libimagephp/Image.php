@@ -29,10 +29,9 @@ class Image extends Configuration {
   private string $fileName;
   private int $size;
   private string $format;
-
   
   // METHODS PRIVATES
-  private function rename(string $path) {
+  private function rename(string $path) : string {
 
     $fileName = mb_strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
@@ -44,26 +43,9 @@ class Image extends Configuration {
   }
 
   // VERIFY IMAGE FILE
-  private function postFileExist() {
 
-    if(isset($_FILES[$this->getNameInputFile()]) && mb_strlen($_FILES[$this->getNameInputFile()]['tmp_name']) > 0 ) {
-
-      return true;
-    }
+  private function getPropertiesImage() {
     
-    return false;
-  }
-
-  private function postImageFile() {
-
-    if(!$this->verifyPath() ){
-      return false;
-    }
-
-    if(!$this->postFileExist()) {
-      return false;
-    }
-
     $this->image = $_FILES[$this->getNameInputFile()];
     
     $pathAndImageName = $this->getPath().$this->image['name'];
@@ -82,21 +64,46 @@ class Image extends Configuration {
     );
 
     $this->pathCacheFile = $this->getPath().$this->fileName;
+
+  }
+
+  private function postFileExist() :bool {
+
+    return (
+      isset($_FILES[$this->getNameInputFile()]) && 
+      mb_strlen($_FILES[$this->getNameInputFile()]['tmp_name']) > 0
+    );
+  }
+
+  private function postImageFile() : bool {
+
+    if(!$this->verifyPath() ) {
+      
+      $this->error('Dont exist path, your path is ('.$this->getPath().').');
+      return false;
+    }
+
+    if(!$this->postFileExist() ) {
+      
+      return false;
+    }
     
+    $this->getPropertiesImage();
+
     return true;
   }
 
   // VALIDATE IMAGE
 
-  private function getFormatImage(){
+  private function getFormatImage() : string {
     return ($this->format == 'jpg') ? 'jpeg' : $this->format;
   }
 
-  private function format() {
+  private function formatValidate() : bool {
     
-    foreach ($this->getAllowedFormats() as $format) {
+    foreach ($this->getAllowedFormats() as $AllowFormat) {
 
-      if($format == $this->format) {
+      if($this->format == $AllowFormat) {
 
         $this->formatImage .= $this->getFormatImage();
         $this->transformImage .= $this->getFormatImage();
@@ -108,22 +115,19 @@ class Image extends Configuration {
     return false;
   }
 
-  private function size() {
-    if($this->size <= $this->getMaxSize() ) {                      
-      return true;
-    }
+  private function sizeValidate() : bool {
 
-    return false;
+    return ($this->size <= $this->getMaxSize() );
   }
 
-  private function validateImage() {
+  private function validateImage() : bool {
 
-    if(!($this->size() ) ) {
+    if(!($this->sizeValidate() ) ) {
 
       $this->error('It has to be an image smaller than '.$this->getMaxSize.' MB.');
     }
     
-    if(!($this->format() ) ) {
+    if(!($this->formatValidate() ) ) {
 
       $this->error('Invalid image format.');
     }
@@ -136,7 +140,7 @@ class Image extends Configuration {
   /**
    * Upload new image
    */
-  public function upload() {
+  public function upload() : array {
 
     if(!($this->postImageFile() ) ) {
 
@@ -184,7 +188,7 @@ class Image extends Configuration {
   /**
    * Update image, replace image
    */
-  public function updateImage() {
+  public function updateImage() : array {
 
     if(!($this->verifyOldImage() ) ) {
 
@@ -236,22 +240,15 @@ class Image extends Configuration {
   /**
    * Methods for old images
    */
-  protected function verifyOldImage() {
+  protected function verifyOldImage() : bool {
     
     $imagePath = $this->getPath().$this->oldImageName;
-    
-    if(file_exists($imagePath)) {
-   
-      return true;
-    }else {
-      return false;
-    }
+    return (file_exists($imagePath) );
   }
   
-  protected function remove() {
+  protected function remove() : bool {
     
     $imagePath = $this->getPath().$this->oldImageName;
-    
     return unlink($imagePath);
   }
 

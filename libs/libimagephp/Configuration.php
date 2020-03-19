@@ -88,6 +88,10 @@ class Configuration {
 		$this->path = $path;
 	}
 
+	protected function getPrefixName() : string {
+		return $this->prefixName;
+	}
+
 	/**
 	 * Head name file.
 	 * 
@@ -95,10 +99,6 @@ class Configuration {
 	 */
 	public function prefixName(string $prefixName) {
 		$this->prefixName = $prefixName;
-	}
-
-	protected function getPrefixName() : string {
-		return $this->prefixName;
 	}
 
 	/**
@@ -142,7 +142,11 @@ class Configuration {
 		$this->shapeType = $shapeType;
 	}
 
-	public function contrast(string $contrast){
+	protected function getContrast() : int {
+		return $this->contrast;
+	}
+
+	public function contrast(string $contrast) {
 
 		switch($contrast) {
 			case 'low':
@@ -153,16 +157,12 @@ class Configuration {
 		$this->contrast = $contrastNumber;
 	}
 
-	protected function getContrast() : int {
-		return $this->contrast;
-	}
-
-	public function required(){
-		$this->requiredImage = true;
-	}
-
 	protected function getRequiredImage() : bool {
 		return $this->requiredImage;
+	}
+
+	public function required() {
+		$this->requiredImage = true;
 	}
 
 	protected function getPosition() : string {
@@ -180,24 +180,24 @@ class Configuration {
 
 	}
 
-	protected function getAllowedFormats() : array {
-		return $this->allowedFormats;
+	protected function getConversionTo() : string {
+		return $this->conversionTo;
 	}
-	
+
 	public function conversionTo(string $conversionTo) {
 		$this->conversionTo = $conversionTo;
 	}
 
-	protected function getConversionTo() : string {
-		return $this->conversionTo;
+	protected function getOldImageName() : string {
+		return $this->oldImageName;
 	}
 
 	public function setOldImageName(string $oldImageName) {
 		$this->oldImageName = $oldImageName;
 	}
 
-	protected function getOldImageName() : string {
-		return $this->oldImageName;
+	protected function getAllowedFormats() : array {
+		return $this->allowedFormats;
 	}
 
 	// MODIFY IMAGE
@@ -395,18 +395,12 @@ class Configuration {
 	}
 
 	// Verification configuration
-	protected function verifyPath() {
-    
-    if(!is_dir($this->getPath() ) ) {
+	protected function verifyPath() : bool {
 
-      $this->error('Dont exist path, your path is ('.$this->getPath().').');
-      return false;
-    }
-
-    return true;
+		return (is_dir($this->getPath() ) );
 	}
 	
-	protected function error($message) {
+	protected function error(string $message) {
 		
 		if($this->response['valid']) {
 		
