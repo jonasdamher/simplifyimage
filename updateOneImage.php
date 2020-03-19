@@ -1,33 +1,3 @@
-<?php 
-
-if(isset($_FILES['image_user']) ) {
-
-	require_once 'libs/libimagephp.php';
-
-	$libImage->setPath('public/images/users/');
-	$libImage->setNameInputFile('image_user');
-	$libImage->requiredImage();
-
-	// $libImage->setCropPosition('top');
-	// $libImage->setCropType('square');
-	// $libImage->setScale(128);
-	// $libImage->setConversionTo('png');
-
-	$upload = $libImage->uploadImage();
-
-	if($upload['valid']) {
-
-		header('location: updateOneImage.php');
-
-	}else {
-
-		print_r($upload);
-
-	}
-
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

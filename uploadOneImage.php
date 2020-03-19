@@ -3,11 +3,13 @@ if(isset($_FILES['image_user']) ) {
 
 	require_once 'libs/libimagephp.php';
 
+	// SET configuration
 	$libImage->path('public/images/users/');
-	$libImage->setNameInputFile('image_user');
-	$libImage->required();
-
+	$libImage->nameImputFile('image_user');
 	// $libImage->prefixName('adminUser');
+	$libImage->required();
+	$libImage->maxSize(1000000);
+	
 	// $libImage->constrast('low');
 	// $libImage->scale(200);
 
@@ -20,11 +22,9 @@ if(isset($_FILES['image_user']) ) {
 	if($upload['valid']) {
 
 		$_GET['valid'] = 1;
-
 	}else {
 
 		$_GET['valid'] = 0;
-
 	}
 
 }

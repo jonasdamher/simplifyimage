@@ -1,10 +1,10 @@
 <?php 
 
-namespace libimagephp\image;
+namespace libimagephp\LibImage;
 
-require_once 'LibImageConfiguration.php';
+require_once 'Configuration.php';
 
-use libimagephp\config\LibImageConfiguration;
+use libimagephp\LibImageConfiguration\Configuration;
 
 /**
 * LibImage
@@ -21,7 +21,7 @@ use libimagephp\config\LibImageConfiguration;
 * @version 1.0
 *
 */
-class LibImage extends LibImageConfiguration {
+class Image extends Configuration {
 
   /**
    * Array con las propiedades de imagen recogidas del formulario

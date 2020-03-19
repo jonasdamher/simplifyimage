@@ -1,8 +1,8 @@
 <?php 
 
-namespace libimagephp\config;
+namespace libimagephp\LibImageConfiguration;
 
-class LibImageConfiguration {
+class Configuration {
 
 	protected array $response = [
 		'valid' => true, 
@@ -10,12 +10,18 @@ class LibImageConfiguration {
 		'errors' => ''
 	];
 
+	private string $path = '';
+
+	private string $nameInputFile = '';
+
 	private string $prefixName =  '';
 
-	private string $nameInputFile;
+	private bool $requiredImage = false;
 
-	private string $path;
-	
+	private int $maxSize = 2097152 ; // 2 MB
+
+	private int $contrast = 0;
+
 	private array $allowedFormats = [
 		'png', 
 		'jpg', 
@@ -24,19 +30,13 @@ class LibImageConfiguration {
 		'webp'
 	];
 
-	private int $maxSize = 2097152 ; // 2 MB
-
 	private array $scale = [
 		'x' => -1, 
 		'y' => -1
 	];
 
-	private bool $requiredImage = false;
-
-	private int $contrast = 0;
-
 	//Forma de recortar la imagen, square, v_rectangle, h_rectangle, default
-	private string $cropType = 'default';
+	private string $shapeType = 'default';
 
 	//Posicion en la que se recorta la imagen, center, top, topLeft, topRight, bottom, bottomRight, right, left
 	private string $cropPosition = 'center';
@@ -68,7 +68,7 @@ class LibImageConfiguration {
 	 * Nombre del input del formulario
 	 * @param string $nameInputFile
 	*/
-	public function setNameInputFile(string $nameInputFile) {
+	public function nameImputFile(string $nameInputFile) {
 		$this->nameInputFile = $nameInputFile;
 	}
 
@@ -88,10 +88,6 @@ class LibImageConfiguration {
 		$this->path = $path;
 	}
 
-	protected function getPrefixName() : string {
-		return $this->prefixName;
-	}
-
 	/**
 	 * Head name file.
 	 * 
@@ -99,6 +95,10 @@ class LibImageConfiguration {
 	 */
 	public function prefixName(string $prefixName) {
 		$this->prefixName = $prefixName;
+	}
+
+	protected function getPrefixName() : string {
+		return $this->prefixName;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class LibImageConfiguration {
 	 * By default is 2097152 bytes (2 MB)
 	 * @param int $maxSize 
 	*/
-	public function setMaxSize(int $maxSize) {
+	public function maxSize(int $maxSize) {
 		$this->maxSize = $maxSize;
 	}
 
@@ -135,11 +135,11 @@ class LibImageConfiguration {
 	}
 	
 	protected function getShape() : string {
-		return $this->cropType;
+		return $this->shapeType;
 	}
 
-	public function shape(string $cropType) {
-		$this->cropType = $cropType;
+	public function shape(string $shapeType) {
+		$this->shapeType = $shapeType;
 	}
 
 	public function contrast(string $contrast){
@@ -149,6 +149,7 @@ class LibImageConfiguration {
 				$contrastNumber = -50;
 			break;
 		}
+
 		$this->contrast = $contrastNumber;
 	}
 
@@ -385,7 +386,6 @@ class LibImageConfiguration {
 						$this->imageConverter($image, $target_file) : 
 						($this->transformImage)($image, $target_file);
 	}
-
 
 	// Contrast 
 	protected function contrastModify($image) {

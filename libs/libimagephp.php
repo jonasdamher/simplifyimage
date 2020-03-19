@@ -1,9 +1,9 @@
 <?php 
 
-require_once 'libimagephp/LibImage.php';
+require_once 'libimagephp/Image.php';
 
-use libimagephp\image\LibImage;
+use libimagephp\LibImage\Image;
 
-$libImage = new LibImage();
+$libImage = new Image();
 
 ?>
