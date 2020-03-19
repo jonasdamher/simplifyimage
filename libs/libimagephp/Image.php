@@ -78,12 +78,16 @@ class Image extends Configuration {
 
   private function postImageFile() {
 
-    if(!($this->postFileExist() ) ) {
+    if(!$this->verifyPath() ){
+      return false;
+    }
+
+    if(!$this->postFileExist()) {
       return false;
     }
 
     $this->image = $_FILES[$this->getNameInputFile()];
-          
+    
     $pathAndImageName = $this->getPath().$this->image['name'];
 
     $this->size = $this->image['size'];
@@ -133,11 +137,13 @@ class Image extends Configuration {
   private function validateImage() {
 
     if(!($this->size() ) ) {
-      $this->response['errors'] = 'It has to be an image smaller than '.$this->getMaxSize.' MB.';
+
+      $this->error('It has to be an image smaller than '.$this->getMaxSize.' MB.');
     }
     
     if(!($this->format() ) ) {
-      $this->response['errors'] = 'Invalid image format.';
+
+      $this->error('Invalid image format.');
     }
 
     return $this->response['valid'];
@@ -154,8 +160,7 @@ class Image extends Configuration {
 
       if($this->getRequiredImage() ) {
 
-        $this->response['valid'] = false;
-        $this->response['errors'] = "Don't exist image request.";
+        $this->error("Don't exist image request.");
       }
 
       return $this->response;
@@ -181,11 +186,9 @@ class Image extends Configuration {
     $this->contrastModify($imageCrop) : 
     $imageCrop;
 
-    if(!($this->upload($image, $this->target_file) ) ) {
+    if(!($this->imageUpload($image, $this->target_file) ) ) {
 
-      $this->response['valid'] = false;
-      $this->response['errors'] = 'It could not image upload, try again.';
-      
+      $this->error('It could not image upload, try again.');
       return $this->response;
     }
 
@@ -203,8 +206,7 @@ class Image extends Configuration {
 
     if(!($this->verifyOldImage() ) ) {
 
-      $this->response['valid'] = false;
-      $this->response['errors'] = "Don't exist old image request.";
+      $this->error("Don't exist old image request.");
 
       return $this->response;
     }
@@ -213,8 +215,7 @@ class Image extends Configuration {
 
       if($this->getRequiredImage() ) {
 
-        $this->response['valid'] = false;
-        $this->response['errors'] = "Don't exist image request.";
+        $this->error("Don't exist image request.");
       }
 
       return $this->response;
@@ -231,11 +232,9 @@ class Image extends Configuration {
     // Image scale
     $myimage = $this->scale($imageTo);
     
-    if(!($this->upload($myimage, $this->target_file) ) ) {
+    if(!($this->imageUpload($myimage, $this->target_file) ) ) {
 
-      $this->response['valid'] = false;
-      $this->response['errors'] = 'It could not image upload, try again.';
-      
+      $this->error('It could not image upload, try again.');
       return $this->response;
     }
 
@@ -243,9 +242,7 @@ class Image extends Configuration {
 
     if(!$this->destroyOldImage() ) {
 
-      $this->response['valid'] = false;
-      $this->response['errors'] = 'Dont destroy old image, try again.';
-      
+      $this->error('Dont destroy old image, try again.');
       return $this->response;
     }
 
@@ -276,4 +273,6 @@ class Image extends Configuration {
     return unlink($imagePath);
   }
 
-  }
+}
+
+?>

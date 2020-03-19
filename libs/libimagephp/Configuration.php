@@ -7,7 +7,7 @@ class Configuration {
 	protected array $response = [
 		'valid' => true, 
 		'filename' => null, 
-		'errors' => ''
+		'errors' => []
 	];
 
 	private string $path = '';
@@ -367,7 +367,7 @@ class Configuration {
     return $image;
   }
 
-	protected function imageConverter($image, string $target_file) {
+	protected function imageConverterUpload($image, string $target_file) {
 
 		$new = ('image'.$this->getConversionTo() )($image, $target_file);
 		
@@ -380,10 +380,10 @@ class Configuration {
 
 	// FINAL MODIFY IMAGE
 
-	protected function upload($image, string $target_file) {
+	protected function imageUpload($image, string $target_file) {
 
 		return ($this->getConversionTo() != 'default') ? 
-						$this->imageConverter($image, $target_file) : 
+						$this->imageConverterUpload($image, $target_file) : 
 						($this->transformImage)($image, $target_file);
 	}
 
@@ -393,6 +393,29 @@ class Configuration {
 		imagefilter($image, IMG_FILTER_CONTRAST, $this->getContrast() );
 		return $image;
 	}
+
+	// Verification configuration
+	protected function verifyPath() {
+    
+    if(!is_dir($this->getPath() ) ) {
+
+      $this->error('Dont exist path, your path is ('.$this->getPath().').');
+      return false;
+    }
+
+    return true;
+	}
+	
+	protected function error($message) {
+		
+		if($this->response['valid']) {
+		
+			$this->response['valid'] = false;
+		}
+
+		array_push($this->response['errors'], $message);
+	}
+
 }
 
 ?>

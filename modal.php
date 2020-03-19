@@ -10,11 +10,12 @@
 					See image
 				</a>
 
-				<?php } else { ?>
+				<?php } else { 
+					foreach($upload['errors'] as $error) { ?>
 				
-					<p><?= $upload['errors'] ?></p>
+					<p><?= $error ?></p>
 				
-				<?php } ?>
+				<?php } } ?>
 				
 				<div class="mt-2 d-flex j-center">
 					<a class="btn btn-orange sw-md text-bold" href="uploadOneImage.php">Ok</a>

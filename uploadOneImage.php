@@ -4,7 +4,7 @@ if(isset($_FILES['image_user']) ) {
 	require_once 'libs/libimagephp.php';
 
 	// SET configuration
-	$libImage->path('public/images/users/');
+	// $libImage->path('public/images/users/');
 	$libImage->nameImputFile('image_user');
 	// $libImage->prefixName('adminUser');
 	$libImage->required();
@@ -18,7 +18,7 @@ if(isset($_FILES['image_user']) ) {
 	$libImage->conversionTo('png');
 
 	$upload = $libImage->upload();
-
+	
 	if($upload['valid']) {
 
 		$_GET['valid'] = 1;
@@ -26,7 +26,6 @@ if(isset($_FILES['image_user']) ) {
 
 		$_GET['valid'] = 0;
 	}
-
 }
 ?>
 <!DOCTYPE html>
