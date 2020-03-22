@@ -46,7 +46,7 @@ class Image extends Configuration {
     
     $this->image = $_FILES[$this->getNameInputFile()];
     
-    $pathAndImageName = $this->getPath().$this->image['name'];
+    $pathAndImageName = $this->path->get().$this->image['name'];
 
     $this->size = $this->image['size'];
     $this->format = strtolower(pathinfo( $pathAndImageName, PATHINFO_EXTENSION) );
@@ -61,7 +61,7 @@ class Image extends Configuration {
       ) 
     );
 
-    $this->pathCacheFile = $this->getPath().$this->fileName;
+    $this->pathCacheFile = $this->path->get().$this->fileName;
 
   }
 
@@ -77,9 +77,9 @@ class Image extends Configuration {
 
   private function postImageFile() : bool {
 
-    if(!$this->verifyPath() ) {
+    if(!$this->path->exist() ) {
       
-      $this->error('Dont exist path, your path is ('.$this->getPath().').');
+      $this->error('Dont exist path, your path is ('.$this->path->get().').');
       return false;
     }
 
@@ -95,18 +95,16 @@ class Image extends Configuration {
 
   // VALIDATE IMAGE
 
-  private function getFormatImage() : string {
-    return ($this->format == 'jpg') ? 'jpeg' : $this->format;
-  }
-
   private function formatValidate() : bool {
     
     foreach ($this->getAllowedFormats() as $AllowFormat) {
 
       if($this->format == $AllowFormat) {
 
-        $this->formatImage .= $this->getFormatImage();
-        $this->transformImage .= $this->getFormatImage();
+        $myFormat = ($this->format == 'jpg') ? 'jpeg' : $this->format;
+    
+        $this->formatImage .= $myFormat;
+        $this->transformImage .= $myFormat;
 
         return true; 
       }
@@ -124,7 +122,7 @@ class Image extends Configuration {
 
     if(!($this->sizeValidate() ) ) {
 
-      $this->error('It has to be an image smaller than '.$this->getMaxSize.' MB.');
+      $this->error('It has to be an image smaller than '.($this->getMaxSize/1000000).' MB.');
     }
     
     if(!($this->formatValidate() ) ) {
@@ -161,15 +159,15 @@ class Image extends Configuration {
     $imageTo = ($this->formatImage)($this->image['tmp_name']);
   
     // Image scale
-    $imageScale = $this->scaleModify($imageTo);
+    $imageScale = $this->scale->modify($imageTo);
     
     // Image crop
-    $imageCrop = $this->getShape() != 'default' ? 
-    $this->crop($imageScale) : 
+    $imageCrop = $this->crop->shape->get() != 'default' ? 
+    $this->crop->get($imageScale) : 
     $imageScale;
 
-    $image = $this->getContrast() != 0 ? 
-    $this->contrastModify($imageCrop) : 
+    $image = $this->contrast->get() != 0 ? 
+    $this->contrast->modify($imageCrop) : 
     $imageCrop;
 
     if(!($this->imageUpload($image, $this->pathCacheFile) ) ) {
@@ -188,67 +186,19 @@ class Image extends Configuration {
   /**
    * Update image, replace image
    */
-  public function updateImage() : array {
-
-    if(!($this->verifyOldImage() ) ) {
-
-      $this->error("Don't exist old image request.");
-
-      return $this->response;
-    }
-    
-    if(!($this->postImageFile() ) ) {
-
-      if($this->getRequiredImage() ) {
-
-        $this->error("Don't exist image request.");
-      }
-
-      return $this->response;
-    }
-
-    if(!($this->validateImage() ) ) {
-      
-      return $this->response;
-    }
-
-    // Add image format
-    $imageTo = ($this->formatImage)($this->image['tmp_name']);
-  
-    // Image scale
-    $myimage = $this->scale($imageTo);
-    
-    if(!($this->imageUpload($myimage, $this->pathCacheFile) ) ) {
-
-      $this->error('It could not image upload, try again.');
-      return $this->response;
-    }
-
-    imageDestroy($myimage);
-
-    if(!$this->remove() ) {
-
-      $this->error('Dont destroy old image, try again.');
-      return $this->response;
-    }
-
-    $this->response['filename'] = $this->fileName;
-    
-    return $this->response;
-  }
  
   /**
    * Methods for old images
    */
-  protected function verifyOldImage() : bool {
+  private function verifyOldImage() : bool {
     
-    $imagePath = $this->getPath().$this->oldImageName;
+    $imagePath = $this->path->get().$this->oldImageName;
     return (file_exists($imagePath) );
   }
   
   protected function remove() : bool {
     
-    $imagePath = $this->getPath().$this->oldImageName;
+    $imagePath = $this->path->get().$this->oldImageName;
     return unlink($imagePath);
   }
 
