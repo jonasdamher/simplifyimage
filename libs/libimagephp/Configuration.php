@@ -41,8 +41,8 @@ class Configuration {
 	//Posicion en la que se recorta la imagen, center, top, topLeft, topRight, bottom, bottomRight, right, left
 	private string $cropPosition = 'center';
 
-	// Convertir la imagen a otro formato
-	// default, webp, png, jpeg, gif
+	// Image conversion to other format
+	// @param string $conversionTo default, webp, png, jpeg, gif
 	private string $conversionTo = 'default';
 
 	// texto que se concatena con el tipo de imagen para conversión a webp * imagecreatefromjpeg	
@@ -146,14 +146,27 @@ class Configuration {
 		return $this->contrast;
 	}
 
+	/**
+	 * Image constrast.
+	 * Options: low, medium and hight.
+	 * By default none.
+	 */
 	public function contrast(string $contrast) {
 
 		switch($contrast) {
 			case 'low':
+				$contrastNumber = -10;
+			break;
+			case 'medium':
 				$contrastNumber = -50;
 			break;
+			case 'hight':
+				$contrastNumber = -80;
+			break;
+			default: 
+				$contrastNumber = 0;
+			break;
 		}
-
 		$this->contrast = $contrastNumber;
 	}
 
@@ -172,20 +185,12 @@ class Configuration {
 	/**
 	 * Position for crop.
 	 * Position center, left, right, top, bottom.
-	 * @default center
 	 * @param string $cropPosition - Position type.
+	 * @default center
 	 */
 	public function position(string $cropPosition) {
 		$this->cropPosition = $cropPosition;
 
-	}
-
-	protected function getConversionTo() : string {
-		return $this->conversionTo;
-	}
-
-	public function conversionTo(string $conversionTo) {
-		$this->conversionTo = $conversionTo;
 	}
 
 	protected function getOldImageName() : string {
@@ -196,9 +201,19 @@ class Configuration {
 		$this->oldImageName = $oldImageName;
 	}
 
+	protected function getConversionTo() : string {
+		return $this->conversionTo;
+	}
+
+	public function conversionTo(string $conversionTo) {
+		$this->conversionTo = $conversionTo;
+	}
+
 	protected function getAllowedFormats() : array {
 		return $this->allowedFormats;
 	}
+
+	// FINAL GETS & SETS
 
 	// MODIFY IMAGE
 

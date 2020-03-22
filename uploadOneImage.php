@@ -1,4 +1,5 @@
 <?php 
+
 if(isset($_FILES['image_user']) ) {
 
 	require_once 'libs/libimagephp.php';
@@ -27,6 +28,7 @@ if(isset($_FILES['image_user']) ) {
 		$_GET['valid'] = 0;
 	}
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
