@@ -39,7 +39,11 @@ class Contrast {
 	// Contrast 
 	public function modify($image) {
 
-		imagefilter($image, IMG_FILTER_CONTRAST, $this->get() );
+		if($this->get() != 0) {
+		
+			imagefilter($image, IMG_FILTER_CONTRAST, $this->get() );
+			return $image;
+		}
 		return $image;
 	}
 

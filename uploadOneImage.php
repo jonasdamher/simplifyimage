@@ -4,27 +4,22 @@ if(isset($_FILES['image_user']) ) {
 
 	require_once 'libs/libimagephp.php';
 
-	// SET configuration
+	// CONFIGURATION
 	// BASIC
 	$libImage->path->set('public/images/users/');
 	$libImage->nameImputFile('image_user');
-
-	// CONFIGURATION
-	// $libImage->prefixName('myuser');
-	// $libImage->required();
-	// $libImage->maxSize(1000000);
-	
+	$libImage->prefixName('myuser');
+	$libImage->required();
+	$libImage->maxSize(1000000);
+	// MODIFY
+	$libImage->scale->set(200);
+	$libImage->contrast->set('low');
 	// CROP
 	// $libImage->crop->position->set('right');
-	// $libImage->crop->shape->set('circle');
-
-	// MODIFY
-	// $libImage->scale->set(200);
-	// $libImage->constrast->set('low');
+	$libImage->crop->shape->set('square');
 
 	// CONVERSION FORMAT TO png
-	// $libImage->conversionTo('png');
-
+	$libImage->conversionTo('png');
 	// ACTION
 	$upload = $libImage->upload();
 	

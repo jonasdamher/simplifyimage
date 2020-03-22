@@ -2,15 +2,15 @@
 
 namespace libimagephp\LibImageConfiguration;
 
-require_once 'utils/Crop.php';
 require_once 'utils/Path.php';
-require_once 'utils/Scale.php';
 require_once 'utils/Contrast.php';
+require_once 'utils/Scale.php';
+require_once 'utils/Crop.php';
 
-use libimagephp\LibImageUtils\Crop;
 use libimagephp\LibImageUtils\Path;
-use libimagephp\LibImageUtils\Scale;
 use libimagephp\LibImageUtils\Contrast;
+use libimagephp\LibImageUtils\Scale;
+use libimagephp\LibImageUtils\Crop;
 
 class Configuration {
 
@@ -20,11 +20,11 @@ class Configuration {
 		'errors' => []
 	];
 
-	public Crop $crop;
-
 	public Path $path;
-	public Scale $scale;	
 	public Contrast $contrast;
+	public Scale $scale;	
+
+	public Crop $crop;
 
 	private string $nameInputFile = '';
 	private string $prefixName =  '';
@@ -134,12 +134,11 @@ class Configuration {
 
 	public function __construct() {
 
-		$this->crop = new Crop();
-
-		$this->scale = new Scale();
 		$this->path = new Path();
 		$this->contrast = new Contrast();
+		$this->scale = new Scale();
 
+		$this->crop = new Crop();
 	}
 
 	// MODIFY IMAGE

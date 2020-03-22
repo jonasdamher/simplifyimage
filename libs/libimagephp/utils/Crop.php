@@ -24,21 +24,24 @@ class Crop {
 
 	public function modify($image) {
 
+		if($this->shape->get() == 'default') {
+			return $image;
+		}
+
 		$dimensions = [
 			'x' => imagesx($image),
 			'y' => imagesy($image)
 		];
 
-		$position =  [
-			'x' => 0,
-			'0'
-		];
+		$position = $this->position->new($dimensions);
+
+		$shape = $this->shape->modify($position, $dimensions);
 
 		$croppedImage = imagecrop($image, [
 			'x' => $position['x'],
 			'y' => $position['y'],
-			'width' => $dimensions['x'],
-			'height' => $dimensions['y']
+			'width' => $shape['x'],
+			'height' => $shape['y']
 		]);
 		
 		return $croppedImage;

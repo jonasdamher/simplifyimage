@@ -35,11 +35,11 @@ class Image extends Configuration {
 
     $fileName = mb_strtolower( pathinfo($path, PATHINFO_FILENAME) );
 
-    $cleanFileName  =  $this->getPrefixName().uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
+    $cleanFileName = $this->getPrefixName().uniqid().preg_replace('/\s+||[^a-zA-Z0-9_ -]/','',$fileName);
 
-    $newFileName = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
+    $filterFileName = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
 
-    return $newFileName;
+    return $filterFileName;
   }
 
   private function getPropertiesImage() {
@@ -135,6 +135,23 @@ class Image extends Configuration {
 
   // FINAL VALIDATE IMAGE
 
+  private function modifyImage() {
+    
+    // Add image format
+    $imageTo = ($this->formatImage)($this->image['tmp_name']);
+
+    // Image crop
+    $imageCrop = $this->crop->modify($imageTo);
+
+    // Image scale
+    $imageScale = $this->scale->modify($imageCrop);
+
+    // Image contrast
+    $imageContrast = $this->contrast->modify($imageScale);
+
+    return $imageContrast;
+  }
+
   /**
    * Upload new image
    */
@@ -155,20 +172,7 @@ class Image extends Configuration {
       return $this->response;
     }
 
-    // Add image format
-    $imageTo = ($this->formatImage)($this->image['tmp_name']);
-  
-    // Image scale
-    $imageScale = $this->scale->modify($imageTo);
-    
-    // Image crop
-    $imageCrop = $this->crop->shape->get() != 'default' ? 
-    $this->crop->get($imageScale) : 
-    $imageScale;
-
-    $image = $this->contrast->get() != 0 ? 
-    $this->contrast->modify($imageCrop) : 
-    $imageCrop;
+    $image = $this->modifyImage();
 
     if(!($this->imageUpload($image, $this->pathCacheFile) ) ) {
 

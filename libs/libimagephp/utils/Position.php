@@ -3,28 +3,28 @@
 namespace libimagephp\LibImageUtils;
 
 /**
- * Posicion en la que se recorta la imagen, center, top, topLeft, topRight, bottom, bottomRight, right, left
+ * Image crop position.
+ * 
+ * center, 
+ * top, bottom, 
+ * left, right,
+ * topLeft, topRight, 
+ * bottomLeft, bottomRight.
  */
 class Position {
-	
+
 	private string $cropPosition = 'center';
 
 	public function get() : string {
 		return $this->cropPosition;
 	}
 
-	/**
-	 * Position for crop.
-	 * Position center, left, right, top, bottom.
-	 * @param string $cropPosition - Position type.
-	 * @default center
-	 */
 	public function set(string $cropPosition) {
 		$this->cropPosition = $cropPosition;
 	}
 
-	public function newPosition(array $pixelsImage) : array {
-		
+	public function new(array $dimensions) : array {
+
 		$position = [
 			'x' => 0,
 			'y' => 0
@@ -32,48 +32,48 @@ class Position {
 
 		switch($this->get() ) {
 			case 'center':
-				($pixelsImage['x'] >= $pixelsImage['y']) ? 
-				$position['x'] = ($pixelsImage['x']-$pixelsImage['y'])/2 :
-				$position['y'] = ($pixelsImage['y']-$pixelsImage['x'])/2;
+				($dimensions['x'] >= $dimensions['y']) ? 
+				$position['x'] = ($dimensions['x']-$dimensions['y'])/2 :
+				$position['y'] = ($dimensions['y']-$dimensions['x'])/2;
 			break;
 			case 'top':
-			
+
 				$position['y'] = 0;
 			break;
 			case 'topLeft':
-			
+
 				$position['y'] = 0;
 				$position['x'] = 0;
 			break;
 			case 'topRight':
-			
+
 				$position['y'] = 0;
-				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
+				$position['x'] = $dimensions['x']-$dimensions['y'];
 			break;
 			case 'bottom':
-			
-				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+
+				$position['y'] = $dimensions['y']-$dimensions['x'];
 			break;
 			case 'bottomLeft':
-			
-				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
+
+				$position['y'] = $dimensions['y']-$dimensions['x'];
 				$position['x'] = 0;
 			break;
 			case 'bottomRight':
-			
-				$position['y'] = $pixelsImage['y']-$pixelsImage['x'];
-				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
+
+				$position['y'] = $dimensions['y']-$dimensions['x'];
+				$position['x'] = $dimensions['x']-$dimensions['y'];
 			break;
 			case 'left':
-			
+
 				$position['x'] = 0;
 			break;
 			case 'right':
 
-				$position['x'] = $pixelsImage['x']-$pixelsImage['y'];
+				$position['x'] = $dimensions['x']-$dimensions['y'];
 			break;
 		}
-	
+
 		return $position;
 	}
 

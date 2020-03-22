@@ -7,13 +7,13 @@ namespace libimagephp\LibImageUtils;
  */
 class Scale {
 
-	private array $size = [
+	private array $dimensions = [
 		'width' => -1,
 		'height' => -1
 	];
 
 	public function get() : array {
-		return $this->size;
+		return $this->dimensions;
 	}
 
 	/**
@@ -23,8 +23,8 @@ class Scale {
 	 * @param int $height (optional) by default equal width
 	*/
 	public function set(int $width, int $height = -1) {
-		$this->size['width'] = $width;
-		$this->size['height'] = $height;
+		$this->dimensions['width'] = $width;
+		$this->dimensions['height'] = $height;
 	}
 
 	public function modify($image) {

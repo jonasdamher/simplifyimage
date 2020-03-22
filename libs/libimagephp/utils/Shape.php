@@ -3,7 +3,11 @@
 namespace libimagephp\LibImageUtils;
 
 /**
- * Image shape crop circle, square, v_rectangle, h_rectangle, default
+ * Image shape crop.
+ * 
+ * default,
+ * circle, square, 
+ * v_rectangle, h_rectangle.
 */
 class Shape {
 
@@ -17,8 +21,8 @@ class Shape {
 		$this->type = $type;
 	}
 	
-	public function modify() {
-		
+	public function modify($position, $dimensions) {
+
 		switch ($this->get() ) {
 			case 'circle':
 
@@ -74,8 +78,6 @@ class Shape {
 			break;
 			case 'square':
 
-				$position = $this->cropPosition($dimensions);
-
 				$min = min($dimensions['x'], $dimensions['y']);
 				$dimensions['x'] = $min;
 				$dimensions['y'] = $min;
@@ -85,7 +87,7 @@ class Shape {
 				$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
 				$dimensions['y'] += ($dimensions['x'] - $heightRedimension) / 2;
 
-				$position = $this->cropPosition($dimensions);
+				$position['x'] += $dimensions['y'];
 				$dimensions['y'] = $heightRedimension;
 			break;
 			case 'v_rectangle':
@@ -93,14 +95,13 @@ class Shape {
 				$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
 				$dimensions['x'] += ($dimensions['y'] - $widthRedimension) / 2;
 
-				$position = $this->cropPosition($dimensions);
+				$position['y'] += $dimensions['x'];
+				
 				$dimensions['x'] = $widthRedimension;
 			break;
-			default:
-
-				return $image;	
-			break;
 		}
+		
+		return $dimensions;
 	}
 }
 
