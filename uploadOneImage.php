@@ -13,10 +13,10 @@ if(isset($_FILES['image_user']) ) {
 	$libImage->maxSize(1000000);
 	// MODIFY
 	$libImage->scale->set(200);
-	$libImage->contrast->set('low');
+	// $libImage->contrast->set('low');
 	// CROP
 	// $libImage->crop->position->set('right');
-	$libImage->crop->shape->set('square');
+	// $libImage->crop->shape->set('square');
 
 	// CONVERSION FORMAT TO png
 	$libImage->conversionTo('png');
