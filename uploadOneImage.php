@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-if(isset($_FILES['image_user']) ) {
+if (isset($_FILES['image_user'])) {
 
 	require_once 'libs/libimagephp.php';
 
@@ -22,11 +22,11 @@ if(isset($_FILES['image_user']) ) {
 	$libImage->conversionTo('png');
 	// ACTION
 	$upload = $libImage->upload();
-	
-	if($upload['valid']) {
+
+	if ($upload['valid']) {
 
 		$_GET['valid'] = 1;
-	}else {
+	} else {
 
 		$_GET['valid'] = 0;
 	}
@@ -35,12 +35,14 @@ if(isset($_FILES['image_user']) ) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>LibImagePHP | Upload one image</title>
-	<link rel="stylesheet" type="text/css" href="public/css/main.css"/>
+	<link rel="stylesheet" type="text/css" href="public/css/main.css" />
 </head>
+
 <body>
 	<main>
 		<div class="container">
@@ -59,12 +61,13 @@ if(isset($_FILES['image_user']) ) {
 			<a class="link mt-2 text-bold text-sw-sm" href="index.php" title="Back">Back</a>
 		</div>
 	</main>
-	
-	<?php 
-	if(isset($_GET['valid'] ) ) {
+
+	<?php
+	if (isset($_GET['valid'])) {
 		include 'modal.php';
-	} 
+	}
 	?>
 
 </body>
+
 </html>
