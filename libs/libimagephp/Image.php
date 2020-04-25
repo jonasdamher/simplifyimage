@@ -169,15 +169,12 @@ class Image extends Configuration
       return $this->response;
     }
 
-    $imageCreate = $this->modifyImage();
+    $this->transformImageTo($this->modifyImage(), $this->image);
 
-    if (!($this->imageUpload($imageCreate, $this->image, $this->pathCacheFile))) {
+    if (!$this->imageUpload($this->image, $this->pathCacheFile)) {
 
-      $this->error('It could not image upload, try again.');
       return $this->response;
     }
-
-    imageDestroy($image);
 
     $this->response['filename'] = $this->image['name'];
 

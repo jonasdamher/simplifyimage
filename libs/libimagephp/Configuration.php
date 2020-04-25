@@ -156,17 +156,24 @@ class Configuration
 		$this->crop = new Crop();
 	}
 
+
+	public function transformImageTo($imageCreate, $imageArray)
+	{
+		return ($this->getConversionTo() != 'default') ?
+			('image' . $this->getConversionTo())($imageCreate, $imageArray['tmp_name'])
+			: ($this->transformImage)($imageCreate, $imageArray['tmp_name']);
+	}
+
 	// FINAL MODIFY IMAGE
 
-	protected function imageUpload($imageCreate, $imageArray, string $target_file): bool
+	protected function imageUpload(array $image, string $target_file): bool
 	{
 
-		// image format converter
-		(($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imageCreate, $imageArray['tmp_name'])
-			: ($this->transformImage)($imageCreate, $imageArray['tmp_name']));
-		
-			return (move_uploaded_file($imageArray['tmp_name'], $target_file));
+		if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
+			$this->error('It could not image upload, try again.');
+			return false;
+		}
+		return true;
 	}
 
 	// Verification configuration

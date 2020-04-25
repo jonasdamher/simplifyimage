@@ -10,16 +10,16 @@ if (isset($_FILES['image_user'])) {
 	$libImage->nameImputFile('image_user');
 	$libImage->prefixName('myuser');
 	$libImage->required();
-	$libImage->maxSize(1000000);
+	
 	// MODIFY
 	$libImage->scale->set(200);
-	// $libImage->contrast->set('low');
+	$libImage->contrast->set('low');
 	// CROP
 	// $libImage->crop->position->set('right');
-	// $libImage->crop->shape->set('square');
+	$libImage->crop->shape->set('square');
 
 	// CONVERSION FORMAT TO png
-	$libImage->conversionTo('png');
+	$libImage->conversionTo('webp');
 	// ACTION
 	$upload = $libImage->upload();
 
