@@ -10,18 +10,19 @@ if (isset($_FILES['image_user'])) {
 	$libImage->nameImputFile('image_user');
 	$libImage->prefixName('myuser');
 	$libImage->required();
-	
+
 	// MODIFY
 	$libImage->scale->set(200);
 	$libImage->contrast->set('low');
 	// CROP
 	// $libImage->crop->position->set('right');
-	$libImage->crop->shape->set('square');
+	// $libImage->crop->shape->set('square');
 
 	// CONVERSION FORMAT TO png
 	$libImage->conversionTo('webp');
 	// ACTION
 	$upload = $libImage->upload();
+	var_dump($upload);
 
 	if ($upload['valid']) {
 

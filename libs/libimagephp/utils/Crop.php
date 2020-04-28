@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace libimagephp\LibImageUtils;
 
@@ -11,20 +11,23 @@ use libimagephp\LibImageUtils\Shape;
 /**
  * Image crop, position and shape crop.
  */
-class Crop {
+class Crop
+{
 
 	public Position $position;
 	public Shape $shape;
 
-	public function __construct() {
+	public function __construct()
+	{
 
 		$this->position = new Position();
 		$this->shape = new Shape();
 	}
 
-	public function modify($image) {
+	public function modify($image)
+	{
 
-		if($this->shape->get() == 'default') {
+		if ($this->shape->get() == 'default') {
 			return $image;
 		}
 
@@ -43,10 +46,7 @@ class Crop {
 			'width' => $shape['x'],
 			'height' => $shape['y']
 		]);
-		
+
 		return $croppedImage;
-  }
-
+	}
 }
-
-?>

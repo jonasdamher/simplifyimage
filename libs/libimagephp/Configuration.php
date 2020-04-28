@@ -24,30 +24,13 @@ class Configuration
 	public Path $path;
 	public Contrast $contrast;
 	public Scale $scale;
-
 	public Crop $crop;
 
 	private string $nameInputFile = '';
 	private string $prefixName =  '';
-	private bool $requiredImage = false;
-	private int $maxSize = 2097152; // 2 MB
-	private array $allowedFormats = [
-		'png',
-		'jpg',
-		'jpeg',
-		'gif',
-		'webp'
-	];
 
-	// texto que se concatena con el tipo de imagen para 
-	// conversión a webp * imagecreatefromjpeg	
-	// establecer formato de imagen
-	protected string $formatImage = 'imagecreatefrom'; //img formato por defecto
-	// transformar imagen a otro formato
+	protected string $imagecreatefrom = 'imagecreatefrom'; //img formato por defecto
 	protected string $transformImage = 'image'; // img transformacion a formato defecto
-
-	// Image conversion to other format
-	// @param string $conversionTo default, webp, png, jpeg, gif
 	private string $conversionTo = 'default';
 
 	/**
@@ -56,8 +39,15 @@ class Configuration
 	 */
 	private $oldImageName;
 
-	// GETS & SETS
+	public function __construct()
+	{
+		$this->path = new Path();
+		$this->contrast = new Contrast();
+		$this->scale = new Scale();
+		$this->crop = new Crop();
+	}
 
+	// GETS & SETS
 	/**
 	 * Devuelve el nombre del input del formulario
 	 */
@@ -90,35 +80,6 @@ class Configuration
 		$this->prefixName = $prefixName;
 	}
 
-	/**
-	 * Devuelve el tamaño máx permitido para subida de imagenes
-	 */
-	protected function getMaxSize(): int
-	{
-		return $this->maxSize;
-	}
-
-	/**
-	 * Max size allow for upload images
-	 *
-	 * By default is 2097152 bytes (2 MB)
-	 * @param int $maxSize 
-	 */
-	public function maxSize(int $maxSize)
-	{
-		$this->maxSize = $maxSize;
-	}
-
-	protected function getRequiredImage(): bool
-	{
-		return $this->requiredImage;
-	}
-
-	public function required()
-	{
-		$this->requiredImage = true;
-	}
-
 	protected function getOldImageName(): string
 	{
 		return $this->oldImageName;
@@ -139,36 +100,17 @@ class Configuration
 		$this->conversionTo = $conversionTo;
 	}
 
-	protected function getAllowedFormats(): array
-	{
-		return $this->allowedFormats;
-	}
-
 	// FINAL GETS & SETS
 
-	public function __construct()
-	{
-
-		$this->path = new Path();
-		$this->contrast = new Contrast();
-		$this->scale = new Scale();
-
-		$this->crop = new Crop();
-	}
-
-
-	public function transformImageTo($imageCreate, $imageArray)
+	public function transformImageTo($imagecreatefrom, $imageArray)
 	{
 		return ($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imageCreate, $imageArray['tmp_name'])
-			: ($this->transformImage)($imageCreate, $imageArray['tmp_name']);
+			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
 	}
 
 	// FINAL MODIFY IMAGE
-
 	protected function imageUpload(array $image, string $target_file): bool
 	{
-
 		if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
 			$this->error('It could not image upload, try again.');
 			return false;
@@ -177,15 +119,11 @@ class Configuration
 	}
 
 	// Verification configuration
-
 	protected function error(string $message)
 	{
-
 		if ($this->response['valid']) {
-
 			$this->response['valid'] = false;
 		}
-
 		array_push($this->response['errors'], $message);
 	}
 }

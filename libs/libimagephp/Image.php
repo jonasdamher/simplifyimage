@@ -2,9 +2,9 @@
 
 namespace libimagephp\LibImage;
 
-require_once 'Configuration.php';
+require_once 'Validate.php';
 
-use libimagephp\LibImageConfiguration\Configuration;
+use libimagephp\LibImageValidate\Validate;
 
 /**
  * LibImagePhp
@@ -21,31 +21,17 @@ use libimagephp\LibImageConfiguration\Configuration;
  * @version 1.0
  * 
  */
-class Image extends Configuration
+class Image extends Validate
 {
 
   private array $image;
-  private string $pathCacheFile;
-
+  private string $pathSaveFile;
   private int $size;
   private string $format;
 
   // METHODS PRIVATES
-  private function rename(string $path): string
-  {
-
-    $fileName = mb_strtolower(pathinfo($path, PATHINFO_FILENAME));
-
-    $cleanFileName = $this->getPrefixName() . uniqid() . preg_replace('/\s+||[^a-zA-Z0-9-]/', '', $fileName);
-
-    $filterFileName = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
-
-    return $filterFileName;
-  }
-
   private function getPropertiesImage()
   {
-
     $this->image = $_FILES[$this->getNameInputFile()];
 
     $pathAndImageName = $this->path->get() . $this->image['name'];
@@ -57,87 +43,22 @@ class Image extends Configuration
 
     $this->image['name'] = basename($this->rename($pathAndImageName) . '.' . $extesion);
 
-    $this->pathCacheFile = $this->path->get() . $this->image['name'];
+    $this->pathSaveFile = $this->path->get() . $this->image['name'];
   }
 
-  // VERIFY IMAGE FILE
-
-  private function postFileExist(): bool
+  private function rename(string $path): string
   {
+    $fileName = mb_strtolower(pathinfo($path, PATHINFO_FILENAME));
+    $cleanFileName = $this->getPrefixName() . uniqid() . preg_replace('/\s+||[^a-zA-Z0-9-]/', '', $fileName);
+    $filterFileName = filter_var($cleanFileName, FILTER_SANITIZE_STRING);
 
-    return (isset($_FILES[$this->getNameInputFile()]) &&
-      mb_strlen($_FILES[$this->getNameInputFile()]['tmp_name']) > 0);
+    return $filterFileName;
   }
-
-  private function postImageFile(): bool
-  {
-
-    if (!$this->path->exist()) {
-
-      $this->error('Dont exist path, your path is (' . $this->path->get() . ').');
-      return false;
-    }
-
-    if (!$this->postFileExist()) {
-
-      return false;
-    }
-
-    $this->getPropertiesImage();
-
-    return true;
-  }
-
-  // VALIDATE IMAGE
-
-  private function formatValidate(): bool
-  {
-
-    foreach ($this->getAllowedFormats() as $AllowFormat) {
-
-      if ($this->format == $AllowFormat) {
-
-        $myFormat = ($this->format == 'jpg') ? 'jpeg' : $this->format;
-
-        $this->formatImage .= $myFormat;
-        $this->transformImage .= $myFormat;
-
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private function sizeValidate(): bool
-  {
-
-    return ($this->size <= $this->getMaxSize());
-  }
-
-  private function validateImage(): bool
-  {
-
-    if (!($this->sizeValidate())) {
-
-      $this->error('It has to be an image smaller than ' . ($this->getMaxSize / 1000000) . ' MB.');
-    }
-
-    if (!($this->formatValidate())) {
-
-      $this->error('Invalid image format.');
-    }
-
-    return $this->response['valid'];
-  }
-
-  // FINAL VALIDATE IMAGE
 
   private function modifyImage()
   {
-
-    // Add image format
-    $imgFormat = ($this->formatImage)($this->image['tmp_name']);
+    // createImageFormat
+    $imgFormat = ($this->imagecreatefrom)($this->image['tmp_name']);
     // Image crop
     $imgFormat = $this->crop->modify($imgFormat);
     // Image scale
@@ -154,25 +75,23 @@ class Image extends Configuration
   public function upload(): array
   {
 
-    if (!($this->postImageFile())) {
+    if (!$this->exist()) {
 
       if ($this->getRequiredImage()) {
-
         $this->error("Don't exist image request.");
       }
-
       return $this->response;
     }
 
-    if (!($this->validateImage())) {
+    $this->getPropertiesImage();
 
+    if (!$this->validateImage(['format' => $this->format, 'size' => $this->size])) {
       return $this->response;
     }
 
     $this->transformImageTo($this->modifyImage(), $this->image);
 
-    if (!$this->imageUpload($this->image, $this->pathCacheFile)) {
-
+    if (!$this->imageUpload($this->image, $this->pathSaveFile)) {
       return $this->response;
     }
 
@@ -180,10 +99,6 @@ class Image extends Configuration
 
     return $this->response;
   }
-
-  /**
-   * Update image, replace image
-   */
 
   /**
    * Methods for old images

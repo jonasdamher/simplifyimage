@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace libimagephp\LibImageUtils;
 
@@ -11,72 +11,73 @@ namespace libimagephp\LibImageUtils;
  * topLeft, topRight, 
  * bottomLeft, bottomRight.
  */
-class Position {
+class Position
+{
 
 	private string $cropPosition = 'center';
 
-	public function get() : string {
+	public function get(): string
+	{
 		return $this->cropPosition;
 	}
 
-	public function set(string $cropPosition) {
+	public function set(string $cropPosition)
+	{
 		$this->cropPosition = $cropPosition;
 	}
 
-	public function new(array $dimensions) : array {
+	public function new(array $dimensions): array
+	{
 
 		$position = [
 			'x' => 0,
 			'y' => 0
 		];
 
-		switch($this->get() ) {
+		switch ($this->get()) {
 			case 'center':
-				($dimensions['x'] >= $dimensions['y']) ? 
-				$position['x'] = ($dimensions['x']-$dimensions['y'])/2 :
-				$position['y'] = ($dimensions['y']-$dimensions['x'])/2;
-			break;
+				($dimensions['x'] >= $dimensions['y']) ?
+					$position['x'] = ($dimensions['x'] - $dimensions['y']) / 2 :
+					$position['y'] = ($dimensions['y'] - $dimensions['x']) / 2;
+				break;
 			case 'top':
 
 				$position['y'] = 0;
-			break;
+				break;
 			case 'topLeft':
 
 				$position['y'] = 0;
 				$position['x'] = 0;
-			break;
+				break;
 			case 'topRight':
 
 				$position['y'] = 0;
-				$position['x'] = $dimensions['x']-$dimensions['y'];
-			break;
+				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				break;
 			case 'bottom':
 
-				$position['y'] = $dimensions['y']-$dimensions['x'];
-			break;
+				$position['y'] = $dimensions['y'] - $dimensions['x'];
+				break;
 			case 'bottomLeft':
 
-				$position['y'] = $dimensions['y']-$dimensions['x'];
+				$position['y'] = $dimensions['y'] - $dimensions['x'];
 				$position['x'] = 0;
-			break;
+				break;
 			case 'bottomRight':
 
-				$position['y'] = $dimensions['y']-$dimensions['x'];
-				$position['x'] = $dimensions['x']-$dimensions['y'];
-			break;
+				$position['y'] = $dimensions['y'] - $dimensions['x'];
+				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				break;
 			case 'left':
 
 				$position['x'] = 0;
-			break;
+				break;
 			case 'right':
 
-				$position['x'] = $dimensions['x']-$dimensions['y'];
-			break;
+				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				break;
 		}
 
 		return $position;
 	}
-
 }
-
-?>

@@ -8,22 +8,26 @@ namespace libimagephp\LibImageUtils;
  * default,
  * circle, square, 
  * v_rectangle, h_rectangle.
-*/
-class Shape {
+ */
+class Shape
+{
 
 	private string $type = 'default';
 
-	public function get() : string {
+	public function get(): string
+	{
 		return $this->type;
 	}
 
-	public function set(string $type) {
+	public function set(string $type)
+	{
 		$this->type = $type;
 	}
-	
-	public function modify($position, $dimensions) {
 
-		switch ($this->get() ) {
+	public function modify($position, $dimensions)
+	{
+
+		switch ($this->get()) {
 			case 'circle':
 
 				$position = $this->cropPosition($dimensions);
@@ -43,7 +47,7 @@ class Shape {
 				// Create mask circle
 				$mask = \imagecreatetruecolor($min, $min);
 				\imagealphablending($mask, false);
-				
+
 				// Colors
 				$magentaColor = \imagecolorallocatealpha($mask, 255, 0, 255, 0);
 				$transparent = \imagecolorallocatealpha($mask, 255, 255, 255, 127);
@@ -51,37 +55,54 @@ class Shape {
 				// Add color mask
 				imagefill($mask, 0, 0, $magentaColor);
 				// Draw circle border line mask
-				\imagearc($mask,
-				$min/2, $min/2,
-				$min, $min,
-				0, 360, 
-				$transparent);
+				\imagearc(
+					$mask,
+					$min / 2,
+					$min / 2,
+					$min,
+					$min,
+					0,
+					360,
+					$transparent
+				);
 				// Fill circle
-				\imagefilltoborder($mask,
-				$min/2, $min/2,
-				$transparent, $transparent);
+				\imagefilltoborder(
+					$mask,
+					$min / 2,
+					$min / 2,
+					$transparent,
+					$transparent
+				);
 				// Mask circle final
-				
+
 				// Image
 				\imagealphablending($croppedImage, true);
 				// Add mask to image
-				\imagecopyresampled($croppedImage, $mask, 
-				0, 0, 0, 0,
-				$min, $min,
-				$min, $min);
+				\imagecopyresampled(
+					$croppedImage,
+					$mask,
+					0,
+					0,
+					0,
+					0,
+					$min,
+					$min,
+					$min,
+					$min
+				);
 				// remove mask color to image
 				\imagecolortransparent($croppedImage, $magentaColor);
-				
+
 				\imagedestroy($mask);
 
 				return $croppedImage;
-			break;
+				break;
 			case 'square':
 
 				$min = min($dimensions['x'], $dimensions['y']);
 				$dimensions['x'] = $min;
 				$dimensions['y'] = $min;
-			break;
+				break;
 			case 'h_rectangle':
 
 				$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
@@ -89,20 +110,18 @@ class Shape {
 
 				$position['x'] += $dimensions['y'];
 				$dimensions['y'] = $heightRedimension;
-			break;
+				break;
 			case 'v_rectangle':
 
 				$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
 				$dimensions['x'] += ($dimensions['y'] - $widthRedimension) / 2;
 
 				$position['y'] += $dimensions['x'];
-				
+
 				$dimensions['x'] = $widthRedimension;
-			break;
+				break;
 		}
-		
+
 		return $dimensions;
 	}
 }
-
-?>
