@@ -49,7 +49,7 @@ class Configuration
 
 	// GETS & SETS
 	/**
-	 * Devuelve el nombre del input del formulario
+	 * Return name form input
 	 */
 	protected function getNameInputFile(): string
 	{
@@ -57,7 +57,7 @@ class Configuration
 	}
 
 	/**
-	 * Nombre del input del formulario
+	 * Set name form input
 	 * @param string $nameInputFile
 	 */
 	public function nameImputFile(string $nameInputFile)
@@ -71,9 +71,9 @@ class Configuration
 	}
 
 	/**
-	 * Head name file.
-	 * 
-	 * Not allows special simbols.
+	 * Header name file.
+	 * Not allow special simbols.
+	 * @param string $prefixName
 	 */
 	public function prefixName(string $prefixName)
 	{
@@ -102,13 +102,14 @@ class Configuration
 
 	// FINAL GETS & SETS
 
-	public function transformImageTo($imagecreatefrom, $imageArray)
+	public function transformImageTo($imagecreatefrom, array $imageArray)
 	{
 		return ($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
+			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : 
+			($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
 	}
 
-	// FINAL MODIFY IMAGE
+
 	protected function imageUpload(array $image, string $target_file): bool
 	{
 		if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
@@ -118,7 +119,7 @@ class Configuration
 		return true;
 	}
 
-	// Verification configuration
+	/** Set errors and save in array called $response */
 	protected function error(string $message)
 	{
 		if ($this->response['valid']) {

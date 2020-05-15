@@ -9,14 +9,14 @@ use libimagephp\LibImageConfiguration\Configuration;
 /**
  * LibImagePhp
  * 
- * Validate size and format image, path save image. 
+ * Validate if required file, size and format image, path save image. 
  * 
  */
 class Validate extends Configuration
 {
 
 	private bool $requiredImage = false;
-	private int $maxSize = 2097152; // 2 MB
+	private int $maxSize = 2097152;
 	private array $allowedFormats = [
 		'png',
 		'jpg',
@@ -31,14 +31,12 @@ class Validate extends Configuration
 		return $this->requiredImage;
 	}
 
+	/** Set required file */
 	public function required()
 	{
 		$this->requiredImage = true;
 	}
 
-	/**
-	 * Devuelve el tamaño máx permitido para subida de imagenes
-	 */
 	private function getMaxSize(): int
 	{
 		return $this->maxSize;
@@ -109,4 +107,11 @@ class Validate extends Configuration
 
 		return $this->response['valid'];
 	}
+
+	protected function verifyImagePath(string $imageName): bool
+	{
+		$imagePath = $this->path->get() . $imageName;
+		return (file_exists($imagePath));
+	}
 }
+?>
