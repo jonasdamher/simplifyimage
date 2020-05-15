@@ -1,7 +1,7 @@
 # LibImagePhp
 ### Subir, modificar y eliminar imagenes de manera facil.
 
-* Permite recortar y escalar imagenes de manera sencilla.
+* Permite recortar y escalar imagenes facilmente.
 * Permite subir y actualizar una o multiples imagenes.
 * Permite conversion de tipo de imagen a WEBP, PNG, JPG y JPEG.
 
