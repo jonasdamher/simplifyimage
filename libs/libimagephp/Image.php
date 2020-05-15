@@ -100,20 +100,19 @@ class Image extends Validate
     return $this->response;
   }
 
-  /**
-   * Methods for old images
-   */
-  private function verifyOldImage(): bool
+  public function remove(): array
   {
+    if (!$this->verifyImagePath($this->getOldImageName())) {
+      $this->error("Don't exist image file.");
+      return $this->response;
+    }
 
-    $imagePath = $this->path->get() . $this->oldImageName;
-    return (file_exists($imagePath));
-  }
+    $imagePath = $this->path->get() . $this->getOldImageName();
 
-  protected function remove(): bool
-  {
-
-    $imagePath = $this->path->get() . $this->oldImageName;
-    return unlink($imagePath);
+    if (!unlink($imagePath)) {
+      $this->error("Don't remove image.");
+    }
+    return $this->response;
   }
 }
+?>
