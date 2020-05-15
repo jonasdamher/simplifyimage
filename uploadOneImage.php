@@ -3,34 +3,39 @@
 if (isset($_FILES['image_user'])) {
 
 	require_once 'libs/libimagephp.php';
+	$libImage = new libimagephp\LibImage\Image();
+	$libImage->path->set('public/images/users/');
 
 	// CONFIGURATION
 	// BASIC
-	$libImage->path->set('public/images/users/');
-	$libImage->nameImputFile('image_user');
-	$libImage->prefixName('myuser');
-	$libImage->required();
+
+	// $libImage->nameImputFile('image_user');
+	// $libImage->prefixName('myuser');
+	// $libImage->required();
 
 	// MODIFY
-	$libImage->scale->set(200);
-	$libImage->contrast->set('low');
+	// $libImage->scale->set(200);
+	// $libImage->contrast->set('low');
+
 	// CROP
 	// $libImage->crop->position->set('right');
 	// $libImage->crop->shape->set('square');
 
 	// CONVERSION FORMAT TO png
-	$libImage->conversionTo('webp');
+	// $libImage->conversionTo('webp');
 	// ACTION
-	$upload = $libImage->upload();
-	var_dump($upload);
+	// $upload = $libImage->upload();
 
-	if ($upload['valid']) {
+	// var_dump($upload);
 
-		$_GET['valid'] = 1;
-	} else {
 
-		$_GET['valid'] = 0;
-	}
+	// if ($upload['valid']) {
+
+	// 	$_GET['valid'] = 1;
+	// } else {
+
+	// 	$_GET['valid'] = 0;
+	// }
 }
 
 ?>
