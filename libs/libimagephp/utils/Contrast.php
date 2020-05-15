@@ -14,9 +14,9 @@ class Contrast
 
 	/**
 	 * Image constrast.
-	 * Options: low, medium and hight.
+	 * Options: low, medium, hight, default.
 	 * 
-	 * @default By default = 0.
+	 * @default By "default".
 	 * 
 	 */
 	public function set(string $contrast)
@@ -32,6 +32,7 @@ class Contrast
 			case 'hight':
 				$contrastNumber = -80;
 				break;
+			case 'default':
 			default:
 				$contrastNumber = 0;
 				break;
@@ -42,12 +43,11 @@ class Contrast
 	// Contrast 
 	public function modify($image)
 	{
-
 		if ($this->get() != 0) {
 
 			imagefilter($image, IMG_FILTER_CONTRAST, $this->get());
-			return $image;
 		}
 		return $image;
 	}
 }
+?>
