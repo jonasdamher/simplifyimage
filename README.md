@@ -5,8 +5,12 @@
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG, JPG and JPEG.
 
-author Jonás Damián Hernández [jonasdamher]
+Version 1.0
 
-version 1.0
+### Requirement
 
 Recommend version PHP 7.4.2 
+
+### Author
+
+Jonás Damián Hernández [jonasdamher]
