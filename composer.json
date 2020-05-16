@@ -1,0 +1,24 @@
+{
+    "name": "jonasdamher/libimagephp",
+    "description": "Library for upload, modify and delete images the easy way.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonás",
+            "email": "jonas.damher@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "libimagephp": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jonasdamher/libimagephp.git"
+        }
+    ]
+}

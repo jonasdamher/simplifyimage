@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LibImagePhp
 ### Upload, modify and delete images the easy way. 
 
@@ -14,3 +15,6 @@ Recommend version PHP 7.4.2
 ### Author
 
 Jonás Damián Hernández [jonasdamher]
+=======
+# libimagephp
+>>>>>>> 5b176d4c506506dc5746613370d980dbccc17ad2
