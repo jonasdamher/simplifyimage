@@ -2,7 +2,7 @@
 
 namespace libimagephp\LibImageValidate;
 
-require_once 'Configuration.php';
+// require_once 'Configuration.php';
 
 use libimagephp\LibImageConfiguration\Configuration;
 

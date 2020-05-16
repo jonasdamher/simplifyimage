@@ -2,10 +2,10 @@
 
 namespace libimagephp\LibImageConfiguration;
 
-require_once 'utils/Path.php';
-require_once 'utils/Contrast.php';
-require_once 'utils/Scale.php';
-require_once 'utils/Crop.php';
+// require_once 'utils/Path.php';
+// require_once 'utils/Contrast.php';
+// require_once 'utils/Scale.php';
+// require_once 'utils/Crop.php';
 
 use libimagephp\LibImageUtils\Path;
 use libimagephp\LibImageUtils\Contrast;

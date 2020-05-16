@@ -1,1 +1,4 @@
 /.vscode
+/vendor/
+composer.lock
+/tests/

@@ -11,6 +11,8 @@ Version 1.0
 
 Recommend version PHP 7.4.2 
 
+Recommend version GD bundled (2.1.0 compatible)
+
 ### Author
 
 Jonás Damián Hernández [jonasdamher]

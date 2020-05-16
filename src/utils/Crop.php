@@ -2,8 +2,8 @@
 
 namespace libimagephp\LibImageUtils;
 
-require_once 'Position.php';
-require_once 'Shape.php';
+// require_once 'Position.php';
+// require_once 'Shape.php';
 
 use libimagephp\LibImageUtils\Position;
 use libimagephp\LibImageUtils\Shape;

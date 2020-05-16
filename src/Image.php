@@ -2,7 +2,7 @@
 
 namespace libimagephp\LibImage;
 
-require_once 'Validate.php';
+// require_once 'Validate.php';
 
 use libimagephp\LibImageValidate\Validate;
 
