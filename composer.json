@@ -1,32 +1,19 @@
 {
     "name": "jonasdamher/libimagephp",
-    "description": "Library for upload, modify and delete images the easy way.",
-    "type": "package",
+    "description": "Library for upload, modify and delete images.",
+    "keywords": ["upload image", "image file", "GD", "php 7.4"],
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Jonás Damián",
-            "email": "jonas.damher@gmail.com"
+            "email": "jonas.damher@gmail.com",
+            "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "php": ">=7.4.2"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~5.0",
-        "fabpot/php-cs-fixer": "~2.0@dev"
-    },
     "autoload": {
         "psr-4": {
-            "libimagephp": "src/"
+            "jonasdamher\\": "src/"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jonasdamher/libimagephp"
-        }
-    ]
+    }
 }
