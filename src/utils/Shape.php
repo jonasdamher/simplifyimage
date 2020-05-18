@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageUtils;
 
 /**
@@ -45,17 +47,17 @@ class Shape
 
 				// Mask circle
 				// Create mask circle
-				$mask = \imagecreatetruecolor($min, $min);
-				\imagealphablending($mask, false);
+				$mask = imagecreatetruecolor($min, $min);
+				imagealphablending($mask, false);
 
 				// Colors
-				$magentaColor = \imagecolorallocatealpha($mask, 255, 0, 255, 0);
-				$transparent = \imagecolorallocatealpha($mask, 255, 255, 255, 127);
+				$magentaColor = imagecolorallocatealpha($mask, 255, 0, 255, 0);
+				$transparent = imagecolorallocatealpha($mask, 255, 255, 255, 127);
 
 				// Add color mask
 				imagefill($mask, 0, 0, $magentaColor);
 				// Draw circle border line mask
-				\imagearc(
+				imagearc(
 					$mask,
 					$min / 2,
 					$min / 2,
@@ -66,7 +68,7 @@ class Shape
 					$transparent
 				);
 				// Fill circle
-				\imagefilltoborder(
+				imagefilltoborder(
 					$mask,
 					$min / 2,
 					$min / 2,
@@ -76,9 +78,9 @@ class Shape
 				// Mask circle final
 
 				// Image
-				\imagealphablending($croppedImage, true);
+				imagealphablending($croppedImage, true);
 				// Add mask to image
-				\imagecopyresampled(
+				imagecopyresampled(
 					$croppedImage,
 					$mask,
 					0,
@@ -91,9 +93,9 @@ class Shape
 					$min
 				);
 				// remove mask color to image
-				\imagecolortransparent($croppedImage, $magentaColor);
+				imagecolortransparent($croppedImage, $magentaColor);
 
-				\imagedestroy($mask);
+				imagedestroy($mask);
 
 				return $croppedImage;
 				break;
@@ -125,3 +127,4 @@ class Shape
 		return $dimensions;
 	}
 }
+?>

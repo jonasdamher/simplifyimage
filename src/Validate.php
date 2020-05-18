@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageValidate;
 
 // require_once 'Configuration.php';

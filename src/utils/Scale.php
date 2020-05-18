@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageUtils;
 
 /**
@@ -46,3 +48,4 @@ class Scale
 		return $image;
 	}
 }
+?>

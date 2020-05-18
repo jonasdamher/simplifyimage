@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageUtils;
 
 /**
@@ -81,3 +83,4 @@ class Position
 		return $position;
 	}
 }
+?>

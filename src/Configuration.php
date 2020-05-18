@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageConfiguration;
 
 // require_once 'utils/Path.php';
@@ -105,8 +107,7 @@ class Configuration
 	public function transformImageTo($imagecreatefrom, array $imageArray)
 	{
 		return ($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : 
-			($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
+			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
 	}
 
 
@@ -128,3 +129,4 @@ class Configuration
 		array_push($this->response['errors'], $message);
 	}
 }
+?>

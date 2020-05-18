@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libimagephp\LibImageUtils;
 
 // require_once 'Position.php';
@@ -50,3 +52,4 @@ class Crop
 		return $croppedImage;
 	}
 }
+?>
