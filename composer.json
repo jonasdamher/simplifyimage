@@ -7,7 +7,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4.2"
-     }
+    },
     "authors": [
         {
             "name": "Jonás Damián",
