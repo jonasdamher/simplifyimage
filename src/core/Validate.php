@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\LibImageValidate;
+namespace Jonasdamher\Libimagephp\Core;
 
-use Jonasdamher\Libimagephp\Configuration;
+use Jonasdamher\Libimagephp\Core\Configuration;
 
 /**
  * LibImagePhp

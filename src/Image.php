@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp;
 
-use Jonasdamher\Libimagephp\Validate;
+use Jonasdamher\Libimagephp\Core\Validate;
 
 /**
  * libimagephp
