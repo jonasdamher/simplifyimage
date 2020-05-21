@@ -2,10 +2,9 @@
     "name": "jonasdamher/libimagephp",
     "description": "Library for upload, modify and delete images.",
     "keywords": [
-        "upload image",
-        "image file",
-        "GD",
-        "php 7.4"
+        "upload image php",
+        "image file php",
+        "php 7.4.2"
     ],
     "type": "library",
     "license": "MIT",
@@ -13,16 +12,16 @@
     "require": {
         "php": "^7.4.2"
     },
+    "autoload": {
+        "psr-4": {
+            "Jonasdamher\\Libimagephp\\": "src/"
+        }
+    },
     "authors": [
         {
             "name": "Jonás Damián",
             "email": "jonas.damher@gmail.com",
             "role": "Developer"
         }
-    ],
-    "autoload": {
-        "psr-4": {
-            "jonasdamher\\libimagephp\\": "src/"
-        }
-    }
+    ]
 }
