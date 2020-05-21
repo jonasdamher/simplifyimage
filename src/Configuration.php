@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\LibImageConfiguration;
+namespace Jonasdamher\Libimagephp;
 
 use Jonasdamher\Libimagephp\Utils\Path;
 use Jonasdamher\Libimagephp\Utils\Contrast;
