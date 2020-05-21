@@ -3,15 +3,15 @@
 
 * Permite recortar y escalar imagenes facilmente.
 * Permite subir y actualizar una o multiples imagenes.
-* Permite conversion de tipo de imagen a WEBP, PNG, JPG y JPEG.
+* Permite conversion de tipo de imagen a WEBP, PNG y JPEG.
+* Versión 1.0
 
-Versión 1.0
+[libimagephp en packagist](https://packagist.org/packages/jonasdamher/libimagephp)
 
 ### Requisito
 
-Versión recomendada de PHP 7.4.2
-
-Versión recomendada de GD bundled (2.1.0 compatible)
+> Versión recomendada de PHP 7.4.2
+> Versión recomendada de GD bundled (2.1.0 compatible)
 
 ### Instalar librería libimagephp en tu proyecto con composer
 
@@ -21,7 +21,7 @@ composer require jonasdamher/libimagephp
 
 ### Primer paso
 
-Cargar el autoload de composer y especificar la ruta de la libreria libimagephp.
+Cargar autoload de composer y especificar la ruta de la libreria libimagephp.
 
 ```
 require __DIR__ . '/vendor/autoload.php';
