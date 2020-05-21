@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace libimagephp\LibImageUtils;
+namespace Jonasdamher\Libimagephp\Utils;
 
 /**
  * Add new scale to image.

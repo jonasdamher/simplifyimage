@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace libimagephp\LibImageValidate;
+namespace Jonasdamher\Libimagephp\LibImageValidate;
 
-// require_once 'Configuration.php';
-
-use libimagephp\LibImageConfiguration\Configuration;
+use Jonasdamher\Libimagephp\LibImageConfiguration\Configuration;
 
 /**
  * LibImagePhp

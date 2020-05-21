@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace libimagephp\LibImageUtils;
+namespace Jonasdamher\Libimagephp\Utils;
 
 // require_once 'Position.php';
 // require_once 'Shape.php';
 
-use libimagephp\LibImageUtils\Position;
-use libimagephp\LibImageUtils\Shape;
+use Jonasdamher\Libimagephp\Utils\Position;
+use Jonasdamher\Libimagephp\Utils\Shape;
 
 /**
  * Image crop, position and shape crop.

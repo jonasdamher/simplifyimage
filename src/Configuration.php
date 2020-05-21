@@ -2,17 +2,12 @@
 
 declare(strict_types=1);
 
-namespace libimagephp\LibImageConfiguration;
+namespace Jonasdamher\Libimagephp\LibImageConfiguration;
 
-// require_once 'utils/Path.php';
-// require_once 'utils/Contrast.php';
-// require_once 'utils/Scale.php';
-// require_once 'utils/Crop.php';
-
-use libimagephp\LibImageUtils\Path;
-use libimagephp\LibImageUtils\Contrast;
-use libimagephp\LibImageUtils\Scale;
-use libimagephp\LibImageUtils\Crop;
+use Jonasdamher\Libimagephp\Utils\Path;
+use Jonasdamher\Libimagephp\Utils\Contrast;
+use Jonasdamher\Libimagephp\Utils\Scale;
+use Jonasdamher\Libimagephp\Utils\Crop;
 
 class Configuration
 {
