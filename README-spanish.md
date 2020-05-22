@@ -5,7 +5,7 @@
 * Permite subir y actualizar una o multiples imagenes.
 * Permite conversion de tipo de imagen a WEBP, PNG y JPEG.
 
-[Licencia MIT](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
+:memo: [Licencia MIT](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE) | :ballot_box_with_check: 
 [libimagephp en packagist](https://packagist.org/packages/jonasdamher/libimagephp)
 
 ### Requisitos
