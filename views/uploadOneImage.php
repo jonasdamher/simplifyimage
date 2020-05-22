@@ -64,7 +64,7 @@ if (isset($_FILES['image_user'])) {
 					</form>
 				</div>
 			</div>
-			<a class="link mt-2 text-bold text-sw-sm" href="index.php" title="Back">Back</a>
+			<a class="link mt-2 text-bold text-sw-sm" href="../index.php" title="Back">Back</a>
 		</div>
 	</main>
 

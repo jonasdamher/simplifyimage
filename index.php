@@ -14,10 +14,10 @@
 				<div class="card-body">
 					<ol class="list-ol list-ol-orange">
 						<li>
-							<a href="uploadOneImage.php" title="upload one image">Upload one image</a>
+							<a href="views/uploadOneImage.php" title="upload one image">Upload one image</a>
 						</li>
 						<li>
-							<a href="updateOneImage.php" title="Update one image">Update one image</a>
+							<a href="views/updateOneImage.php" title="Update one image">Update one image</a>
 						</li>
 					</ol>
 				</div>
