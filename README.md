@@ -41,12 +41,11 @@ Specify the path where the images will be saved.
 $libimagephp->path->set('public/images/users/');
 ```
 
-Especificar el nombre del input del formulario de donde recogerá las imagenes (en este caso el input se llama "image_user").
+Specify input name of the form.
 
 ```
 $libimagephp->nameImputFile('image_user');
 ```
-
 
 Upload image.
 
