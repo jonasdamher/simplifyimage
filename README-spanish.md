@@ -86,7 +86,7 @@ $remove = $libimagephp->remove();
 
 **Establecer tamaño máximo de imagen**
 
-Especifica el tamañano máximo de la imagen, se debe especificar en bytes, por defecto son *2097152 bytes* (2 MB).
+Especifica el tamaño máximo de la imagen, se debe especificar en bytes, por defecto son *2097152 bytes* (2 MB).
 
 ```
 $libimagephp->maxSize(1000000);
