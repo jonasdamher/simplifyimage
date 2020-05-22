@@ -5,7 +5,10 @@
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG, JPG and JPEG.
 
-Version 1.0
+:es: [Do you speak Spanish? Go to README-spanish.md](https://github.com/jonasdamher/libimagephp/blob/master/README-spanish.md)
+
+:memo: [License MIT](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE) | :ballot_box_with_check: 
+[libimagephp in packagist](https://packagist.org/packages/jonasdamher/libimagephp)
 
 ### Requirement
 
