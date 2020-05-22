@@ -1,12 +1,11 @@
 <?php
 
-namespace libimagephp\LibImageUtils;
+declare(strict_types=1);
 
-require_once 'Position.php';
-require_once 'Shape.php';
+namespace Jonasdamher\Libimagephp\Utils;
 
-use libimagephp\LibImageUtils\Position;
-use libimagephp\LibImageUtils\Shape;
+use Jonasdamher\Libimagephp\Utils\Position;
+use Jonasdamher\Libimagephp\Utils\Shape;
 
 /**
  * Image crop, position and shape crop.
@@ -50,3 +49,4 @@ class Crop
 		return $croppedImage;
 	}
 }
+?>

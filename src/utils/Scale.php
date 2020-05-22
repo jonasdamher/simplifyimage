@@ -1,6 +1,8 @@
 <?php
 
-namespace libimagephp\LibImageUtils;
+declare(strict_types=1);
+
+namespace Jonasdamher\Libimagephp\Utils;
 
 /**
  * Add new scale to image.
@@ -46,3 +48,4 @@ class Scale
 		return $image;
 	}
 }
+?>

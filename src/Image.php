@@ -1,13 +1,13 @@
 <?php
 
-namespace libimagephp\LibImage;
+declare(strict_types=1);
 
-require_once 'Validate.php';
+namespace Jonasdamher\Libimagephp;
 
-use libimagephp\LibImageValidate\Validate;
+use Jonasdamher\Libimagephp\Core\Validate;
 
 /**
- * LibImagePhp
+ * libimagephp
  * 
  * Upload, modify and delete images the easy way. 
  * 
@@ -17,7 +17,7 @@ use libimagephp\LibImageValidate\Validate;
  * 
  * @author Jonás Damián Hernández [jonasdamher]
  * 
- * @package LibImagePhp
+ * @package libimagephp
  * @version 1.0
  * 
  */
@@ -36,7 +36,7 @@ class Image extends Validate
 
     $pathAndImageName = $this->path->get() . $this->image['name'];
 
-    $this->size = $this->image['size'];
+    $this->size = (int) $this->image['size'];
     $this->format = strtolower(pathinfo($pathAndImageName, PATHINFO_EXTENSION));
 
     $extesion = ($this->getConversionTo() == 'default' ? $this->format : $this->getConversionTo());
@@ -71,6 +71,8 @@ class Image extends Validate
 
   /**
    * Upload new image
+   * 
+   * @return array
    */
   public function upload(): array
   {
@@ -85,7 +87,9 @@ class Image extends Validate
 
     $this->getPropertiesImage();
 
-    if (!$this->validateImage(['format' => $this->format, 'size' => $this->size])) {
+    $propertiesValidate = ['format' => $this->format, 'size' => $this->size];
+
+    if (!$this->validateImage($propertiesValidate)) {
       return $this->response;
     }
 

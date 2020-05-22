@@ -1,16 +1,13 @@
 <?php
 
-namespace libimagephp\LibImageConfiguration;
+declare(strict_types=1);
 
-require_once 'utils/Path.php';
-require_once 'utils/Contrast.php';
-require_once 'utils/Scale.php';
-require_once 'utils/Crop.php';
+namespace Jonasdamher\Libimagephp\Core;
 
-use libimagephp\LibImageUtils\Path;
-use libimagephp\LibImageUtils\Contrast;
-use libimagephp\LibImageUtils\Scale;
-use libimagephp\LibImageUtils\Crop;
+use Jonasdamher\Libimagephp\Utils\Path;
+use Jonasdamher\Libimagephp\Utils\Contrast;
+use Jonasdamher\Libimagephp\Utils\Scale;
+use Jonasdamher\Libimagephp\Utils\Crop;
 
 class Configuration
 {
@@ -105,8 +102,7 @@ class Configuration
 	public function transformImageTo($imagecreatefrom, array $imageArray)
 	{
 		return ($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : 
-			($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
+			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
 	}
 
 
@@ -128,3 +124,4 @@ class Configuration
 		array_push($this->response['errors'], $message);
 	}
 }
+?>

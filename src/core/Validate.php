@@ -1,10 +1,10 @@
 <?php
 
-namespace libimagephp\LibImageValidate;
+declare(strict_types=1);
 
-require_once 'Configuration.php';
+namespace Jonasdamher\Libimagephp\Core;
 
-use libimagephp\LibImageConfiguration\Configuration;
+use Jonasdamher\Libimagephp\Core\Configuration;
 
 /**
  * LibImagePhp

@@ -1,2 +1,4 @@
 /.vscode
-/public/images/users/*
+/vendor
+composer.lock
+/tests

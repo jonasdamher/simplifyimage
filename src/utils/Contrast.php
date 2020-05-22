@@ -1,6 +1,8 @@
 <?php
 
-namespace libimagephp\LibImageUtils;
+declare(strict_types=1);
+
+namespace Jonasdamher\Libimagephp\Utils;
 
 class Contrast
 {
