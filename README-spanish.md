@@ -50,9 +50,9 @@ Subir imagen.
 $upload = $libimagephp->upload();
 ```
 
-^ La variable $upload devuelve un array con el siguiente formato.
+> La variable $upload devuelve un array con el siguiente formato.
 
-Si es correcto.
+Si es correcto devuelve.
 
 ```
 [
@@ -62,7 +62,7 @@ Si es correcto.
 ]
 ```
 
-Si no es correcto y hay un fallo, por ejemplo.
+Si no es correcto y hay un fallo devuelve, por ejemplo.
 
 ```
 [
@@ -80,11 +80,11 @@ $libimagephp->setOldImageName('myImage.png');
 $remove = $libimagephp->remove();
 ```
 
-^ La variable $remove devuelve un array, como al subir una imagen.
+> La variable $remove devuelve un array, como al subir una imagen.
 
 ### Funciones opcionales
 
-**Establecer tamaño máximo de imagen
+**Establecer tamaño máximo de imagen**
 
 Especifica el tamañano máximo de la imagen, se debe especificar en bytes, por defecto son *2097152 bytes* (2 MB).
 
@@ -92,7 +92,7 @@ Especifica el tamañano máximo de la imagen, se debe especificar en bytes, por 
 $libimagephp->maxSize(1000000);
 ```
 
-**Escalar
+**Escalar**
 
 Escalar imagen (tiene 2 parametros, ancho y alto, si se le especifica solo el ancho el alto será igual al ancho).
 
@@ -100,7 +100,7 @@ Escalar imagen (tiene 2 parametros, ancho y alto, si se le especifica solo el an
 $libimagephp->scale->set(200, 320);
 ```
 
-**Contraste
+**Contraste**
 
 Especificar contraste de la imagen (tiene la opción low, medium, hight).
 
@@ -108,7 +108,7 @@ Especificar contraste de la imagen (tiene la opción low, medium, hight).
 $libimagephp->contrast->set('low');
 ```
 
-**Conversión de imagen
+**Conversión de imagen**
 
 Transformar imagen a formato webp, png o jpeg.
 
@@ -116,7 +116,7 @@ Transformar imagen a formato webp, png o jpeg.
 $libimagephp->conversionTo('webp');
 ```
 
-**Recorte
+**Recorte**
 
 Forma de recorte de imagen (opción square, circle, h_rectangle, v_rectangle )
 
@@ -130,7 +130,7 @@ Especificar la posición de recorte en la image (left, right, top, bottom, cente
 $libimagephp->crop->position->set('right');
 ```
 
-**Requerir imagen
+**Requerir imagen**
 
 Especificar que la imagen sea obligatoria.
 
@@ -138,7 +138,7 @@ Especificar que la imagen sea obligatoria.
 $libimagephp->required();
 ```
 
-**Prefijo de nombre
+**Prefijo de nombre**
 
 Especificar si en el nombre de la imagen quieres asignarle un prefijo (por ejemplo que tenga el prefijo user, la imagen quedaría con el nombre "user-imageexample.jpg").
 
