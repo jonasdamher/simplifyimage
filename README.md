@@ -4,7 +4,7 @@ Upload, modify and delete images the easy way.
 
 * Allows crop and scale images easy. 
 * Allows upload and update one or multiple images. 
-* Allows conversion type image to WEBP, PNG, JPG and JPEG.
+* Allows conversion type image to WEBP, PNG and JPEG.
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/libimagephp)
 ![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/libimagephp)
@@ -29,7 +29,7 @@ $libimagephp = new Jonasdamher\Libimagephp\Image();
 
 ## Wiki
 
-[Go to Wiki](https://github.com/jonasdamher/libimagephp/wiki)
+:book: Go to [Wiki](https://github.com/jonasdamher/libimagephp/wiki)
 
 ## Contributing
 
