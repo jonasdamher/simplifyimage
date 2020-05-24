@@ -11,6 +11,7 @@ Upload, modify and delete images the easy way.
 [![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) 
 [![GitHub forks](https://img.shields.io/github/forks/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/network) 
 [![GitHub stars](https://img.shields.io/github/stars/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/stargazers)
+[![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
 
 :link: [Do you speak Spanish? Go to README-spanish.md](https://github.com/jonasdamher/libimagephp/blob/master/README-spanish.md)
 
@@ -33,32 +34,20 @@ require __DIR__ . '/vendor/autoload.php';
 $libimagephp = new Jonasdamher\Libimagephp\Image();
 ```
 
-## Functionalities 
+## Wiki
 
-### Basic functions
-
-Specify the path where the images will be saved.
-
-```
-$libimagephp->path->set('public/images/users/');
-```
-
-Specify input name of the form.
-
-```
-$libimagephp->nameImputFile('image_user');
-```
-
-Upload image.
-
-```
-$upload = $libimagephp->upload();
-```
+[Go to Wiki](https://github.com/jonasdamher/libimagephp/wiki)
 
 ## Contributing
 
-Jonás Damián Hernández [jonasdamher]
+Any contributions you make are greatly appreciated.
+
+Fork the Project
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+Push to the Branch (git push origin feature/AmazingFeature)
+Open a Pull Request
 
 ## License
 
-[![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
+Under the [MIT license](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
