@@ -1,41 +1,31 @@
 <?php
 
+require '../vendor/autoload.php';
+
+$libImagePhp = new Jonasdamher\Libimagephp\Image();
+
+// BASIC METHODS
+$libImagePhp->path->set('public/images/users/');
+$libImagePhp->nameImputFile('image_user');
+
 if (isset($_FILES['image_user'])) {
 
-	require_once 'libs/libimagephp.php';
-	$libImage = new libimagephp\LibImage\Image();
-	$libImage->path->set('public/images/users/');
+	// OPTIONS
+	// $libImagePhp->required();
 
-	// CONFIGURATION
-	// BASIC
+	// $libImagePhp->prefixName('myuser');
 
-	// $libImage->nameImputFile('image_user');
-	// $libImage->prefixName('myuser');
-	// $libImage->required();
+	// $libImagePhp->scale->set(200);
 
-	// MODIFY
-	// $libImage->scale->set(200);
-	// $libImage->contrast->set('low');
+	// $libImagePhp->contrast->set('low');
 
-	// CROP
-	// $libImage->crop->position->set('right');
-	// $libImage->crop->shape->set('square');
+	// $libImagePhp->crop->shape->set('square');
+	// $libImagePhp->crop->position->set('right');
 
-	// CONVERSION FORMAT TO png
-	// $libImage->conversionTo('webp');
-	// ACTION
-	// $upload = $libImage->upload();
+	// $libImagePhp->conversionTo('webp');
 
-	// var_dump($upload);
-
-
-	// if ($upload['valid']) {
-
-	// 	$_GET['valid'] = 1;
-	// } else {
-
-	// 	$_GET['valid'] = 0;
-	// }
+	// BASIC METHOD
+	$upload = $libImagePhp->upload();
 }
 
 ?>
@@ -46,7 +36,7 @@ if (isset($_FILES['image_user'])) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>LibImagePHP | Upload one image</title>
-	<link rel="stylesheet" type="text/css" href="public/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="../public/css/main.css" />
 </head>
 
 <body>
@@ -67,12 +57,11 @@ if (isset($_FILES['image_user'])) {
 			<a class="link mt-2 text-bold text-sw-sm" href="../index.php" title="Back">Back</a>
 		</div>
 	</main>
-
-	<?php
-	if (isset($_GET['valid'])) {
-		include 'modal.php';
-	}
-	?>
+	<?php if (isset($upload)) { ?>
+		<pre>
+			<?php print_r($upload); ?>
+		</pre>
+	<?php } ?>
 
 </body>
 
