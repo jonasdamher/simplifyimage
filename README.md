@@ -33,18 +33,18 @@ $libimagephp = new Jonasdamher\Libimagephp\Image();
 
 ## Contributing
 
-**Any contributions you make are greatly appreciated.***
+**Any contributions you make are greatly appreciated.**
 
-Fork the Project
+Fork the Project.
 
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Create your Feature Branch (git checkout -b feature/AmazingFeature).
 
-Commit your Changes (git commit -m 'Add some AmazingFeature')
+Commit your Changes (git commit -m 'Add some AmazingFeature').
 
-Push to the Branch (git push origin feature/AmazingFeature)
+Push to the Branch (git push origin feature/AmazingFeature).
 
 Open a Pull Request
 
 ## License
 
-Under the [MIT license](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
+Under the [MIT license](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE).
