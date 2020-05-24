@@ -6,6 +6,8 @@ Upload, modify and delete images the easy way.
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG and JPEG.
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/build-status/master)
+
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/libimagephp)
 ![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/libimagephp)
 [![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) 
