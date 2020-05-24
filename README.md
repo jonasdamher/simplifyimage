@@ -6,7 +6,7 @@ Upload, modify and delete images the easy way.
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG, JPG and JPEG.
 
-[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues)
+[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) | [![GitHub forks](https://img.shields.io/github/forks/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/network) | [![GitHub stars](https://img.shields.io/github/stars/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/stargazers)
 
 :link: [Do you speak Spanish? Go to README-spanish.md](https://github.com/jonasdamher/libimagephp/blob/master/README-spanish.md)
 
@@ -57,4 +57,4 @@ Jonás Damián Hernández [jonasdamher]
 
 ## License
 
-[MIT](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE) 
+[![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
