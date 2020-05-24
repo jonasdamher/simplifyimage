@@ -13,13 +13,6 @@ Upload, modify and delete images the easy way.
 [![GitHub stars](https://img.shields.io/github/stars/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/stargazers)
 [![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
 
-:link: [Do you speak Spanish? Go to README-spanish.md](https://github.com/jonasdamher/libimagephp/blob/master/README-spanish.md)
-
-## Requirements
-
-* Recommend version PHP 7.4.2
-* Recommend version GD bundled (2.1.0 compatible)
-
 ## Installation
 
 ```
@@ -40,7 +33,7 @@ $libimagephp = new Jonasdamher\Libimagephp\Image();
 
 ## Contributing
 
-Any contributions you make are greatly appreciated.
+**Any contributions you make are greatly appreciated.***
 
 Fork the Project
 
