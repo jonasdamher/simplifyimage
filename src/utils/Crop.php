@@ -22,7 +22,8 @@ class Crop
 		$this->shape = new Shape;
 	}
 
-	private function cropped($image,$position, $shape){
+	private function cropped($image, array $position, array $shape)
+	{
 		return imagecrop($image, [
 			'x' => $position['x'],
 			'y' => $position['y'],
@@ -47,7 +48,7 @@ class Crop
 
 		$imageWithShape = $this->shape->modify($image, $position, $dimensions);
 
-		if($this->shape->get() == 'circle'){
+		if ($this->shape->get() == 'circle') {
 			return $imageWithShape;
 		}
 
