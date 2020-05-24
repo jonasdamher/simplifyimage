@@ -147,6 +147,8 @@ Especificar si en el nombre de la imagen quieres asignarle un prefijo (por ejemp
 $libImage->prefixName('user');
 ```
 
+Versión recomendada de GD bundled (2.1.0 compatible)
+
 ### Autor
 
 Jonás Damián Hernández [jonasdamher]
