@@ -6,6 +6,7 @@ Upload, modify and delete images the easy way.
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG, JPG and JPEG.
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/libimagephp)
 ![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/libimagephp)
 [![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) 
 [![GitHub forks](https://img.shields.io/github/forks/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/network) 
