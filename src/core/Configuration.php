@@ -24,7 +24,7 @@ class Configuration
 	public Crop $crop;
 
 	private string $nameInputFile = '';
-	private string $prefixName =  '';
+	private string $prefixName = '';
 
 	protected string $imagecreatefrom = 'imagecreatefrom'; //img formato por defecto
 	protected string $transformImage = 'image'; // img transformacion a formato defecto
