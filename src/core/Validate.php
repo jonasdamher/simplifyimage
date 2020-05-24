@@ -114,4 +114,3 @@ class Validate extends Configuration
 		return (file_exists($imagePath));
 	}
 }
-?>

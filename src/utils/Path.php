@@ -32,4 +32,3 @@ class Path
 		return (is_dir($this->get()));
 	}
 }
-?>

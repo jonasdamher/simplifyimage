@@ -19,8 +19,8 @@ class Crop
 	public function __construct()
 	{
 
-		$this->position = new Position();
-		$this->shape = new Shape();
+		$this->position = new Position;
+		$this->shape = new Shape;
 	}
 
 	public function modify($image)
@@ -49,4 +49,3 @@ class Crop
 		return $croppedImage;
 	}
 }
-?>

@@ -48,4 +48,3 @@ class Scale
 		return $image;
 	}
 }
-?>
