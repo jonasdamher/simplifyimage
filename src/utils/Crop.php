@@ -18,9 +18,17 @@ class Crop
 
 	public function __construct()
 	{
-
 		$this->position = new Position;
 		$this->shape = new Shape;
+	}
+
+	private function cropped($image,$position, $shape){
+		return imagecrop($image, [
+			'x' => $position['x'],
+			'y' => $position['y'],
+			'width' => $shape['x'],
+			'height' => $shape['y']
+		]);
 	}
 
 	public function modify($image)
@@ -37,15 +45,12 @@ class Crop
 
 		$position = $this->position->new($dimensions);
 
-		$shape = $this->shape->modify($position, $dimensions);
+		$imageWithShape = $this->shape->modify($image, $position, $dimensions);
 
-		$croppedImage = imagecrop($image, [
-			'x' => $position['x'],
-			'y' => $position['y'],
-			'width' => $shape['x'],
-			'height' => $shape['y']
-		]);
+		if($this->shape->get() == 'circle'){
+			return $imageWithShape;
+		}
 
-		return $croppedImage;
+		return $this->cropped($image, $position, $imageWithShape);
 	}
 }
