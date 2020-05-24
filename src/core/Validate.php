@@ -99,7 +99,7 @@ class Validate extends Configuration
 	protected function validateImage(array $properties): bool
 	{
 		if (!$this->sizeValidate($properties['size'])) {
-			$this->error('It has to be an image smaller than ' . ($this->getMaxSize / 1000000) . ' MB.');
+			$this->error('It has to be an image smaller than ' . ($this->getMaxSize() / 1000000) . ' MB.');
 		}
 		if (!$this->formatValidate($properties['format'])) {
 			$this->error('Invalid image format.');
