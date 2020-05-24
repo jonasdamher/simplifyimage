@@ -42,7 +42,9 @@ class Contrast
 		$this->contrast = $contrastNumber;
 	}
 
-	// Contrast 
+	/**
+	 * Apply contrast in image.
+	 */
 	public function modify($image)
 	{
 		if ($this->get() != 0) {

@@ -26,13 +26,11 @@ class Shape
 		$this->type = $type;
 	}
 
-	public function modify($position, $dimensions)
+	public function modify($image, $position, $dimensions)
 	{
 
 		switch ($this->get()) {
 			case 'circle':
-
-				$position = $this->cropPosition($dimensions);
 
 				$min = min($dimensions['x'], $dimensions['y']);
 				$dimensions['x'] = $min;
@@ -45,12 +43,11 @@ class Shape
 					'height' => $dimensions['y']
 				]);
 
-				// Mask circle
 				// Create mask circle
 				$mask = imagecreatetruecolor($min, $min);
 				imagealphablending($mask, false);
 
-				// Colors
+				// crete colors
 				$magentaColor = imagecolorallocatealpha($mask, 255, 0, 255, 0);
 				$transparent = imagecolorallocatealpha($mask, 255, 255, 255, 127);
 
@@ -98,12 +95,14 @@ class Shape
 				imagedestroy($mask);
 
 				return $croppedImage;
+
 				break;
 			case 'square':
 
 				$min = min($dimensions['x'], $dimensions['y']);
 				$dimensions['x'] = $min;
 				$dimensions['y'] = $min;
+
 				break;
 			case 'h_rectangle':
 
@@ -112,6 +111,7 @@ class Shape
 
 				$position['x'] += $dimensions['y'];
 				$dimensions['y'] = $heightRedimension;
+
 				break;
 			case 'v_rectangle':
 
@@ -121,6 +121,7 @@ class Shape
 				$position['y'] += $dimensions['x'];
 
 				$dimensions['x'] = $widthRedimension;
+
 				break;
 		}
 
