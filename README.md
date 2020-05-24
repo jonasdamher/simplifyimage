@@ -9,7 +9,6 @@ Upload, modify and delete images the easy way.
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/libimagephp)
 ![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/libimagephp)
 [![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) 
-[![Scrutinizer](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/quality-score.png?b=master) 
 [![GitHub stars](https://img.shields.io/github/stars/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/stargazers)
 [![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
 
