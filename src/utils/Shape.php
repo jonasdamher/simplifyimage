@@ -127,4 +127,3 @@ class Shape
 		return $dimensions;
 	}
 }
-?>

@@ -83,4 +83,3 @@ class Position
 		return $position;
 	}
 }
-?>

@@ -52,4 +52,3 @@ class Contrast
 		return $image;
 	}
 }
-?>

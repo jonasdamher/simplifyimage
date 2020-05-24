@@ -119,4 +119,3 @@ class Image extends Validate
     return $this->response;
   }
 }
-?>

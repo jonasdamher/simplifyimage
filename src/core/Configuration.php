@@ -38,10 +38,10 @@ class Configuration
 
 	public function __construct()
 	{
-		$this->path = new Path();
-		$this->contrast = new Contrast();
-		$this->scale = new Scale();
-		$this->crop = new Crop();
+		$this->path = new Path;
+		$this->contrast = new Contrast;
+		$this->scale = new Scale;
+		$this->crop = new Crop;
 	}
 
 	// GETS & SETS
@@ -124,4 +124,3 @@ class Configuration
 		array_push($this->response['errors'], $message);
 	}
 }
-?>
