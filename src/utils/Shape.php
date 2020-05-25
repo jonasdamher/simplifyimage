@@ -26,105 +26,121 @@ class Shape
 		$this->type = $type;
 	}
 
-	public function modify($image, $position, $dimensions)
+	private function minBetweenDimensions(array $dimensions): int
+	{
+		return min($dimensions['x'], $dimensions['y']);
+	}
+
+	private function circle($image, array $dimensions, array $position)
+	{
+
+		$newDimensions = $this->square($dimensions);
+		$min = $this->minBetweenDimensions($dimensions);
+
+		$croppedImage = imagecrop($image, [
+			'x' => $position['x'],
+			'y' => $position['y'],
+			'width' => $newDimensions['x'],
+			'height' => $newDimensions['y']
+		]);
+
+		// Create mask circle
+		$mask = imagecreatetruecolor($min, $min);
+		imagealphablending($mask, false);
+
+		// crete colors
+		$magentaColor = imagecolorallocatealpha($mask, 255, 0, 255, 0);
+		$transparent = imagecolorallocatealpha($mask, 255, 255, 255, 127);
+
+		// Add color mask
+		imagefill($mask, 0, 0, $magentaColor);
+		// Draw circle border line mask
+		imagearc(
+			$mask,
+			$min / 2,
+			$min / 2,
+			$min,
+			$min,
+			0,
+			360,
+			$transparent
+		);
+		// Fill circle
+		imagefilltoborder(
+			$mask,
+			$min / 2,
+			$min / 2,
+			$transparent,
+			$transparent
+		);
+		// Mask circle final
+
+		// Image
+		imagealphablending($croppedImage, true);
+		// Add mask to image
+		imagecopyresampled(
+			$croppedImage,
+			$mask,
+			0,
+			0,
+			0,
+			0,
+			$min,
+			$min,
+			$min,
+			$min
+		);
+		// remove mask color to image
+		imagecolortransparent($croppedImage, $magentaColor);
+
+		imagedestroy($mask);
+		return $croppedImage;
+	}
+
+	private function square(array $dimensions): array
+	{
+		$min = $this->minBetweenDimensions($dimensions);
+		$dimensions['x'] = $min;
+		$dimensions['y'] = $min;
+		return $dimensions;
+	}
+
+	private function horizontalRentangle(array $dimensions, array $position): array
+	{
+		$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
+		$position['x'] += ($dimensions['x'] - $heightRedimension) / 2;
+		$dimensions['y'] = $heightRedimension;
+
+		return $dimensions;
+	}
+
+	private function verticalRectangle(array $dimensions, array $position): array
+	{
+		$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
+		$position['y'] += ($dimensions['y'] - $widthRedimension) / 2;
+		$dimensions['x'] = $widthRedimension;
+
+		return $dimensions;
+	}
+
+	public function modify($image, array $position, array $dimensions)
 	{
 
 		switch ($this->get()) {
 			case 'circle':
-
-				$min = min($dimensions['x'], $dimensions['y']);
-				$dimensions['x'] = $min;
-				$dimensions['y'] = $min;
-
-				$croppedImage = imagecrop($image, [
-					'x' => $position['x'],
-					'y' => $position['y'],
-					'width' => $dimensions['x'],
-					'height' => $dimensions['y']
-				]);
-
-				// Create mask circle
-				$mask = imagecreatetruecolor($min, $min);
-				imagealphablending($mask, false);
-
-				// crete colors
-				$magentaColor = imagecolorallocatealpha($mask, 255, 0, 255, 0);
-				$transparent = imagecolorallocatealpha($mask, 255, 255, 255, 127);
-
-				// Add color mask
-				imagefill($mask, 0, 0, $magentaColor);
-				// Draw circle border line mask
-				imagearc(
-					$mask,
-					$min / 2,
-					$min / 2,
-					$min,
-					$min,
-					0,
-					360,
-					$transparent
-				);
-				// Fill circle
-				imagefilltoborder(
-					$mask,
-					$min / 2,
-					$min / 2,
-					$transparent,
-					$transparent
-				);
-				// Mask circle final
-
-				// Image
-				imagealphablending($croppedImage, true);
-				// Add mask to image
-				imagecopyresampled(
-					$croppedImage,
-					$mask,
-					0,
-					0,
-					0,
-					0,
-					$min,
-					$min,
-					$min,
-					$min
-				);
-				// remove mask color to image
-				imagecolortransparent($croppedImage, $magentaColor);
-
-				imagedestroy($mask);
-
-				return $croppedImage;
-
+				return $this->circle($image, $dimensions, $position);
 				break;
 			case 'square':
-
-				$min = min($dimensions['x'], $dimensions['y']);
-				$dimensions['x'] = $min;
-				$dimensions['y'] = $min;
-
+				$newDimensions = $this->square($dimensions);
 				break;
 			case 'h_rectangle':
-
-				$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
-				$dimensions['y'] += ($dimensions['x'] - $heightRedimension) / 2;
-
-				$position['x'] += $dimensions['y'];
-				$dimensions['y'] = $heightRedimension;
-
+				$newDimensions = $this->horizontalRentangle($dimensions, $position);
 				break;
 			case 'v_rectangle':
-
-				$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
-				$dimensions['x'] += ($dimensions['y'] - $widthRedimension) / 2;
-
-				$position['y'] += $dimensions['x'];
-
-				$dimensions['x'] = $widthRedimension;
-
+				$newDimensions = $this->verticalRectangle($dimensions, $position);
 				break;
 		}
 
-		return $dimensions;
+		return $newDimensions;
 	}
 }
