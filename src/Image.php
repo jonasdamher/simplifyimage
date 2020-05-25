@@ -77,19 +77,13 @@ class Image extends Validate
   public function upload(): array
   {
 
-    if (!$this->exist()) {
-
-      if ($this->getRequiredImage()) {
-        $this->error("Don't exist image request.");
-      }
+    if (!$this->existFileAndPath()) {
       return $this->response;
     }
 
     $this->getPropertiesImage();
 
-    $propertiesValidate = ['format' => $this->format, 'size' => $this->size];
-
-    if (!$this->validateImage($propertiesValidate)) {
+    if (!$this->validateImage($this->format, $this->size)) {
       return $this->response;
     }
 
