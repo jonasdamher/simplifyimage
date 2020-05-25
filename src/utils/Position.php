@@ -86,34 +86,21 @@ class Position
 
 	public function new(array $dimensions): array
 	{
+		$method = $this->get();
 
-		switch ($this->get()) {
-			case 'center':
-				$this->center($dimensions);
-				break;
-			case 'top':
-				$this->top();
-				break;
-			case 'topLeft':
-				$this->topLeft();
-				break;
-			case 'topRight':
-				$this->topRight($dimensions);
-				break;
-			case 'bottom':
-				$this->bottom($dimensions);
-				break;
-			case 'bottomLeft':
-				$this->bottomLeft($dimensions);
-				break;
-			case 'bottomRight':
-				$this->bottomRight($dimensions);
-				break;
+		switch ($method) {
 			case 'left':
-				$this->left();
+			case 'top':
+			case 'topLeft':
+				$this->$method();
 				break;
+			case 'center':
 			case 'right':
-				$this->right($dimensions);
+			case 'topRight':
+			case 'bottom':
+			case 'bottomRight':
+			case 'bottomLeft':
+				$this->$method($dimensions);
 				break;
 		}
 
