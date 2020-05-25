@@ -65,15 +65,20 @@ class Validate extends Configuration
 		return (isset($_FILES[$this->getNameInputFile()]) && mb_strlen($_FILES[$this->getNameInputFile()]['tmp_name']) > 0);
 	}
 
-	protected function exist(): bool
+	protected function existFileAndPath(): bool
 	{
 		if (!$this->path->exist()) {
 			$this->error('Dont exist path, your path is (' . $this->path->get() . ').');
 			return false;
 		}
 		if (!$this->fileExist()) {
+
+			if ($this->getRequiredImage()) {
+				$this->error("Don't exist image request.");
+			}
 			return false;
 		}
+
 		return true;
 	}
 
@@ -96,12 +101,12 @@ class Validate extends Configuration
 		return false;
 	}
 
-	protected function validateImage(array $properties): bool
+	protected function validateImage(string $format, int $size): bool
 	{
-		if (!$this->sizeValidate($properties['size'])) {
-			$this->error('It has to be an image smaller than ' . ($this->getMaxSize() / 1000000) . ' MB.');
+		if (!$this->sizeValidate($size)) {
+			$this->error('It has to be an image smaller than ' . $this->getMaxSize() . ' Bytes.');
 		}
-		if (!$this->formatValidate($properties['format'])) {
+		if (!$this->formatValidate($format)) {
 			$this->error('Invalid image format.');
 		}
 
