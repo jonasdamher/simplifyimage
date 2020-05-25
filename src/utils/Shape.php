@@ -126,10 +126,9 @@ class Shape
 	public function modify($image, array $position, array $dimensions)
 	{
 
+		$shape = null;
+
 		switch ($this->get()) {
-			case 'square':
-				$shape = $this->square($dimensions);
-				break;
 			case 'h_rectangle':
 				$shape = $this->horizontalRentangle($dimensions, $position);
 				break;
@@ -138,6 +137,10 @@ class Shape
 				break;
 			case 'circle':
 				$shape = $this->circle($image, $dimensions, $position);
+				break;
+			case 'square':
+			default:
+				$shape = $this->square($dimensions);
 				break;
 		}
 
