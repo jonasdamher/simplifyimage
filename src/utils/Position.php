@@ -16,6 +16,11 @@ namespace Jonasdamher\Libimagephp\Utils;
 class Position
 {
 
+	private array $position = [
+		'x' => 0,
+		'y' => 0
+	];
+
 	private string $cropPosition = 'center';
 
 	public function get(): string
@@ -28,58 +33,90 @@ class Position
 		$this->cropPosition = $cropPosition;
 	}
 
+	private function center(array $dimensions)
+	{
+		($dimensions['x'] >= $dimensions['y']) ?
+			$this->position['x'] = ($dimensions['x'] - $dimensions['y']) / 2 :
+			$this->position['y'] = ($dimensions['y'] - $dimensions['x']) / 2;
+	}
+
+	private function top()
+	{
+		$this->position['y'] = 0;
+	}
+
+	private function topLeft()
+	{
+		$this->position['y'] = 0;
+		$this->position['x'] = 0;
+	}
+
+	private function topRight(array $dimensions)
+	{
+		$this->position['y'] = 0;
+		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
+	}
+
+	private function bottom(array $dimensions)
+	{
+		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
+	}
+
+	private function bottomLeft(array $dimensions)
+	{
+		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
+		$this->position['x'] = 0;
+	}
+
+	private function bottomRight($dimensions)
+	{
+		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
+		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
+	}
+
+	private function left()
+	{
+		$this->position['x'] = 0;
+	}
+
+	private function right($dimensions)
+	{
+		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
+	}
+
 	public function new(array $dimensions): array
 	{
 
-		$position = [
-			'x' => 0,
-			'y' => 0
-		];
-
 		switch ($this->get()) {
 			case 'center':
-				($dimensions['x'] >= $dimensions['y']) ?
-					$position['x'] = ($dimensions['x'] - $dimensions['y']) / 2 :
-					$position['y'] = ($dimensions['y'] - $dimensions['x']) / 2;
+				$this->center($dimensions);
 				break;
 			case 'top':
-
-				$position['y'] = 0;
+				$this->top();
 				break;
 			case 'topLeft':
-
-				$position['y'] = 0;
-				$position['x'] = 0;
+				$this->topLeft();
 				break;
 			case 'topRight':
-
-				$position['y'] = 0;
-				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				$this->topRight($dimensions);
 				break;
 			case 'bottom':
-
-				$position['y'] = $dimensions['y'] - $dimensions['x'];
+				$this->bottom($dimensions);
 				break;
 			case 'bottomLeft':
-
-				$position['y'] = $dimensions['y'] - $dimensions['x'];
-				$position['x'] = 0;
+				$this->bottomLeft($dimensions);
 				break;
 			case 'bottomRight':
-
-				$position['y'] = $dimensions['y'] - $dimensions['x'];
-				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				$this->bottomRight($dimensions);
 				break;
 			case 'left':
-
-				$position['x'] = 0;
+				$this->left();
 				break;
 			case 'right':
-
-				$position['x'] = $dimensions['x'] - $dimensions['y'];
+				$this->right($dimensions);
 				break;
 		}
 
-		return $position;
+		return $this->position;
 	}
 }
