@@ -31,6 +31,32 @@ class Shape
 		return min($dimensions['x'], $dimensions['y']);
 	}
 
+	private function square(array $dimensions): array
+	{
+		$min = $this->minBetweenDimensions($dimensions);
+		$dimensions['x'] = $min;
+		$dimensions['y'] = $min;
+		return $dimensions;
+	}
+
+	private function horizontalRentangle(array $dimensions, array $position): array
+	{
+		$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
+		$position['x'] += ($dimensions['x'] - $heightRedimension) / 2;
+		$dimensions['y'] = $heightRedimension;
+
+		return $dimensions;
+	}
+
+	private function verticalRectangle(array $dimensions, array $position): array
+	{
+		$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
+		$position['y'] += ($dimensions['y'] - $widthRedimension) / 2;
+		$dimensions['x'] = $widthRedimension;
+
+		return $dimensions;
+	}
+
 	private function circle($image, array $dimensions, array $position)
 	{
 
@@ -97,50 +123,24 @@ class Shape
 		return $croppedImage;
 	}
 
-	private function square(array $dimensions): array
-	{
-		$min = $this->minBetweenDimensions($dimensions);
-		$dimensions['x'] = $min;
-		$dimensions['y'] = $min;
-		return $dimensions;
-	}
-
-	private function horizontalRentangle(array $dimensions, array $position): array
-	{
-		$heightRedimension = ceil(($dimensions['x'] / 161) * 100);
-		$position['x'] += ($dimensions['x'] - $heightRedimension) / 2;
-		$dimensions['y'] = $heightRedimension;
-
-		return $dimensions;
-	}
-
-	private function verticalRectangle(array $dimensions, array $position): array
-	{
-		$widthRedimension = ceil(($dimensions['y'] / 161) * 100);
-		$position['y'] += ($dimensions['y'] - $widthRedimension) / 2;
-		$dimensions['x'] = $widthRedimension;
-
-		return $dimensions;
-	}
-
 	public function modify($image, array $position, array $dimensions)
 	{
 
 		switch ($this->get()) {
-			case 'circle':
-				return $this->circle($image, $dimensions, $position);
-				break;
 			case 'square':
-				$newDimensions = $this->square($dimensions);
+				$shape = $this->square($dimensions);
 				break;
 			case 'h_rectangle':
-				$newDimensions = $this->horizontalRentangle($dimensions, $position);
+				$shape = $this->horizontalRentangle($dimensions, $position);
 				break;
 			case 'v_rectangle':
-				$newDimensions = $this->verticalRectangle($dimensions, $position);
+				$shape = $this->verticalRectangle($dimensions, $position);
+				break;
+			case 'circle':
+				$shape = $this->circle($image, $dimensions, $position);
 				break;
 		}
 
-		return $newDimensions;
+		return $shape;
 	}
 }
