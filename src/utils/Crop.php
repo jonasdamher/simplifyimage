@@ -22,6 +22,14 @@ class Crop
 		$this->shape = new Shape;
 	}
 
+	private function dimensions($image): array
+	{
+		return [
+			'x' => imagesx($image),
+			'y' => imagesy($image)
+		];
+	}
+
 	private function cropped($image, array $position, array $shape)
 	{
 		return imagecrop($image, [
@@ -39,10 +47,7 @@ class Crop
 			return $image;
 		}
 
-		$dimensions = [
-			'x' => imagesx($image),
-			'y' => imagesy($image)
-		];
+		$dimensions = $this->dimensions($image);
 
 		$position = $this->position->new($dimensions);
 
