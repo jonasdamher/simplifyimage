@@ -21,6 +21,7 @@ class Position
 		'y' => 0
 	];
 
+	private array $dimensions = [];
 	private string $cropPosition = 'center';
 
 	public function get(): string
@@ -33,11 +34,21 @@ class Position
 		$this->cropPosition = $cropPosition;
 	}
 
-	private function center(array $dimensions)
+	private function center()
 	{
-		($dimensions['x'] >= $dimensions['y']) ?
-			$this->position['x'] = ($dimensions['x'] - $dimensions['y']) / 2 :
-			$this->position['y'] = ($dimensions['y'] - $dimensions['x']) / 2;
+		($this->dimensions['x'] >= $this->dimensions['y']) ?
+			$this->position['x'] = ($this->dimensions['x'] - $this->dimensions['y']) / 2 :
+			$this->position['y'] = ($this->dimensions['y'] - $this->dimensions['x']) / 2;
+	}
+
+	private function left()
+	{
+		$this->position['x'] = 0;
+	}
+
+	private function right()
+	{
+		$this->position['x'] = $this->dimensions['x'] - $this->dimensions['y'];
 	}
 
 	private function top()
@@ -51,57 +62,36 @@ class Position
 		$this->position['x'] = 0;
 	}
 
-	private function topRight(array $dimensions)
+	private function topRight()
 	{
 		$this->position['y'] = 0;
-		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
+		$this->position['x'] = $this->dimensions['x'] - $this->dimensions['y'];
 	}
 
-	private function bottom(array $dimensions)
+	private function bottom()
 	{
-		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
+		$this->position['y'] = $this->dimensions['y'] - $this->dimensions['x'];
 	}
 
-	private function bottomLeft(array $dimensions)
+	private function bottomLeft()
 	{
-		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
+		$this->position['y'] = $this->dimensions['y'] - $this->dimensions['x'];
 		$this->position['x'] = 0;
 	}
 
-	private function bottomRight($dimensions)
+	private function bottomRight()
 	{
-		$this->position['y'] = $dimensions['y'] - $dimensions['x'];
-		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
-	}
-
-	private function left()
-	{
-		$this->position['x'] = 0;
-	}
-
-	private function right($dimensions)
-	{
-		$this->position['x'] = $dimensions['x'] - $dimensions['y'];
+		$this->position['y'] = $this->dimensions['y'] - $this->dimensions['x'];
+		$this->position['x'] = $this->dimensions['x'] - $this->dimensions['y'];
 	}
 
 	public function new(array $dimensions): array
 	{
 		$method = $this->get();
 
-		switch ($method) {
-			case 'left':
-			case 'top':
-			case 'topLeft':
-				$this->$method();
-				break;
-			case 'center':
-			case 'right':
-			case 'topRight':
-			case 'bottom':
-			case 'bottomRight':
-			case 'bottomLeft':
-				$this->$method($dimensions);
-				break;
+		if (method_exists(__CLASS__, $method)) {
+			$this->dimensions = $dimensions;
+			$this->$method();
 		}
 
 		return $this->position;
