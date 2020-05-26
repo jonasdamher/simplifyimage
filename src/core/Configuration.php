@@ -29,7 +29,7 @@ class Configuration
 	/**
 	 * to create the image from its default format.
 	 */
-	protected string $imagecreatefrom = 'imagecreatefrom'; 
+	protected string $imagecreatefrom = 'imagecreatefrom';
 	/**
 	 * to transform the image to its default format.
 	 */
