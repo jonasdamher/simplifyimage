@@ -7,19 +7,17 @@ namespace Jonasdamher\Libimagephp;
 use Jonasdamher\Libimagephp\Core\Validate;
 
 /**
- * libimagephp
- * 
  * Upload, modify and delete images the easy way. 
  * 
  * Allows crop and scale images easy. 
  * Allows upload and update one or multiple images. 
- * Allows conversion format image to WEBP, PNG, JPG and JPEG.
- * 
- * @author Jonás Damián Hernández [jonasdamher]
+ * Allows conversion format image to WEBP, PNG and JPEG.
  * 
  * @package libimagephp
- * @version 1.0
+ * @version 0.1
+ * @license https://github.com/jonasdamher/libimagephp/blob/master/LICENSE MIT License
  * 
+ * @author Jonás Damián Hernández [jonasdamher]
  */
 class Image extends Validate
 {
@@ -29,7 +27,6 @@ class Image extends Validate
   private int $size;
   private string $format;
 
-  // METHODS PRIVATES
   private function getPropertiesImage()
   {
     $this->image = $_FILES[$this->getNameInputFile()];
@@ -70,8 +67,7 @@ class Image extends Validate
   }
 
   /**
-   * Upload new image
-   * 
+   * Upload new image.
    * @return array
    */
   public function upload(): array
@@ -98,6 +94,10 @@ class Image extends Validate
     return $this->response;
   }
 
+  /**
+   * Remove image in specify path.
+   * @return array
+   */
   public function remove(): array
   {
     if (!$this->verifyImagePath($this->getOldImageName())) {

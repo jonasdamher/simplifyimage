@@ -7,10 +7,8 @@ namespace Jonasdamher\Libimagephp\Core;
 use Jonasdamher\Libimagephp\Core\Configuration;
 
 /**
- * LibImagePhp
- * 
- * Validate if required file, size and format image, path save image. 
- * 
+ * Validate if required file, 
+ * size and format image, path save image. 
  */
 class Validate extends Configuration
 {
@@ -43,7 +41,7 @@ class Validate extends Configuration
 	}
 
 	/**
-	 * Max size allow for upload images
+	 * Max size allow for upload images.
 	 *
 	 * By default is 2097152 bytes (2 MB)
 	 * @param int $maxSize 
