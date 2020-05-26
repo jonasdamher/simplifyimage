@@ -26,14 +26,16 @@ class Configuration
 	private string $nameInputFile = '';
 	private string $prefixName = '';
 
-	protected string $imagecreatefrom = 'imagecreatefrom'; //img formato por defecto
-	protected string $transformImage = 'image'; // img transformacion a formato defecto
+	/**
+	 * to create the image from its default format.
+	 */
+	protected string $imagecreatefrom = 'imagecreatefrom'; 
+	/**
+	 * to transform the image to its default format.
+	 */
+	protected string $transformImage = 'image';
 	private string $conversionTo = 'default';
 
-	/**
-	 * Imagen antigua, testeando por ahora, variable prueba
-	 * @example imagenAntigua.png
-	 */
 	private $oldImageName;
 
 	public function __construct()
@@ -46,7 +48,7 @@ class Configuration
 
 	// GETS & SETS
 	/**
-	 * Return name form input
+	 * Return name form input.
 	 */
 	protected function getNameInputFile(): string
 	{
@@ -54,7 +56,7 @@ class Configuration
 	}
 
 	/**
-	 * Set name form input
+	 * Set name form input.
 	 * @param string $nameInputFile
 	 */
 	public function nameImputFile(string $nameInputFile)
@@ -68,7 +70,7 @@ class Configuration
 	}
 
 	/**
-	 * Header name file.
+	 * Header for filename.
 	 * Not allow special simbols.
 	 * @param string $prefixName
 	 */
@@ -82,6 +84,10 @@ class Configuration
 		return $this->oldImageName;
 	}
 
+	/**
+	 * Experimental, for remove image.
+	 * @example imageForRemove.png
+	 */
 	public function setOldImageName(string $oldImageName)
 	{
 		$this->oldImageName = $oldImageName;
@@ -105,7 +111,12 @@ class Configuration
 			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
 	}
 
-
+	/**
+	 * Upload image in your path.
+	 * @param array $image - Current Image for upload.
+	 * @param string $target_file - Path where to save.
+	 * @return bool
+	 */
 	protected function imageUpload(array $image, string $target_file): bool
 	{
 		if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
@@ -115,7 +126,11 @@ class Configuration
 		return true;
 	}
 
-	/** Set errors and save in array called $response */
+	/** 
+	 * Set errors and save in array called $response.
+	 * 
+	 * @param string $message - Error description.
+	 */
 	protected function error(string $message)
 	{
 		if ($this->response['valid']) {

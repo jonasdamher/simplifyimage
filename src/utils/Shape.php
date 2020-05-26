@@ -21,6 +21,11 @@ class Shape
 		return $this->type;
 	}
 
+	/**
+	 * Has options default, circle, square, 
+	 * v_rectangle, h_rectangle.
+	 * @param string $type
+	 */
 	public function set(string $type)
 	{
 		$this->type = $type;
@@ -71,18 +76,19 @@ class Shape
 		]);
 
 		// Create mask circle
-		$mask = imagecreatetruecolor($min, $min);
-		imagealphablending($mask, false);
+		$circleMask = imagecreatetruecolor($min, $min);
+		imagealphablending($circleMask, false);
 
-		// crete colors
-		$magentaColor = imagecolorallocatealpha($mask, 255, 0, 255, 0);
-		$transparent = imagecolorallocatealpha($mask, 255, 255, 255, 127);
+		// Create colors
+		$magentaColor = imagecolorallocatealpha($circleMask, 255, 0, 255, 0);
+		$transparent = imagecolorallocatealpha($circleMask, 255, 255, 255, 127);
 
 		// Add color mask
-		imagefill($mask, 0, 0, $magentaColor);
-		// Draw circle border line mask
+		imagefill($circleMask, 0, 0, $magentaColor);
+
+		// Draw circle border line circleMask
 		imagearc(
-			$mask,
+			$circleMask,
 			$min / 2,
 			$min / 2,
 			$min,
@@ -91,9 +97,10 @@ class Shape
 			360,
 			$transparent
 		);
+
 		// Fill circle
 		imagefilltoborder(
-			$mask,
+			$circleMask,
 			$min / 2,
 			$min / 2,
 			$transparent,
@@ -101,12 +108,13 @@ class Shape
 		);
 		// Mask circle final
 
-		// Image
+		// Add alpha channel to image
 		imagealphablending($croppedImage, true);
+
 		// Add mask to image
 		imagecopyresampled(
 			$croppedImage,
-			$mask,
+			$circleMask,
 			0,
 			0,
 			0,
@@ -116,10 +124,12 @@ class Shape
 			$min,
 			$min
 		);
+
 		// remove mask color to image
 		imagecolortransparent($croppedImage, $magentaColor);
 
-		imagedestroy($mask);
+		imagedestroy($croppedImage);
+
 		return $croppedImage;
 	}
 

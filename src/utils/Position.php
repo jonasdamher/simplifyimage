@@ -6,12 +6,6 @@ namespace Jonasdamher\Libimagephp\Utils;
 
 /**
  * Image crop position.
- * 
- * center, 
- * top, bottom, 
- * left, right,
- * topLeft, topRight, 
- * bottomLeft, bottomRight.
  */
 class Position
 {
@@ -29,6 +23,12 @@ class Position
 		return $this->cropPosition;
 	}
 
+	/**
+	 * Has options center, left, right, 
+	 * top, topLeft, topRight, 
+	 * bottom, bottomLeft or bottomRight.
+	 * @param string $cropPosition
+	 */
 	public function set(string $cropPosition)
 	{
 		$this->cropPosition = $cropPosition;

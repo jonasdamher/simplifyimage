@@ -21,8 +21,7 @@ class Scale
 	}
 
 	/**
-	 * Width and height image
-	 *
+	 * New width and height image.
 	 * @param int $width
 	 * @param int $height (optional) by default equal width
 	 */

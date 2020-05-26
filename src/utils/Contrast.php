@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Utils;
 
+/**
+ * Handle image contrast.
+ */
 class Contrast
 {
 
@@ -19,7 +22,6 @@ class Contrast
 	 * Options: low, medium, hight, default.
 	 * 
 	 * @default By "default".
-	 * 
 	 */
 	public function set(string $contrast)
 	{
@@ -42,9 +44,6 @@ class Contrast
 		$this->contrast = $contrastNumber;
 	}
 
-	/**
-	 * Apply contrast in image.
-	 */
 	public function modify($image)
 	{
 		if ($this->get() != 0) {
