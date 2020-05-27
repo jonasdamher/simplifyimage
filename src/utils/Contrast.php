@@ -33,7 +33,7 @@ class Contrast
 			case 'medium':
 				$contrastNumber = -50;
 				break;
-			case 'hight':
+			case 'high':
 				$contrastNumber = -80;
 				break;
 			case 'default':
