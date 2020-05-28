@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Utils;
 
+use Jonasdamher\Libimagephp\Core\ResponseHandler;
 use Jonasdamher\Libimagephp\Utils\Position;
 use Jonasdamher\Libimagephp\Utils\Shape;
 
@@ -40,23 +41,35 @@ class Crop
 		]);
 	}
 
+	public function exist(): bool
+	{
+		return $this->shape->get() == 'default';
+	}
+
 	public function modify($image)
 	{
+		try {
 
-		if ($this->shape->get() == 'default') {
-			return $image;
+			$dimensions = $this->dimensions($image);
+
+			$position = $this->position->new($dimensions);
+
+			$imageWithShape = $this->shape->modify($image, $position, $dimensions);
+
+			if (!$imageWithShape) {
+				throw new \Exception('Could not crop image');
+			}
+
+			if ($this->shape->get() == 'circle') {
+				$finalImage = $imageWithShape;
+			} else {
+				$finalImage = $this->cropped($image, $position, $imageWithShape);
+			}
+		} catch (\Exception $e) {
+			$finalImage = $image;
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			return $finalImage;
 		}
-
-		$dimensions = $this->dimensions($image);
-
-		$position = $this->position->new($dimensions);
-
-		$imageWithShape = $this->shape->modify($image, $position, $dimensions);
-
-		if ($this->shape->get() == 'circle') {
-			return $imageWithShape;
-		}
-
-		return $this->cropped($image, $position, $imageWithShape);
 	}
 }

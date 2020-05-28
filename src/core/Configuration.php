@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Core;
 
+use Jonasdamher\Libimagephp\Core\ResponseHandler;
 use Jonasdamher\Libimagephp\Utils\Path;
 use Jonasdamher\Libimagephp\Utils\Contrast;
 use Jonasdamher\Libimagephp\Utils\Scale;
 use Jonasdamher\Libimagephp\Utils\Crop;
+use Jonasdamher\Libimagephp\Utils\Conversion;
 
-class Configuration
+class Configuration extends ResponseHandler
 {
-
-	protected array $response = [
-		'valid' => true,
-		'filename' => null,
-		'errors' => []
-	];
 
 	public Path $path;
 	public Contrast $contrast;
 	public Scale $scale;
 	public Crop $crop;
+	public Conversion $conversion;
 
 	private string $nameInputFile = '';
 	private string $prefixName = '';
@@ -34,7 +31,6 @@ class Configuration
 	 * to transform the image to its default format.
 	 */
 	protected string $transformImage = 'image';
-	private string $conversionTo = 'default';
 
 	private $oldImageName;
 
@@ -44,6 +40,7 @@ class Configuration
 		$this->contrast = new Contrast;
 		$this->scale = new Scale;
 		$this->crop = new Crop;
+		$this->conversion = new Conversion;
 	}
 
 	// GETS & SETS
@@ -93,23 +90,7 @@ class Configuration
 		$this->oldImageName = $oldImageName;
 	}
 
-	protected function getConversionTo(): string
-	{
-		return $this->conversionTo;
-	}
-
-	public function conversionTo(string $conversionTo)
-	{
-		$this->conversionTo = $conversionTo;
-	}
-
 	// FINAL GETS & SETS
-
-	public function transformImageTo($imagecreatefrom, array $imageArray)
-	{
-		return ($this->getConversionTo() != 'default') ?
-			('image' . $this->getConversionTo())($imagecreatefrom, $imageArray['tmp_name']) : ($this->transformImage)($imagecreatefrom, $imageArray['tmp_name']);
-	}
 
 	/**
 	 * Upload image in your path.
@@ -119,23 +100,26 @@ class Configuration
 	 */
 	protected function imageUpload(array $image, string $target_file): bool
 	{
-		if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
-			$this->error('It could not image upload, try again.');
-			return false;
+		try {
+			$ok = true;
+			if (!is_uploaded_file($image['tmp_name']) || !move_uploaded_file($image['tmp_name'], $target_file)) {
+				throw new \Exception('It could not image upload, try again.');
+			}
+		} catch (\Exception $e) {
+			$ok = false;
+			parent::fail($e->getMessage());
+		} finally {
+			return $ok;
 		}
-		return true;
 	}
 
-	/** 
-	 * Set errors and save in array called $response.
-	 * 
-	 * @param string $message - Error description.
-	 */
-	protected function error(string $message)
+	protected function response(): array
 	{
-		if ($this->response['valid']) {
-			$this->response['valid'] = false;
-		}
-		array_push($this->response['errors'], $message);
+		return parent::arrayResponse();
+	}
+
+	protected function setFilenameResponse(string $filename)
+	{
+		parent::filename($filename);
 	}
 }

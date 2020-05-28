@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Utils;
 
+use Jonasdamher\Libimagephp\Core\ResponseHandler;
+
 /**
  * Handle image contrast.
  */
@@ -25,31 +27,46 @@ class Contrast
 	 */
 	public function set(string $contrast)
 	{
-
-		switch ($contrast) {
-			case 'low':
-				$contrastNumber = -10;
-				break;
-			case 'medium':
-				$contrastNumber = -50;
-				break;
-			case 'hight':
-				$contrastNumber = -80;
-				break;
-			case 'default':
-			default:
-				$contrastNumber = 0;
-				break;
+		try {
+			switch ($contrast) {
+				case 'low':
+					$contrastNumber = -10;
+					break;
+				case 'medium':
+					$contrastNumber = -50;
+					break;
+				case 'high':
+					$contrastNumber = -80;
+					break;
+				default:
+					$contrastNumber = 0;
+					throw new \Exception("Don't exist option ($contrast) for contrast.");
+					break;
+			}
+		} catch (\Exception $e) {
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			$this->contrast = $contrastNumber;
 		}
-		$this->contrast = $contrastNumber;
 	}
 
 	public function modify($image)
 	{
-		if ($this->get() != 0) {
+		try {
+			if ($this->get() != 0) {
 
-			imagefilter($image, IMG_FILTER_CONTRAST, $this->get());
+				$imageWithContrast = $image;
+
+				if (!imagefilter($imageWithContrast, IMG_FILTER_CONTRAST, $this->get())) {
+					throw new \Exception('Fail to apply contrast in image.');
+				}
+
+				$image = $imageWithContrast;
+			}
+		} catch (\Exception $e) {
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			return $image;
 		}
-		return $image;
 	}
 }

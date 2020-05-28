@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Utils;
 
+use Exception;
+
 /**
  * Add new scale to image.
  */
@@ -33,17 +35,25 @@ class Scale
 
 	public function modify($image)
 	{
+		try {
+			if ($this->get()['width'] != -1 || $this->get()['height'] != -1) {
 
-		if ($this->get()['width'] != -1 || $this->get()['height'] != -1) {
+				$imageWithNewScale = imagescale(
+					$image,
+					$this->get()['width'],
+					$this->get()['height'],
+					IMG_BILINEAR_FIXED
+				);
+				if (!$imageWithNewScale) {
+					throw new Exception('Error with scale, dimesions(' . $this->get()['width'] . ',' . $this->get()['height'] . ').');
+				}
 
-			$image = imagescale(
-				$image,
-				$this->get()['width'],
-				$this->get()['height'],
-				IMG_BILINEAR_FIXED
-			);
+				$image = $imageWithNewScale;
+			}
+		} catch (\Exception $e) {
+			parent::fail($e->getMessage());
+		} finally {
+			return $image;
 		}
-
-		return $image;
 	}
 }

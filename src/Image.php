@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp;
 
+use \Exception;
 use Jonasdamher\Libimagephp\Core\Validate;
 
 /**
@@ -36,7 +37,7 @@ class Image extends Validate
 		$this->size = (int) $this->image['size'];
 		$this->format = strtolower(pathinfo($pathAndImageName, PATHINFO_EXTENSION));
 
-		$extesion = ($this->getConversionTo() == 'default' ? $this->format : $this->getConversionTo());
+		$extesion = ($this->conversion->get() == 'default' ? $this->format : $this->conversion->get());
 
 		$this->image['name'] = basename($this->rename($pathAndImageName) . '.' . $extesion);
 
@@ -57,13 +58,13 @@ class Image extends Validate
 		// createImageFormat
 		$imgFormat = ($this->imagecreatefrom)($this->image['tmp_name']);
 		// Image crop
-		$imgFormat = $this->crop->modify($imgFormat);
+		$imgFormat = (!$this->crop->exist()) ? $this->crop->modify($imgFormat) : $imgFormat;
 		// Image scale
 		$imgFormat = $this->scale->modify($imgFormat);
 		// Image contrast
 		$imgFormat = $this->contrast->modify($imgFormat);
 
-		return $imgFormat;
+		$this->conversion->transform($imgFormat, $this->transformImage, $this->image);
 	}
 
 	/**
@@ -72,26 +73,34 @@ class Image extends Validate
 	 */
 	public function upload(): array
 	{
+		try {
 
-		if (!$this->existFileAndPath()) {
-			return $this->response;
+			if (!$this->existFileAndPath()) {
+				throw new \Exception();
+			}
+
+			$this->getPropertiesImage();
+
+			if (!$this->validateImage($this->format, $this->size)) {
+				throw new \Exception();
+			}
+
+			$this->modifyImage();
+			
+			// Verify by modify in image.
+			
+			if (!$this->response()['valid']) {
+				throw new \Exception();
+			}
+			
+			if (!$this->imageUpload($this->image, $this->pathSaveFile)) {
+				throw new \Exception();
+			}
+
+			$this->setFilenameResponse($this->image['name']);
+		} finally {
+			return $this->response();
 		}
-
-		$this->getPropertiesImage();
-
-		if (!$this->validateImage($this->format, $this->size)) {
-			return $this->response;
-		}
-
-		$this->transformImageTo($this->modifyImage(), $this->image);
-
-		if (!$this->imageUpload($this->image, $this->pathSaveFile)) {
-			return $this->response;
-		}
-
-		$this->response['filename'] = $this->image['name'];
-
-		return $this->response;
 	}
 
 	/**
@@ -100,16 +109,20 @@ class Image extends Validate
 	 */
 	public function remove(): array
 	{
-		if (!$this->verifyImagePath($this->getOldImageName())) {
-			$this->error("Don't exist image file.");
-			return $this->response;
-		}
+		try {
+			if (!$this->verifyImagePath($this->getOldImageName())) {
+				throw new \Exception("Don't exist image file.");
+			}
 
-		$imagePath = $this->path->get() . $this->getOldImageName();
+			$imagePath = $this->path->get() . $this->getOldImageName();
 
-		if (!unlink($imagePath)) {
-			$this->error("Don't remove image.");
+			if (!unlink($imagePath)) {
+				throw new \Exception("Don't remove image.");
+			}
+		} catch (\Exception $e) {
+			parent::fail($e->getMessage());
+		} finally {
+			return $this->response();
 		}
-		return $this->response;
 	}
 }
