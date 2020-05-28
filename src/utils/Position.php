@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Libimagephp\Utils;
 
+use Jonasdamher\Libimagephp\Core\ResponseHandler;
+
 /**
  * Image crop position.
  */
 class Position
 {
+
+	private array $positions = ['center', 'left', 'bottom', 'topRight', 'topLeft', 'top', 'right', 'bottomRight', 'bottomLeft'];
 
 	private array $position = [
 		'x' => 0,
@@ -31,7 +35,16 @@ class Position
 	 */
 	public function set(string $cropPosition)
 	{
-		$this->cropPosition = $cropPosition;
+		try {
+			if (!in_array($cropPosition, $this->positions, true)) {
+				throw new \Exception("Don't exist position (" . $cropPosition . ')');
+			}
+		} catch (\Exception $e) {
+			$cropPosition = 'center';
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			$this->cropPosition = $cropPosition;
+		}
 	}
 
 	private function center()

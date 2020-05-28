@@ -65,24 +65,28 @@ class Validate extends Configuration
 
 	protected function existFileAndPath(): bool
 	{
-		if (!$this->path->exist()) {
-			$this->error('Dont exist path, your path is (' . $this->path->get() . ').');
-			return false;
-		}
-		if (!$this->fileExist()) {
-
-			if ($this->getRequiredImage()) {
-				$this->error("Don't exist image request.");
+		try {
+			$ok = true;
+			if (!$this->path->exist()) {
+				throw new \Exception('Dont exist path, your path is (' . $this->path->get() . ').');
 			}
-			return false;
-		}
+			if (!$this->fileExist()) {
 
-		return true;
+				if ($this->getRequiredImage()) {
+					throw new \Exception("Don't exist image request.");
+				}
+			}
+		} catch (\Exception $e) {
+			$ok = false;
+			parent::fail($e->getMessage());
+		} finally {
+			return $ok;
+		}
 	}
 
 	private function sizeValidate(int $size): bool
 	{
-		return ($size <= $this->getMaxSize());
+		return $size <= $this->getMaxSize();
 	}
 
 	private function formatValidate(string $format): bool
@@ -101,14 +105,20 @@ class Validate extends Configuration
 
 	protected function validateImage(string $format, int $size): bool
 	{
-		if (!$this->sizeValidate($size)) {
-			$this->error('It has to be an image smaller than ' . $this->getMaxSize() . ' Bytes.');
+		try {
+			$ok = true;
+			if (!$this->sizeValidate($size)) {
+				throw new \Exception('It has to be an image smaller than ' . $this->getMaxSize() . ' Bytes.');
+			}
+			if (!$this->formatValidate($format)) {
+				throw new \Exception('Invalid image format.');
+			}
+		} catch (\Exception $e) {
+			$ok = false;
+			Parent::fail($e->getMessage());
+		} finally {
+			return $ok;
 		}
-		if (!$this->formatValidate($format)) {
-			$this->error('Invalid image format.');
-		}
-
-		return $this->response['valid'];
 	}
 
 	protected function verifyImagePath(string $imageName): bool

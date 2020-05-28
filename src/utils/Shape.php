@@ -136,7 +136,7 @@ class Shape
 	public function modify($image, array $position, array $dimensions)
 	{
 
-		$shape = null;
+		$shape = $image;
 
 		switch ($this->get()) {
 			case 'h_rectangle':
