@@ -16,7 +16,7 @@ class ResponseHandler
 	 * Set errors and save in array called $response.
 	 * @param string $message - Error description.
 	 */
-	public function fail(string $message)
+	public static function fail(string $message)
 	{
 		if (self::$response['valid']) {
 			self::$response['valid'] = false;
