@@ -91,14 +91,12 @@ class Validate extends Configuration
 
 	private function formatValidate(string $format): bool
 	{
-		foreach ($this->getAllowedFormats() as $AllowFormat) {
-			if ($format == $AllowFormat) {
-				$myFormat = ($format == 'jpg') ? 'jpeg' : $format;
+		if ($myFormat = in_array($format, $this->getAllowedFormats(), true)) {
+			$myFormat = ($format == 'jpg') ? 'jpeg' : $format;
 
-				$this->imagecreatefrom .= $myFormat;
-				$this->transformImage .= $myFormat;
-				return true;
-			}
+			$this->imagecreatefrom .= $myFormat;
+			$this->transformImage .= $myFormat;
+			return true;
 		}
 		return false;
 	}
