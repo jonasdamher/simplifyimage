@@ -12,6 +12,9 @@
     "require": {
         "php": "^7.4.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
     "autoload": {
         "psr-4": {
             "Jonasdamher\\Libimagephp\\": "src/"
