@@ -45,7 +45,7 @@ class Scale
 					IMG_BILINEAR_FIXED
 				);
 				if (!$imageWithNewScale) {
-					throw new Exception('Error with scale, dimesions(' . $this->get()['width'] . ',' . $this->get()['height'] . ').');
+					throw new \Exception('Error with scale, dimesions(' . $this->get()['width'] . ',' . $this->get()['height'] . ').');
 				}
 
 				$image = $imageWithNewScale;
