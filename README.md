@@ -1,18 +1,51 @@
-# LibImagePhp
-### Upload, modify and delete images the easy way. 
+# simplifyimage
+
+Upload, modify and delete images the easy way. 
 
 * Allows crop and scale images easy. 
 * Allows upload and update one or multiple images. 
-* Allows conversion type image to WEBP, PNG, JPG and JPEG.
+* Allows conversion type image to WEBP, PNG and JPEG.
 
-Version 1.0
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/build-status/master)
 
-### Requirement
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/simplifyimage)
+![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/simplifyimage)
+[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/issues) 
+[![GitHub stars](https://img.shields.io/github/stars/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/stargazers)
+[![GitHub license](https://img.shields.io/github/license/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE)
 
-Recommend version PHP 7.4.2
+## Installation
 
-Recommend version GD bundled (2.1.0 compatible)
+```
+composer require jonasdamher/simplifyimage
+```
 
-### Author
+## Usage
 
-Jonás Damián Hernández [jonasdamher]
+```
+require __DIR__ . '/vendor/autoload.php';
+
+$simplifyimage = new Jonasdamher\Simplifyimage\Image();
+```
+
+## Wiki
+
+:book: Go to [Wiki](https://github.com/jonasdamher/simplifyimage/wiki)
+
+## Contributing
+
+**Any contributions you make are greatly appreciated.**
+
+Fork the Project.
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature).
+
+Commit your Changes (git commit -m 'Add some AmazingFeature').
+
+Push to the Branch (git push origin feature/AmazingFeature).
+
+Open a Pull Request.
+
+## License
+
+Under the [MIT license](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE).

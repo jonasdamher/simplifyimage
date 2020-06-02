@@ -2,30 +2,30 @@
 
 require '../vendor/autoload.php';
 
-$libImagePhp = new Jonasdamher\Libimagephp\Image();
+$simplifyImage = new Jonasdamher\Simplifyimage\Image();
 
 // BASIC METHODS
-$libImagePhp->path->set('public/images/users/');
-$libImagePhp->nameImputFile('image_user');
+$simplifyImage->path->set('../public/images/users/');
+$simplifyImage->nameImputFile('image_user');
 
 if (isset($_FILES['image_user'])) {
 
 	// OPTIONS
-	// $libImagePhp->required();
+	// $simplifyImage->required();
 
-	// $libImagePhp->prefixName('myuser');
+	// $simplifyImage->prefixName('myuser');
 
-	// $libImagePhp->scale->set(200);
+	// $simplifyImage->scale->set(200);
 
-	// $libImagePhp->contrast->set('low');
+	// $simplifyImage->contrast->set('low');
 
-	// $libImagePhp->crop->shape->set('square');
-	// $libImagePhp->crop->position->set('right');
+	// $simplifyImage->crop->shape->set('square');
+	// $simplifyImage->crop->position->set('right');
 
-	// $libImagePhp->conversionTo('webp');
+	// $simplifyImage->conversionTo('webp');
 
 	// BASIC METHOD
-	$upload = $libImagePhp->upload();
+	$upload = $simplifyImage->upload();
 }
 
 ?>
