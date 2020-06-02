@@ -1,4 +1,4 @@
-# libimagephp
+# simplifyimage
 
 Upload, modify and delete images the easy way. 
 
@@ -6,18 +6,18 @@ Upload, modify and delete images the easy way.
 * Allows upload and update one or multiple images. 
 * Allows conversion type image to WEBP, PNG and JPEG.
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/libimagephp/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/build-status/master)
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/libimagephp)
-![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/libimagephp)
-[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/issues) 
-[![GitHub stars](https://img.shields.io/github/stars/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/stargazers)
-[![GitHub license](https://img.shields.io/github/license/jonasdamher/libimagephp)](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/simplifyimage)
+![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/simplifyimage)
+[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/issues) 
+[![GitHub stars](https://img.shields.io/github/stars/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/stargazers)
+[![GitHub license](https://img.shields.io/github/license/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE)
 
 ## Installation
 
 ```
-composer require jonasdamher/libimagephp
+composer require jonasdamher/simplifyimage
 ```
 
 ## Usage
@@ -25,12 +25,12 @@ composer require jonasdamher/libimagephp
 ```
 require __DIR__ . '/vendor/autoload.php';
 
-$libimagephp = new Jonasdamher\Libimagephp\Image();
+$simplifyimage = new Jonasdamher\Simplifyimage\Image();
 ```
 
 ## Wiki
 
-:book: Go to [Wiki](https://github.com/jonasdamher/libimagephp/wiki)
+:book: Go to [Wiki](https://github.com/jonasdamher/simplifyimage/wiki)
 
 ## Contributing
 
@@ -48,4 +48,4 @@ Open a Pull Request.
 
 ## License
 
-Under the [MIT license](https://github.com/jonasdamher/libimagephp/blob/master/LICENSE).
+Under the [MIT license](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE).
