@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Utils;
+namespace Jonasdamher\Simplifyimage\Utils;
 
-use Jonasdamher\Libimagephp\Core\ResponseHandler;
-use Jonasdamher\Libimagephp\Utils\Position;
-use Jonasdamher\Libimagephp\Utils\Shape;
+use Jonasdamher\Simplifyimage\Core\ResponseHandler;
+use Jonasdamher\Simplifyimage\Utils\Position;
+use Jonasdamher\Simplifyimage\Utils\Shape;
 
 /**
  * Image crop, position and shape crop.

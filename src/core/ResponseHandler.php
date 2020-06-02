@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Core;
+namespace Jonasdamher\Simplifyimage\Core;
 
 class ResponseHandler
 {

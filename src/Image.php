@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp;
+namespace Jonasdamher\Simplifyimage;
 
 use \Exception;
-use Jonasdamher\Libimagephp\Core\Validate;
+use Jonasdamher\Simplifyimage\Core\Validate;
 
 /**
  * Upload, modify and delete images the easy way. 

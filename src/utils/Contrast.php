@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Utils;
+namespace Jonasdamher\Simplifyimage\Utils;
 
-use Jonasdamher\Libimagephp\Core\ResponseHandler;
+use Jonasdamher\Simplifyimage\Core\ResponseHandler;
 
 /**
  * Handle image contrast.

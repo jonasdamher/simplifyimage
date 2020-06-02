@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Utils;
+namespace Jonasdamher\Simplifyimage\Utils;
 
-use Exception;
+use Jonasdamher\Simplifyimage\Core\ResponseHandler;
 
 /**
  * Add new scale to image.
@@ -51,7 +51,7 @@ class Scale
 				$image = $imageWithNewScale;
 			}
 		} catch (\Exception $e) {
-			parent::fail($e->getMessage());
+			ResponseHandler::fail($e->getMessage());
 		} finally {
 			return $image;
 		}

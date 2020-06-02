@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Core;
+namespace Jonasdamher\Simplifyimage\Core;
 
-use Jonasdamher\Libimagephp\Core\Configuration;
+use Jonasdamher\Simplifyimage\Core\Configuration;
 
 /**
  * Validate if required file, 
