@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Utils;
+namespace Jonasdamher\Simplifyimage\Utils;
 
 /**
  * Image shape crop.

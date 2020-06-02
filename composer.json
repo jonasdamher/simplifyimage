@@ -1,5 +1,5 @@
 {
-    "name": "jonasdamher/libimagephp",
+    "name": "jonasdamher/simplifyimage",
     "description": "Library for upload, modify and delete images.",
     "keywords": [
         "upload image php",
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jonasdamher\\Libimagephp\\": "src/"
+            "Jonasdamher\\Simplifyimage\\": "src/"
         }
     },
     "authors": [

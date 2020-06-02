@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp;
+namespace Jonasdamher\Simplifyimage;
 
 use \Exception;
-use Jonasdamher\Libimagephp\Core\Validate;
+use Jonasdamher\Simplifyimage\Core\Validate;
 
 /**
  * Upload, modify and delete images the easy way. 
@@ -14,9 +14,9 @@ use Jonasdamher\Libimagephp\Core\Validate;
  * Allows upload and update one or multiple images. 
  * Allows conversion format image to WEBP, PNG and JPEG.
  * 
- * @package libimagephp
+ * @package simplifyimage
  * @version 0.1
- * @license https://github.com/jonasdamher/libimagephp/blob/master/LICENSE MIT License
+ * @license https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE MIT License
  * 
  * @author Jonás Damián Hernández [jonasdamher]
  */

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Jonasdamher\Libimagephp\Core;
+namespace Jonasdamher\Simplifyimage\Core;
 
-use Jonasdamher\Libimagephp\Core\ResponseHandler;
-use Jonasdamher\Libimagephp\Utils\Path;
-use Jonasdamher\Libimagephp\Utils\Contrast;
-use Jonasdamher\Libimagephp\Utils\Scale;
-use Jonasdamher\Libimagephp\Utils\Crop;
-use Jonasdamher\Libimagephp\Utils\Conversion;
+use Jonasdamher\Simplifyimage\Core\ResponseHandler;
+use Jonasdamher\Simplifyimage\Utils\Path;
+use Jonasdamher\Simplifyimage\Utils\Contrast;
+use Jonasdamher\Simplifyimage\Utils\Scale;
+use Jonasdamher\Simplifyimage\Utils\Crop;
+use Jonasdamher\Simplifyimage\Utils\Conversion;
 
 class Configuration extends ResponseHandler
 {
