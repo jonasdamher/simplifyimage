@@ -1,4 +1,4 @@
-![simplifyimage picture](https://repository-images.githubusercontent.com/244202167/60b31480-a57f-11ea-8bf4-4e333f073f9b)
+<img src="https://repository-images.githubusercontent.com/244202167/6f062e00-a589-11ea-84d0-35e6cc390994" alt="logo simplifyimage" width="512" />
 
 # simplifyimage
 
