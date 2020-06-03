@@ -1,3 +1,5 @@
+<img src="https://repository-images.githubusercontent.com/244202167/6f062e00-a589-11ea-84d0-35e6cc390994" alt="logo simplifyimage" width="512" />
+
 # simplifyimage
 
 Upload, modify and delete images the easy way. 
@@ -8,11 +10,7 @@ Upload, modify and delete images the easy way.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jonasdamher/simplifyimage/build-status/master)
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/simplifyimage)
-![Packagist Version](https://img.shields.io/packagist/v/jonasdamher/simplifyimage)
-[![GitHub issues](https://img.shields.io/github/issues/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/issues) 
-[![GitHub stars](https://img.shields.io/github/stars/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/stargazers)
-[![GitHub license](https://img.shields.io/github/license/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jonasdamher/simplifyimage) [![GitHub license](https://img.shields.io/github/license/jonasdamher/simplifyimage)](https://github.com/jonasdamher/simplifyimage/blob/master/LICENSE)
 
 ## Installation
 
