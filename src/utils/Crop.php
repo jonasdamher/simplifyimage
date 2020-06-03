@@ -33,12 +33,23 @@ class Crop
 
 	private function cropped($image, array $position, array $shape)
 	{
-		return imagecrop($image, [
-			'x' => $position['x'],
-			'y' => $position['y'],
-			'width' => $shape['x'],
-			'height' => $shape['y']
-		]);
+		try {
+			$crop = imagecrop($image, [
+				'x' => $position['x'],
+				'y' => $position['y'],
+				'width' => $shape['x'],
+				'height' => $shape['y']
+			]);
+
+			if (!$crop) {
+				throw new \Exception('image cropping error');
+			}
+		} catch (\Exception $e) {
+			$crop = $image;
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			return $crop;
+		}
 	}
 
 	public function exist(): bool
@@ -49,21 +60,21 @@ class Crop
 	public function modify($image)
 	{
 		try {
-
+			$finalImage = false;
 			$dimensions = $this->dimensions($image);
 
 			$position = $this->position->new($dimensions);
 
 			$imageWithShape = $this->shape->modify($image, $position, $dimensions);
 
-			if (!$imageWithShape) {
-				throw new \Exception('Could not crop image');
-			}
-
 			if ($this->shape->get() == 'circle') {
 				$finalImage = $imageWithShape;
 			} else {
 				$finalImage = $this->cropped($image, $position, $imageWithShape);
+			}
+
+			if (!$imageWithShape || !$finalImage) {
+				throw new \Exception('Could not shape image');
 			}
 		} catch (\Exception $e) {
 			$finalImage = $image;
