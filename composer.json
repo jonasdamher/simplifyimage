@@ -2,9 +2,13 @@
     "name": "jonasdamher/simplifyimage",
     "description": "Library for upload, modify and delete images.",
     "keywords": [
-        "upload image php",
-        "image file php",
-        "php 7.4.2"
+        "php",
+        "php 7.4.2",
+        "images",
+        "image manipulation",
+        "image conversion",
+        "image processing",
+        "upload images"
     ],
     "type": "library",
     "license": "MIT",
@@ -17,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Jonasdamher\\Simplifyimage\\": "src/"
+            "Jonasdamher\\Simplifyimage\\": "src/",
+            "Jonasdamher\\Simplifyimage\\Tests\\": "tests/"
         }
     },
     "authors": [
