@@ -1,4 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/244202167/6f062e00-a589-11ea-84d0-35e6cc390994" alt="logo simplifyimage" width="512" />
+<img src="https://repository-images.githubusercontent.com/244202167/6f062e00-a589-11ea-84d0-35e6cc390994" alt="logo simplifyimage" style="object-position: center; object-fit: cover; height: 128px; width: 512px;" />
 
 # simplifyimage
 
