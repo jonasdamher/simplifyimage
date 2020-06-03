@@ -1,3 +1,5 @@
+![simplifyimage picture](https://repository-images.githubusercontent.com/244202167/60b31480-a57f-11ea-8bf4-4e333f073f9b)
+
 # simplifyimage
 
 Upload, modify and delete images the easy way. 
