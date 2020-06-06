@@ -1,5 +1,4 @@
 /.vscode
 /vendor
-/tests
 composer.lock
 public/images/users/*
