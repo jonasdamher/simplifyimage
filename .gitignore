@@ -1,5 +1,2 @@
 /.vscode
 /vendor
-composer.lock
-/tests
-/public
