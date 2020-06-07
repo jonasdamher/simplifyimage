@@ -67,13 +67,11 @@ class Crop
 
 			$imageWithShape = $this->shape->modify($image, $position, $dimensions);
 
-			if ($this->shape->get() == 'circle') {
+			if (is_array($imageWithShape)) {
+				$finalImage = $this->cropped($image, $position, $imageWithShape);
+			} else if (is_resource($imageWithShape)) {
 				$finalImage = $imageWithShape;
 			} else {
-				$finalImage = $this->cropped($image, $position, $imageWithShape);
-			}
-
-			if (!$imageWithShape || !$finalImage) {
 				throw new \Exception('Could not shape image');
 			}
 		} catch (\Exception $e) {
