@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Jonasdamher\Simplifyimage\Utils;
 
+use Jonasdamher\Simplifyimage\Core\ResponseHandler;
+
 /**
  * Image shape crop.
  * 
  * default,
  * circle, square, 
- * v_rectangle, h_rectangle.
+ * verticalRectangle, horizontalRentangle.
  */
 class Shape
 {
 
+	private array $AllowsShapesTypes = ['horizontalRentangle', 'verticalRectangle', 'circle', 'square', 'default'];
 	private string $type = 'default';
 
 	public function get(): string
@@ -22,13 +25,22 @@ class Shape
 	}
 
 	/**
-	 * Has options default, circle, square, 
-	 * v_rectangle, h_rectangle.
+	 * Has options default, horizontalRentangle, verticalRectangle, 
+	 * circle, square.
 	 * @param string $type
 	 */
 	public function set(string $type)
 	{
-		$this->type = $type;
+		try {
+			if (!in_array($type, $this->AllowsShapesTypes, true)) {
+				throw new \Exception("Don't exist shape (" . $type . ')');
+			}
+		} catch (\Exception $e) {
+			$type = 'default';
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			$this->type = $type;
+		}
 	}
 
 	private function minBetweenDimensions(array $dimensions): int
@@ -64,96 +76,107 @@ class Shape
 
 	private function circle($image, array $dimensions, array $position)
 	{
+		try {
+			$newDimensions = $this->square($dimensions);
+			$min = $this->minBetweenDimensions($dimensions);
 
-		$newDimensions = $this->square($dimensions);
-		$min = $this->minBetweenDimensions($dimensions);
+			$croppedImage = imagecrop($image, [
+				'x' => $position['x'],
+				'y' => $position['y'],
+				'width' => $newDimensions['x'],
+				'height' => $newDimensions['y']
+			]);
 
-		$croppedImage = imagecrop($image, [
-			'x' => $position['x'],
-			'y' => $position['y'],
-			'width' => $newDimensions['x'],
-			'height' => $newDimensions['y']
-		]);
+			// Create mask circle
+			$circleMask = imagecreatetruecolor($min, $min);
 
-		// Create mask circle
-		$circleMask = imagecreatetruecolor($min, $min);
-		imagealphablending($circleMask, false);
+			if (!is_resource($circleMask)) {
+				throw new \Exception('Could not apply circular shape.');
+			}
 
-		// Create colors
-		$magentaColor = imagecolorallocatealpha($circleMask, 255, 0, 255, 0);
-		$transparent = imagecolorallocatealpha($circleMask, 255, 255, 255, 127);
+			imagealphablending($circleMask, false);
 
-		// Add color mask
-		imagefill($circleMask, 0, 0, $magentaColor);
+			// Create colors
+			$magentaColor = imagecolorallocatealpha($circleMask, 255, 0, 255, 0);
+			$transparent = imagecolorallocatealpha($circleMask, 255, 255, 255, 127);
 
-		// Draw circle border line circleMask
-		imagearc(
-			$circleMask,
-			$min / 2,
-			$min / 2,
-			$min,
-			$min,
-			0,
-			360,
-			$transparent
-		);
+			// Add color mask
+			imagefill($circleMask, 0, 0, $magentaColor);
 
-		// Fill circle
-		imagefilltoborder(
-			$circleMask,
-			$min / 2,
-			$min / 2,
-			$transparent,
-			$transparent
-		);
-		// Mask circle final
+			// Draw circle border line circleMask
+			imagearc(
+				$circleMask,
+				$min / 2,
+				$min / 2,
+				$min,
+				$min,
+				0,
+				360,
+				$transparent
+			);
 
-		// Add alpha channel to image
-		imagealphablending($croppedImage, true);
+			// Fill circle
+			imagefilltoborder(
+				$circleMask,
+				$min / 2,
+				$min / 2,
+				$transparent,
+				$transparent
+			);
+			// Mask circle final
 
-		// Add mask to image
-		imagecopyresampled(
-			$croppedImage,
-			$circleMask,
-			0,
-			0,
-			0,
-			0,
-			$min,
-			$min,
-			$min,
-			$min
-		);
+			// Add alpha channel to image
+			imagealphablending($croppedImage, true);
 
-		// remove mask color to image
-		imagecolortransparent($croppedImage, $magentaColor);
+			// Add mask to image
+			imagecopyresampled(
+				$croppedImage,
+				$circleMask,
+				0,
+				0,
+				0,
+				0,
+				$min,
+				$min,
+				$min,
+				$min
+			);
 
-		imagedestroy($croppedImage);
+			// remove mask color to image
+			imagecolortransparent($croppedImage, $magentaColor);
 
-		return $croppedImage;
+			imagedestroy($image);
+		} catch (\Exception $e) {
+			$croppedImage = $image;
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			return $croppedImage;
+		}
 	}
 
 	public function modify($image, array $position, array $dimensions)
 	{
+		try {
+			$shapeType = $this->get();
+			$shape = [];
 
-		$shape = $image;
-
-		switch ($this->get()) {
-			case 'h_rectangle':
-				$shape = $this->horizontalRentangle($dimensions, $position);
-				break;
-			case 'v_rectangle':
-				$shape = $this->verticalRectangle($dimensions, $position);
-				break;
-			case 'circle':
-				$shape = $this->circle($image, $dimensions, $position);
-				break;
-			case 'square':
-			default:
-				$shape = $this->square($dimensions);
-				break;
+			switch ($shapeType) {
+				case 'horizontalRentangle':
+				case 'verticalRectangle':
+					$shape = $this->$shapeType($dimensions, $position);
+					break;
+				case 'square':
+					$shape = $this->$shapeType($dimensions);
+					break;
+				case 'circle':
+					$shape = $this->$shapeType($image, $dimensions, $position);
+					break;
+			}
+		} catch (\Exception $e) {
+			$shape = $image;
+			ResponseHandler::fail($e->getMessage());
+		} finally {
+			return $shape;
 		}
-
-		return $shape;
 	}
 }
