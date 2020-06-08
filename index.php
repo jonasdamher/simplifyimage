@@ -3,13 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>LibImagePHP</title>
+	<title>SimplifyImage</title>
 	<link rel="stylesheet" type="text/css" href="public/css/main.css"/>
 </head>
 <body>
 	<main>
 		<div class="container">
-			<h1 class="mb-2">LibImagePHP</h1>
+			<h1 class="mb-2">SimplifyImage</h1>
 			<div class="card sw-sm">
 				<div class="card-body">
 					<ol class="list-ol list-ol-orange">
