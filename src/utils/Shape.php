@@ -90,7 +90,7 @@ class Shape
 			// Create mask circle
 			$circleMask = imagecreatetruecolor($min, $min);
 
-			if (!is_resource($circleMask)) {
+			if (!is_resource($croppedImage) || !is_resource($circleMask)) {
 				throw new \Exception('Could not apply circular shape.');
 			}
 
@@ -156,27 +156,21 @@ class Shape
 
 	public function modify($image, array $position, array $dimensions)
 	{
-		try {
-			$shapeType = $this->get();
-			$shape = [];
+		$shapeType = $this->get();
+		$shape = false;
 
-			switch ($shapeType) {
-				case 'horizontalRentangle':
-				case 'verticalRectangle':
-					$shape = $this->$shapeType($dimensions, $position);
-					break;
-				case 'square':
-					$shape = $this->$shapeType($dimensions);
-					break;
-				case 'circle':
-					$shape = $this->$shapeType($image, $dimensions, $position);
-					break;
-			}
-		} catch (\Exception $e) {
-			$shape = $image;
-			ResponseHandler::fail($e->getMessage());
-		} finally {
-			return $shape;
+		switch ($shapeType) {
+			case 'horizontalRentangle':
+			case 'verticalRectangle':
+				$shape = $this->$shapeType($dimensions, $position);
+				break;
+			case 'square':
+				$shape = $this->$shapeType($dimensions);
+				break;
+			case 'circle':
+				$shape = $this->$shapeType($image, $dimensions, $position);
+				break;
 		}
+		return $shape;
 	}
 }
