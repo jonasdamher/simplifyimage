@@ -15,14 +15,14 @@ if (isset($_FILES['image_user'])) {
 
 	// $simplifyImage->prefixName('myuser');
 
-	// $simplifyImage->scale->set(200);
+	// $simplifyImage->scale->set(800);
 
 	// $simplifyImage->contrast->set('low');
 
-	$simplifyImage->crop->shape->set('circle');
+	// $simplifyImage->crop->shape->set('circle');
 	// $simplifyImage->crop->position->set('right');
 
-	// $simplifyImage->conversionTo('webp');
+	$simplifyImage->conversion->set('webp');
 
 	// BASIC METHOD
 	$upload = $simplifyImage->upload();
