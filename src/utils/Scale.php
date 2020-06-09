@@ -33,10 +33,15 @@ class Scale
 		$this->dimensions['height'] = $height;
 	}
 
+	private function verifyIfThePropertyChange(): bool
+	{
+		return ($this->get()['width'] != -1 || $this->get()['height'] != -1);
+	}
+
 	public function modify($image)
 	{
 		try {
-			if ($this->get()['width'] != -1 || $this->get()['height'] != -1) {
+			if ($this->verifyIfThePropertyChange()) {
 
 				$imageWithNewScale = imagescale(
 					$image,
