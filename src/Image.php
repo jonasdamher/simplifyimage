@@ -58,7 +58,7 @@ class Image extends Validate
 		// createImageFormat
 		$imgFormat = ($this->imagecreatefrom)($this->image['tmp_name']);
 		// Image crop
-		$imgFormat = (!$this->crop->exist()) ? $this->crop->modify($imgFormat) : $imgFormat;
+		$imgFormat = $this->crop->modify($imgFormat);
 		// Image scale
 		$imgFormat = $this->scale->modify($imgFormat);
 		// Image contrast

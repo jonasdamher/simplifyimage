@@ -52,33 +52,34 @@ class Crop
 		}
 	}
 
-	public function exist(): bool
+	private function verifyIfThePropertyChange(): bool
 	{
-		return $this->shape->get() == 'default';
+		return $this->shape->get() != 'default';
 	}
 
 	public function modify($image)
 	{
 		try {
-			$finalImage = false;
-			$dimensions = $this->dimensions($image);
+			if ($this->verifyIfThePropertyChange()) {
+				$finalImage = $image;
+				$dimensions = $this->dimensions($finalImage);
 
-			$position = $this->position->new($dimensions);
+				$position = $this->position->new($dimensions);
 
-			$imageWithShape = $this->shape->modify($image, $position, $dimensions);
+				$imageWithShape = $this->shape->modify($finalImage, $position, $dimensions);
 
-			if (is_array($imageWithShape)) {
-				$finalImage = $this->cropped($image, $position, $imageWithShape);
-			} else if (is_resource($imageWithShape)) {
-				$finalImage = $imageWithShape;
-			} else {
-				throw new \Exception('Could not shape image');
+				if (is_array($imageWithShape)) {
+					$image = $this->cropped($finalImage, $position, $imageWithShape);
+				} else if (is_resource($imageWithShape)) {
+					$image = $imageWithShape;
+				} else {
+					throw new \Exception('Could not shape image');
+				}
 			}
 		} catch (\Exception $e) {
-			$finalImage = $image;
 			ResponseHandler::fail($e->getMessage());
 		} finally {
-			return $finalImage;
+			return $image;
 		}
 	}
 }
