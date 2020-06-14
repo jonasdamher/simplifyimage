@@ -28,7 +28,7 @@ $simplifyimage = new Jonasdamher\Simplifyimage\Image();
 
 ## Wiki
 
-:book: Go to [Wiki](https://github.com/jonasdamher/simplifyimage/wiki)
+:book: Go to [Wiki](https://github.com/jonasdamher/simplifyimage/wiki).
 
 ## Contributing
 
